@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "generado": "2026-03-20T16:32:21.626809",
-    "total": 39,
+    "generado": "2026-03-21T21:17:38.454Z",
+    "total": 35,
     "fuente": "PDFs locales del proyecto (raíz + Mateo proyectos)",
     "carpetas_fuente": [
       ".",
@@ -10,89 +10,89 @@
   },
   "bloque_stats": [
     {
+      "bloque": "Unión por la Patria",
+      "proyectos": 9,
+      "promedio_autores": 1
+    },
+    {
       "bloque": "Innovación Federal",
-      "proyectos": 7,
-      "promedio_autores": 1.0
+      "proyectos": 5,
+      "promedio_autores": 1
     },
     {
       "bloque": "La Libertad Avanza",
-      "proyectos": 7,
-      "promedio_autores": 4.7
-    },
-    {
-      "bloque": "Unión por la Patria",
-      "proyectos": 6,
-      "promedio_autores": 1.0
-    },
-    {
-      "bloque": "Encuentro Federal",
-      "proyectos": 5,
-      "promedio_autores": 1.2
+      "proyectos": 4,
+      "promedio_autores": 1
     },
     {
       "bloque": "PRO",
-      "proyectos": 4,
-      "promedio_autores": 1.0
+      "proyectos": 3,
+      "promedio_autores": 1
     },
     {
       "bloque": "UCR",
+      "proyectos": 3,
+      "promedio_autores": 1.3
+    },
+    {
+      "bloque": "COHERENCIA",
+      "proyectos": 2,
+      "promedio_autores": 1
+    },
+    {
+      "bloque": "Encuentro Federal",
       "proyectos": 2,
       "promedio_autores": 1.5
     },
     {
-      "bloque": "Futuro y Libertad",
-      "proyectos": 2,
-      "promedio_autores": 1.0
-    },
-    {
-      "bloque": "Democracia para Siempre",
-      "proyectos": 2,
-      "promedio_autores": 1.0
-    },
-    {
-      "bloque": "Unidad Justicialista",
-      "proyectos": 1,
-      "promedio_autores": 1.0
-    },
-    {
       "bloque": "Frente de Todos",
-      "proyectos": 1,
-      "promedio_autores": 1.0
+      "proyectos": 2,
+      "promedio_autores": 1
+    },
+    {
+      "bloque": "Provincias Unidas",
+      "proyectos": 2,
+      "promedio_autores": 1
     },
     {
       "bloque": "Coalición Cívica",
       "proyectos": 1,
-      "promedio_autores": 1.0
+      "promedio_autores": 1
     },
     {
-      "bloque": "Pro",
+      "bloque": "Democracia para Siempre",
       "proyectos": 1,
-      "promedio_autores": 1.0
+      "promedio_autores": 1
+    },
+    {
+      "bloque": "Futuro y Libertad",
+      "proyectos": 1,
+      "promedio_autores": 1
     }
   ],
   "top_destinatarios": [
     {
-      "destinatario": "Ciudadanía general",
-      "total": 25
+      "destinatario": "Empresas / Sector privado",
+      "total": 23
     },
     {
-      "destinatario": "Empresas / Sector privado",
-      "total": 24
+      "destinatario": "Ciudadanía general",
+      "total": 20
     },
     {
       "destinatario": "Estado / Organismo público",
-      "total": 19
+      "total": 20
     },
     {
       "destinatario": "Investigadores / Científicos",
-      "total": 9
-    },
-    {
-      "destinatario": "Sector educativo",
-      "total": 5
+      "total": 10
     },
     {
       "destinatario": "Jóvenes / Estudiantes",
+      "total": 5
+    },
+    {
+      "destinatario": "Sector educativo",
       "total": 5
     },
     {
@@ -107,7 +107,7 @@
   "top_topics": [
     {
       "tema": "Inteligencia Artificial",
-      "total": 38
+      "total": 34
     },
     {
       "tema": "Tecnología / IA",
@@ -261,75 +261,6 @@
       "tipo": "MARCO REGULATORIO",
       "dashboard": "SI",
       "pdf_path": "./Mateo proyectos/4329-D-2023.pdf"
-    },
-    {
-      "id": "4410-D-2023",
-      "titulo": "Violencia Digital contra la Mujer: Incorporación de IA a Ley 27.736",
-      "autores": [
-        "Gerardo Milman"
-      ],
-      "autor_principal": "Gerardo Milman",
-      "total_autores": 1,
-      "bloque": "PRO",
-      "camara": "Diputados",
-      "año": 2023,
-      "mes": 5,
-      "tema": "Inteligencia Artificial",
-      "estado": "En Comisión",
-      "destinatarios": [
-        "Ciudadanía general"
-      ],
-      "resumen": "Modifica la Ley 27.736 para incluir la violencia digital contra mujeres cometida mediante IA, incorporando producción y difusión no consentida de imágenes manipuladas como forma de violencia de género.",
-      "expediente": "4410/2023",
-      "tipo": "DEEPFAKE Y SIMILARES",
-      "dashboard": "INDIRECTA",
-      "pdf_path": "./4410-D-2023.pdf"
-    },
-    {
-      "id": "4411-D-2023",
-      "titulo": "Modificación del Art. 128 del Código Penal: Pornografía Infantil Generada por IA",
-      "autores": [
-        "Gerardo Milman"
-      ],
-      "autor_principal": "Gerardo Milman",
-      "total_autores": 1,
-      "bloque": "PRO",
-      "camara": "Diputados",
-      "año": 2023,
-      "mes": 5,
-      "tema": "Inteligencia Artificial",
-      "estado": "En Comisión",
-      "destinatarios": [
-        "Ciudadanía general"
-      ],
-      "resumen": "Modifica el artículo 128 del Código Penal para incluir expresamente la producción y distribución de material de explotación sexual de menores generado mediante IA, incluyendo imágenes sintéticas y composiciones.",
-      "expediente": "4411/2023",
-      "tipo": "DEEPFAKE Y SIMILARES",
-      "dashboard": "INDIRECTA",
-      "pdf_path": "./4411-D-2023.pdf"
-    },
-    {
-      "id": "4436-D-2023",
-      "titulo": "Imágenes Sexuales de Menores Generadas por IA — Incorporación Art. 128 bis al Código Penal",
-      "autores": [
-        "Gabriel M. Bornoroni"
-      ],
-      "autor_principal": "Gabriel M. Bornoroni",
-      "total_autores": 14,
-      "bloque": "PRO",
-      "camara": "Diputados",
-      "año": 2023,
-      "mes": 5,
-      "tema": "Inteligencia Artificial",
-      "estado": "En Comisión",
-      "destinatarios": [
-        "Ciudadanía general"
-      ],
-      "resumen": "Incorpora el artículo 128 bis al Código Penal para sancionar la producción y distribución mediante IA de material de abuso sexual infantil que involucre imágenes de víctimas reales con partes genitales añadidas digitalmente.",
-      "expediente": "4436/2023",
-      "tipo": "DEEPFAKE Y SIMILARES",
-      "dashboard": "INDIRECTA",
-      "pdf_path": "./4436-D-2023.pdf"
     },
     {
       "id": "0805-D-2024",
@@ -552,29 +483,6 @@
       "pdf_path": "./Mateo proyectos/4898-D-2024.pdf"
     },
     {
-      "id": "5327-D-2024",
-      "titulo": "Incorporación Art. 128 bis al Código Penal: Abuso Sexual Infantil Generado por IA",
-      "autores": [
-        "Gabriel M. Bornoroni"
-      ],
-      "autor_principal": "Gabriel M. Bornoroni",
-      "total_autores": 14,
-      "bloque": "La Libertad Avanza",
-      "camara": "Diputados",
-      "año": 2024,
-      "mes": 6,
-      "tema": "Inteligencia Artificial",
-      "estado": "En Comisión",
-      "destinatarios": [
-        "Ciudadanía general"
-      ],
-      "resumen": "Incorpora el artículo 128 bis al Código Penal con penas de 2 a 6 años para quien produzca, financie o distribuya representaciones de menores en situaciones sexuales generadas mediante IA que involucren imágenes de víctimas reales.",
-      "expediente": "5327/2024",
-      "tipo": "DEEPFAKE Y SIMILARES",
-      "dashboard": "INDIRECTA",
-      "pdf_path": "./5327-D-2024.pdf"
-    },
-    {
       "id": "6156-D-2024",
       "titulo": "Protección contra Explotación de Datos Personales en Sistemas de IA",
       "autores": [
@@ -768,30 +676,6 @@
       "tipo": "PRODUCCIÓN AUDIOVISUAL",
       "dashboard": "INDIRECTA",
       "pdf_path": "./Mateo proyectos/3558-D-2025.pdf"
-    },
-    {
-      "id": "4080-D-2025",
-      "titulo": "Régimen de Protección contra Contenidos Sintéticos No Consentidos",
-      "autores": [
-        "Oscar Agost Carreño"
-      ],
-      "autor_principal": "Oscar Agost Carreño",
-      "total_autores": 1,
-      "bloque": "PRO",
-      "camara": "Diputados",
-      "año": 2025,
-      "mes": 4,
-      "tema": "Inteligencia Artificial",
-      "estado": "En Comisión",
-      "destinatarios": [
-        "Ciudadanía general",
-        "Empresas / Sector privado"
-      ],
-      "resumen": "Crea régimen de etiquetado obligatorio, presunción de falsedad y procedimiento ágil de remoción de contenidos sintéticos no consentidos; modifica Código Civil y Penal e incorpora Registro Nacional de Alertas.",
-      "expediente": "4080/2025",
-      "tipo": "DEEPFAKE Y SIMILARES",
-      "dashboard": "SI",
-      "pdf_path": "./4080-D-2025.pdf"
     },
     {
       "id": "4094-D-2025",
@@ -1061,6 +945,30 @@
       "tipo": "MARCO REGULATORIO",
       "dashboard": "SI",
       "pdf_path": "./Mateo proyectos/0519-D-2026.pdf"
+    },
+    {
+      "id": "0345-D-2025",
+      "titulo": "Creación del Consejo Federal de Inteligencia Artificial",
+      "autores": [
+        "CALLETTI, PAMELA"
+      ],
+      "autor_principal": "CALLETTI, PAMELA",
+      "total_autores": 1,
+      "bloque": "Innovación Federal",
+      "camara": "Diputados",
+      "año": 2025,
+      "mes": 3,
+      "tema": "Inteligencia Artificial",
+      "estado": "En Comisión",
+      "destinatarios": [
+        "Estado / Organismo público",
+        "Investigadores / Científicos"
+      ],
+      "resumen": "Crea el Consejo Federal de Inteligencia Artificial (COFEIA) como organismo interjurisdiccional consultivo para promover investigación, transparencia, ética, formación y coordinación federal en políticas de IA.",
+      "expediente": "0345/2025",
+      "tipo": "CREA ORGANOS",
+      "dashboard": "SI",
+      "pdf_path": "./Mateo proyectos/0345-D-2025.pdf"
     }
   ]
 }

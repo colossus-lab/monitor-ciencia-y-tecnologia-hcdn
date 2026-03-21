@@ -6,33 +6,53 @@
 <title>ProyectosCyT · Dashboard Legislativo 2019-2026</title>
 <meta name="description" content="Dashboard interactivo de proyectos de ley del Congreso Argentino sobre Inteligencia Artificial">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
+/* ── NECO FONT ───────────────────────────── */
+@font-face {
+  font-family: 'Neco';
+  src: url('fonts/Neco-Variable.woff2') format('woff2'),
+       url('fonts/Neco-Variable.woff') format('woff');
+  font-weight: 400 900;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Neco';
+  src: url('fonts/Neco-VariableItalic.woff2') format('woff2'),
+       url('fonts/Neco-VariableItalic.woff') format('woff');
+  font-weight: 400 900;
+  font-display: swap;
+  font-style: italic;
+}
+
 /* ═══════════════════════════════════════════════════
    DESIGN TOKENS
 ═══════════════════════════════════════════════════ */
 :root {
-  --bg:        #080808;
-  --surface:   #111111;
-  --surface2:  #181818;
-  --border:    rgba(255,255,255,0.07);
-  --text:      #f0f0f0;
-  --muted:     #6b7280;
-  --lime:      #aaff00;
-  --blue:      #00d4ff;
-  --violet:    #8b5cf6;
-  --pink:      #ff2d78;
-  --orange:    #ff8c00;
-  --teal:      #2dd4bf;
+  --bg:        #f5f0e8;
+  --surface:   #ede8df;
+  --surface2:  #e5dfd4;
+  --border:    rgba(0,0,0,0.1);
+  --text:      #1c1917;
+  --muted:     #78716c;
+  --lime:      #2d6a2d;
+  --blue:      #1a4a8a;
+  --violet:    #6d28d9;
+  --pink:      #be123c;
+  --orange:    #c45a00;
+  --teal:      #0f766e;
+
   --radius:    20px;
   --radius-sm: 12px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Neco',sans-serif;min-height:100vh;overflow-x:hidden}
 button{cursor:pointer;font-family:inherit}
 select,input{font-family:inherit}
+button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 
 /* ═══════════════════════════════════════════════════
    ANIMATIONS
@@ -47,7 +67,7 @@ select,input{font-family:inherit}
 
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:#222;border-radius:3px}
+::-webkit-scrollbar-thumb{background:#c0b5a0;border-radius:3px}
 
 /* ═══════════════════════════════════════════════════
    LAYOUT
@@ -62,18 +82,19 @@ select,input{font-family:inherit}
 .logo{display:flex;align-items:center;gap:12px}
 .logo-icon{
   width:46px;height:46px;border-radius:14px;
-  background:linear-gradient(135deg,var(--lime),#44ff88);
+  background:linear-gradient(135deg,var(--lime),#4a8f4a);
   display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:20px;color:#000;font-family:'Space Grotesk',sans-serif;
+  font-weight:700;font-size:20px;color:#fff;font-family:'Neco',sans-serif;
 }
-.logo-text h1{font-family:'Space Grotesk',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px}
+.logo-text h1{font-family:'Neco',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px}
 .logo-text p{font-size:12px;color:var(--muted);margin-top:2px}
 .header-badge{
   display:flex;align-items:center;gap:8px;
-  background:rgba(170,255,0,.08);border:1px solid rgba(170,255,0,.2);
+  background:rgba(45,106,45,.08);border:1px solid rgba(45,106,45,.22);
   padding:8px 16px;border-radius:50px;font-size:12px;color:var(--lime);font-weight:600;
 }
 .header-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);animation:pulse 2s infinite}
+.header-actions{display:flex;align-items:center;gap:12px}
 .filters-bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .filter-group{display:flex;align-items:center;gap:8px}
 .filter-group label{font-size:12px;color:var(--muted);white-space:nowrap}
@@ -85,7 +106,7 @@ select,input{font-family:inherit}
   background-repeat:no-repeat;background-position:right 10px center;
   transition:border-color .2s;
 }
-.filter-sel:focus,.filter-sel:hover{border-color:rgba(255,255,255,.2)}
+.filter-sel:focus,.filter-sel:hover{border-color:rgba(0,0,0,.25)}
 .btn-reset{
   background:transparent;border:1px solid var(--border);color:var(--muted);
   padding:8px 14px;border-radius:var(--radius-sm);font-size:12px;transition:all .2s;
@@ -107,10 +128,26 @@ select,input{font-family:inherit}
 }
 .kpi-card:hover::before{opacity:1}
 .kpi-label{font-size:12px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
-.kpi-value{font-size:32px;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:12px;color:var(--lime)}
+.kpi-value{font-size:32px;font-weight:700;font-family:'Neco',sans-serif;margin-bottom:12px;color:var(--lime)}
 .kpi-tag{
   display:inline-block;background:rgba(170,255,0,0.1);border:1px solid rgba(170,255,0,0.3);
   color:var(--lime);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;
+}
+
+.consenso-intro{
+  max-width:1180px;
+  margin:0 auto 26px;
+  padding:8px 18px 10px;
+  text-align:center;
+  font-family:'Neco',sans-serif;
+  font-size:clamp(22px,2vw,32px);
+  line-height:1.32;
+  letter-spacing:-0.3px;
+  color:var(--text);
+}
+.consenso-intro strong{
+  color:var(--lime);
+  font-weight:700;
 }
 
 
@@ -118,25 +155,68 @@ select,input{font-family:inherit}
    SEMAFORO DE COINCIDENCIAS — REDISEÑO
 ═══════════════════════════════════════════════════ */
 @keyframes semIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes cardFlipOut{from{opacity:1;transform:translate(0,0) rotate(0) scale(1)}to{opacity:0;transform:translate(-18px,-8px) rotate(-4deg) scale(.94)}}
+@keyframes cardFlipIn {from{opacity:0;transform:translate(18px,8px)  rotate(4deg)  scale(.94)}to{opacity:1;transform:translate(0,0)    rotate(0)     scale(1)}}
 
 .semaforo-wrap{
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--radius-sm);padding:24px;margin-bottom:32px;
 }
-.semaforo-head{margin-bottom:24px}
-.semaforo-title{font-size:20px;font-weight:700;font-family:'Space Grotesk',sans-serif}
-.semaforo-sub{font-size:12px;color:var(--muted);margin-top:4px;max-width:520px}
-
 .semaforo-stack{display:flex;flex-direction:column;gap:20px}
 
 /* ── each row ── */
 .semaforo-row{
+  position:relative;
   border-radius:20px;overflow:hidden;
   border:1px solid var(--border);
+  background:var(--surface);
+  box-shadow:0 6px 18px rgba(0,0,0,.04);
 }
 .semaforo-row.green {border-color:rgba(34,197,94,.5)}
 .semaforo-row.yellow{border-color:rgba(245,158,11,.5)}
 .semaforo-row.red   {border-color:rgba(239,68,68,.5)}
+
+.semaforo-row::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+.semaforo-row > *{position:relative;z-index:1}
+
+.semaforo-row.green{
+  box-shadow:
+    0 10px 26px rgba(34,197,94,.09),
+    0 0 0 1px rgba(34,197,94,.16);
+}
+.semaforo-row.green::before{
+  background:
+    radial-gradient(110% 90% at 0% 50%, rgba(34,197,94,.11) 0%, rgba(34,197,94,.03) 45%, transparent 72%),
+    linear-gradient(90deg, rgba(34,197,94,.035), transparent 40%);
+}
+
+.semaforo-row.yellow{
+  box-shadow:
+    0 10px 26px rgba(245,158,11,.10),
+    0 0 0 1px rgba(245,158,11,.16);
+}
+.semaforo-row.yellow::before{
+  background:
+    radial-gradient(110% 90% at 0% 50%, rgba(245,158,11,.12) 0%, rgba(245,158,11,.03) 45%, transparent 72%),
+    linear-gradient(90deg, rgba(245,158,11,.04), transparent 40%);
+}
+
+.semaforo-row.red{
+  box-shadow:
+    0 10px 26px rgba(239,68,68,.09),
+    0 0 0 1px rgba(239,68,68,.15);
+}
+.semaforo-row.red::before{
+  background:
+    radial-gradient(110% 90% at 0% 50%, rgba(239,68,68,.10) 0%, rgba(239,68,68,.03) 45%, transparent 72%),
+    linear-gradient(90deg, rgba(239,68,68,.035), transparent 40%);
+}
 
 /* coloured top stripe */
 .semaforo-stripe{height:3px;width:100%}
@@ -145,72 +225,90 @@ select,input{font-family:inherit}
 .semaforo-row.red    .semaforo-stripe{background:linear-gradient(90deg,#ef4444,#f87171)}
 
 .semaforo-row-panel{
-  display:grid;grid-template-columns:280px 1fr;min-height:250px;
+  display:grid;grid-template-columns:320px 1fr;min-height:292px;
 }
 
 /* ── LEFT stacked cards ── */
 .semaforo-stage{
-  position:relative;padding:28px 0 28px 28px;
+  position:relative;padding:30px 0 30px 28px;
   display:flex;align-items:center;
 }
 .semaforo-stage-card{
   position:absolute;
-  width:220px;height:200px;
+  width:252px;height:232px;
   border-radius:18px;border:1px solid var(--border);
   background:#141414;
-  display:flex;flex-direction:column;justify-content:flex-end;
-  padding:16px;overflow:hidden;
-  transition:transform .3s ease,opacity .3s ease;
+  display:flex;flex-direction:column;justify-content:flex-start;
+  padding:16px 16px 14px;overflow:hidden;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s ease,box-shadow .3s ease;
 }
+/* gradient overlay so text is always legible */
 .semaforo-stage-card::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(155deg,rgba(255,255,255,.05),transparent 60%);
-  pointer-events:none;border-radius:inherit;
+  background:linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.2) 55%, transparent 100%);
+  pointer-events:none;border-radius:inherit;z-index:0;
 }
-.semaforo-row.green  .semaforo-stage-card.front{border-color:rgba(34,197,94,.7);box-shadow:0 0 28px rgba(34,197,94,.2)}
-.semaforo-row.yellow .semaforo-stage-card.front{border-color:rgba(245,158,11,.7);box-shadow:0 0 28px rgba(245,158,11,.2)}
-.semaforo-row.red    .semaforo-stage-card.front{border-color:rgba(239,68,68,.7); box-shadow:0 0 28px rgba(239,68,68,.2)}
+.semaforo-stage-card > *{position:relative;z-index:1}
 
-.semaforo-stage-card.back {transform:translate(44px,14px) rotate(6deg);opacity:.3;z-index:1}
-.semaforo-stage-card.mid  {transform:translate(22px,8px)  rotate(3deg);opacity:.55;z-index:2}
-.semaforo-stage-card.front{transform:translate(0,0)        rotate(0);   opacity:1;z-index:3;cursor:pointer}
+/* front card colored border + glow */
+.semaforo-row.green  .semaforo-stage-card.front{border-color:rgba(34,197,94,.7); box-shadow:0 0 28px rgba(34,197,94,.22)}
+.semaforo-row.yellow .semaforo-stage-card.front{border-color:rgba(245,158,11,.7);box-shadow:0 0 28px rgba(245,158,11,.22)}
+.semaforo-row.red    .semaforo-stage-card.front{border-color:rgba(239,68,68,.7); box-shadow:0 0 28px rgba(239,68,68,.22)}
+
+/* background tint on front card */
+.semaforo-row.green  .semaforo-stage-card.front{background:linear-gradient(145deg,#d4edda,#e8f5e9)}
+.semaforo-row.yellow .semaforo-stage-card.front{background:linear-gradient(145deg,#fde8a0,#fef9ec)}
+.semaforo-row.red    .semaforo-stage-card.front{background:linear-gradient(145deg,#fecaca,#fef2f2)}
+
+.semaforo-stage-card.back {transform:translate(46px,14px) rotate(6deg);opacity:.28;z-index:1}
+.semaforo-stage-card.mid  {transform:translate(24px,8px)  rotate(3deg);opacity:.52;z-index:2}
+.semaforo-stage-card.front{transform:translate(0,0)        rotate(0);   opacity:1;  z-index:3;cursor:pointer}
 .semaforo-stage-card.front:hover{transform:translate(0,-3px) scale(1.02)}
 
-.semaforo-stage-kicker{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:600}
-.semaforo-stage-title{font-size:16px;line-height:1.2;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-top:8px}
+/* flip animation classes */
+.semaforo-stage-card.flip-out{animation:cardFlipOut .22s ease forwards}
+.semaforo-stage-card.flip-in {animation:cardFlipIn  .28s ease both}
+
+.semaforo-stage-kicker{font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:rgba(28,25,23,.55);font-weight:700}
+.semaforo-stage-title{
+  font-size:20px;line-height:1.18;font-weight:700;font-family:'Neco',sans-serif;
+  margin:auto 0;color:var(--text);text-align:center;
+}
 .semaforo-stage-chip{
   display:inline-flex;align-items:center;gap:4px;margin-top:9px;
   font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;
 }
-.semaforo-row.green  .semaforo-stage-chip{background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-.semaforo-row.yellow .semaforo-stage-chip{background:rgba(245,158,11,.12);color:#fbbf24;border:1px solid rgba(245,158,11,.3)}
-.semaforo-row.red    .semaforo-stage-chip{background:rgba(239,68,68,.12); color:#f87171;border:1px solid rgba(239,68,68,.3)}
+.semaforo-row.green  .semaforo-stage-chip{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.35)}
+.semaforo-row.yellow .semaforo-stage-chip{background:rgba(245,158,11,.15);color:#fbbf24;border:1px solid rgba(245,158,11,.35)}
+.semaforo-row.red    .semaforo-stage-chip{background:rgba(239,68,68,.15); color:#f87171;border:1px solid rgba(239,68,68,.35)}
 
 /* ── RIGHT content ── */
 .semaforo-copy{
-  padding:28px 28px 24px;border-left:1px solid var(--border);
+  padding:30px 34px 26px;border-left:1px solid var(--border);
   display:flex;flex-direction:column;justify-content:center;min-width:0;
 }
 .semaforo-copy.animating{animation:semIn .28s ease both}
 
 .semaforo-copy-kicker{
-  font-size:10.5px;text-transform:uppercase;letter-spacing:.7px;font-weight:700;
-  display:inline-flex;align-items:center;gap:7px;margin-bottom:12px;
+  font-size:12px;text-transform:uppercase;letter-spacing:.8px;font-weight:700;
+  display:flex;align-items:center;gap:8px;margin-bottom:12px;
 }
-.semaforo-copy-kicker .dot-sem{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+/* colored pill instead of dot */
+.semaforo-copy-kicker::before{
+  content:'';display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0;
+}
 .semaforo-row.green  .semaforo-copy-kicker{color:#22c55e}
-.semaforo-row.green  .dot-sem{background:#22c55e;box-shadow:0 0 6px #22c55e}
+.semaforo-row.green  .semaforo-copy-kicker::before{background:#22c55e;box-shadow:0 0 6px #22c55e}
 .semaforo-row.yellow .semaforo-copy-kicker{color:#f59e0b}
-.semaforo-row.yellow .dot-sem{background:#f59e0b;box-shadow:0 0 6px #f59e0b}
+.semaforo-row.yellow .semaforo-copy-kicker::before{background:#f59e0b;box-shadow:0 0 6px #f59e0b}
 .semaforo-row.red    .semaforo-copy-kicker{color:#ef4444}
-.semaforo-row.red    .dot-sem{background:#ef4444;box-shadow:0 0 6px #ef4444}
+.semaforo-row.red    .semaforo-copy-kicker::before{background:#ef4444;box-shadow:0 0 6px #ef4444}
 
 .semaforo-copy-title{
   font-size:clamp(20px,2.4vw,30px);line-height:1.1;font-weight:700;
-  font-family:'Space Grotesk',sans-serif;letter-spacing:-.4px;margin-bottom:5px;
+  font-family:'Neco',sans-serif;letter-spacing:-.4px;margin-bottom:5px;
 }
-.semaforo-copy-role{font-size:13px;color:var(--muted);margin-bottom:14px}
-.semaforo-copy-quote{font-size:14px;line-height:1.7;color:rgba(240,240,240,.72);max-width:580px}
+.semaforo-copy-quote{font-size:17px;line-height:1.72;color:rgba(28,25,23,.72);max-width:1040px}
 
 .semaforo-copy-actions{display:flex;align-items:center;gap:10px;margin-top:20px;flex-wrap:wrap}
 .semaforo-nav-btn{
@@ -219,29 +317,29 @@ select,input{font-family:inherit}
   display:flex;align-items:center;justify-content:center;
   cursor:pointer;transition:all .2s;
 }
-.semaforo-nav-btn:hover{border-color:rgba(255,255,255,.28);color:var(--text);background:var(--surface)}
+.semaforo-nav-btn:hover{border-color:rgba(0,0,0,.25);color:var(--text);background:var(--surface)}
 .semaforo-nav-btn:disabled{opacity:.3;cursor:default}
-.semaforo-page{font-size:12px;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-weight:600;min-width:28px;text-align:center}
+.semaforo-page{font-size:12px;color:var(--muted);font-family:'Neco',sans-serif;font-weight:600;min-width:28px;text-align:center}
 .semaforo-open-btn{
   display:inline-flex;align-items:center;gap:6px;
-  border:1px solid rgba(170,255,0,.35);background:rgba(170,255,0,.1);color:var(--lime);
+  border:1px solid rgba(45,106,45,.35);background:rgba(45,106,45,.1);color:var(--lime);
   border-radius:999px;padding:10px 18px;font-size:12px;font-weight:700;
   cursor:pointer;transition:all .2s;
 }
-.semaforo-open-btn:hover{background:rgba(170,255,0,.2);border-color:var(--lime)}
+.semaforo-open-btn:hover{background:rgba(45,106,45,.2);border-color:var(--lime)}
 
 /* ── detail panel ── */
 .semaforo-detail{
-  border-top:1px solid var(--border);background:#0d0d0d;padding:20px 24px;
+  border-top:1px solid var(--border);background:var(--surface);padding:20px 24px;
 }
-.semaforo-detail-title{font-size:15px;font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:4px}
+.semaforo-detail-title{font-size:15px;font-family:'Neco',sans-serif;font-weight:700;margin-bottom:4px}
 .semaforo-detail-sub{font-size:12px;color:var(--muted);margin-bottom:14px}
 .semaforo-bills{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
 .semaforo-bill{
   background:var(--surface2);border:1px solid var(--border);
   border-radius:10px;padding:12px;cursor:pointer;transition:all .2s;
 }
-.semaforo-bill:hover{border-color:rgba(170,255,0,.35);transform:translateY(-1px)}
+.semaforo-bill:hover{border-color:rgba(45,106,45,.4);transform:translateY(-1px)}
 .semaforo-bill-id{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
 .semaforo-bill-title{font-size:13px;font-weight:700;line-height:1.35;margin-top:5px}
 .semaforo-bill-meta{font-size:11px;color:var(--muted);margin-top:6px}
@@ -255,13 +353,13 @@ select,input{font-family:inherit}
   padding:18px;
   margin:0;
 }
-.year-pie-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700}
+.year-pie-title{font-family:'Neco',sans-serif;font-size:18px;font-weight:700}
 .year-pie-sub{font-size:12px;color:var(--muted);margin-top:3px}
 .year-pie-body{display:flex;align-items:center;gap:16px;margin-top:12px}
 #yearPieCanvas,#tipoProyectoPieCanvas{width:210px;height:210px;display:block;cursor:pointer}
 .year-pie-legend{display:flex;flex-direction:column;gap:8px;flex:1}
 .year-pie-item{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text);padding:4px 6px;border-radius:8px;cursor:pointer;transition:all .18s}
-.year-pie-item:hover,.year-pie-item.active{background:rgba(255,255,255,.05);transform:translateX(1px)}
+.year-pie-item:hover,.year-pie-item.active{background:rgba(0,0,0,.05);transform:translateX(1px)}
 .year-pie-left{display:flex;align-items:center;gap:8px;color:var(--muted)}
 .year-pie-dot{width:10px;height:10px;border-radius:999px}
 .year-pie-count{font-weight:700;color:var(--text)}
@@ -275,13 +373,13 @@ select,input{font-family:inherit}
   margin:0 0 32px;
 }
 .simple-table-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:10px}
-.simple-table-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700}
+.simple-table-title{font-family:'Neco',sans-serif;font-size:18px;font-weight:700}
 .simple-table-sub{font-size:12px;color:var(--muted)}
 .simple-table-scroll{max-height:360px;overflow:auto;border:1px solid var(--border);border-radius:10px}
 .simple-table{width:100%;border-collapse:collapse;font-size:12px}
 .simple-table thead th{position:sticky;top:0;background:#121212;color:var(--muted);text-align:left;padding:10px;border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.35px}
-.simple-table tbody td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top}
-.simple-table tbody tr:hover{background:rgba(255,255,255,.02)}
+.simple-table tbody td{padding:9px 10px;border-bottom:1px solid rgba(0,0,0,.07);vertical-align:top}
+.simple-table tbody tr:hover{background:rgba(0,0,0,.04)}
 .simple-title-btn{background:none;border:none;color:var(--text);text-align:left;font-size:12px;font-weight:600;line-height:1.35;cursor:pointer;padding:0}
 .simple-title-btn:hover{color:var(--lime)}
 .pdf-link{display:inline-block;padding:4px 9px;border-radius:999px;border:1px solid rgba(170,255,0,.35);color:var(--lime);font-size:11px;text-decoration:none}
@@ -297,7 +395,7 @@ select,input{font-family:inherit}
   padding:20px;
 }
 .card-header{margin-bottom:16px}
-.card-title{font-size:18px;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:4px}
+.card-title{font-size:18px;font-weight:700;font-family:'Neco',sans-serif;margin-bottom:4px}
 .card-subtitle{font-size:12px;color:var(--muted)}
 .chart-wrapper{position:relative;height:280px}
 
@@ -334,7 +432,7 @@ select,input{font-family:inherit}
 .sector-cell.empty:hover{transform:none;border-color:var(--border);background:var(--surface2);box-shadow:none}
 .sector-icon{font-size:24px;line-height:1}
 .sector-count{
-  font-family:'Space Grotesk',sans-serif;
+  font-family:'Neco',sans-serif;
   font-size:28px;
   font-weight:700;
   line-height:1;
@@ -342,7 +440,7 @@ select,input{font-family:inherit}
 .sector-label{font-size:11.5px;font-weight:600;color:var(--text);line-height:1.35;flex:1}
 .sector-bar{
   width:100%;height:3px;
-  background:rgba(255,255,255,.06);
+  background:rgba(0,0,0,.1);
   border-radius:2px;overflow:hidden;
   margin-top:4px;
 }
@@ -357,7 +455,7 @@ select,input{font-family:inherit}
   padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;transition:all .2s;cursor:pointer;
 }
 .puente-tab.active{background:rgba(170,255,0,.12);border-color:var(--lime);color:var(--lime)}
-.puente-tab:hover:not(.active){border-color:rgba(255,255,255,.15);color:var(--text)}
+.puente-tab:hover:not(.active){border-color:rgba(0,0,0,.2);color:var(--text)}
 
 .heatmap-table{width:100%;border-collapse:separate;border-spacing:0 4px;font-size:12px}
 .heatmap-table thead th{
@@ -365,7 +463,7 @@ select,input{font-family:inherit}
 }
 .heatmap-table thead th:first-child{text-align:left;padding-left:12px}
 .heatmap-table tbody tr.heatmap-row{cursor:pointer;transition:all .15s}
-.heatmap-table tbody tr.heatmap-row:hover{background:rgba(255,255,255,.03)}
+.heatmap-table tbody tr.heatmap-row:hover{background:rgba(0,0,0,.04)}
 .heatmap-row td{padding:10px 6px;text-align:center;vertical-align:middle;background:var(--surface2)}
 .heatmap-row td:first-child{
   text-align:left;padding-left:14px;font-weight:600;color:var(--text);font-size:13px;
@@ -375,7 +473,7 @@ select,input{font-family:inherit}
 .heatmap-cell{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:38px;height:28px;border-radius:6px;font-weight:700;font-size:13px;
-  font-family:'Space Grotesk',sans-serif;
+  font-family:'Neco',sans-serif;
 }
 .heatmap-bool{font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px}
 
@@ -386,7 +484,7 @@ select,input{font-family:inherit}
 }
 .puente-badge-title{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .puente-badge-body{font-size:13px;color:var(--text);font-weight:500;line-height:1.45}
-.puente-badge-score{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700}
+.puente-badge-score{font-family:'Neco',sans-serif;font-size:20px;font-weight:700}
 
 .bloc-expand{
   background:rgba(0,0,0,.3);border-radius:0 0 10px 10px;padding:12px 10px;margin-bottom:6px;
@@ -400,7 +498,7 @@ select,input{font-family:inherit}
   padding:7px 8px;border-radius:6px;font-size:11px;align-items:center;
   transition:background .15s;cursor:pointer;
 }
-.bloc-bill-row:hover{background:rgba(255,255,255,.05)}
+.bloc-bill-row:hover{background:rgba(0,0,0,.05)}
 .bloc-bill-title{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .axis-legend{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
 .axis-legend-item{display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--muted)}
@@ -464,7 +562,7 @@ select,input{font-family:inherit}
 }
 .tipo-canvas-center-num{
   font-size:36px;font-weight:700;
-  font-family:'Space Grotesk',sans-serif;
+  font-family:'Neco',sans-serif;
   color:var(--lime);line-height:1;
 }
 .tipo-canvas-center-label{
@@ -488,7 +586,7 @@ select,input{font-family:inherit}
 }
 .tipo-legend-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .tipo-legend-count{
-  font-size:16px;font-weight:700;font-family:'Space Grotesk',sans-serif;
+  font-size:16px;font-weight:700;font-family:'Neco',sans-serif;
 }
 .tipo-legend-badges{display:flex;gap:4px}
 .tipo-badge-si{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;background:rgba(170,255,0,.1);color:var(--lime);border:1px solid rgba(170,255,0,.2)}
@@ -503,7 +601,7 @@ select,input{font-family:inherit}
 }
 .insight-item:hover{border-color:var(--lime);transform:translateY(-4px);background:var(--surface)}
 .insight-emoji{font-size:32px;margin-bottom:8px}
-.insight-num{font-size:24px;font-weight:700;color:var(--lime);margin-bottom:4px;font-family:'Space Grotesk',sans-serif}
+.insight-num{font-size:24px;font-weight:700;color:var(--lime);margin-bottom:4px;font-family:'Neco',sans-serif}
 .insight-label{font-size:12px;color:var(--muted);line-height:1.4}
 
 
@@ -518,7 +616,7 @@ select,input{font-family:inherit}
 .dest-item:hover{border-color:var(--lime);transform:translateY(-2px)}
 .dest-icon{font-size:28px;margin-bottom:8px}
 .dest-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px}
-.dest-count{font-size:13px;color:var(--lime);font-weight:700;font-family:'Space Grotesk',sans-serif}
+.dest-count{font-size:13px;color:var(--lime);font-weight:700;font-family:'Neco',sans-serif}
 
 /* ═══════════════════════════════════════════════════
    TABLE & PAGINATION
@@ -529,7 +627,7 @@ th{
   background:var(--surface2);border-bottom:1px solid var(--border);
   padding:12px;text-align:left;font-weight:600;color:var(--lime);
 }
-td{border-bottom:1px solid rgba(255,255,255,0.03);padding:12px;vertical-align:top}
+td{border-bottom:1px solid rgba(0,0,0,0.08);padding:12px;vertical-align:top}
 tr:hover{background:var(--surface2)}
 .badge-tema{display:inline-block;background:rgba(170,255,0,0.1);color:var(--lime);padding:2px 8px;border-radius:8px;font-size:11px;font-weight:600}
 .badge-bloque{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:600}
@@ -577,7 +675,7 @@ tr:hover{background:var(--surface2)}
   color:var(--text);transition:all 0.2s;
 }
 .modal-close:hover{border-color:var(--lime);color:var(--lime)}
-.modal-title{font-size:22px;font-weight:700;font-family:'Space Grotesk',sans-serif;margin-bottom:8px;color:var(--lime)}
+.modal-title{font-size:22px;font-weight:700;font-family:'Neco',sans-serif;margin-bottom:8px;color:var(--lime)}
 .modal-subtitle{font-size:12px;color:var(--muted);margin-bottom:20px}
 .modal-field{margin-bottom:16px}
 .modal-label{font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
@@ -600,10 +698,10 @@ tr:hover{background:var(--surface2)}
    LEYESBOT CHAT WIDGET
 ═══════════════════════════════════════════════════ */
 .chatbot-fab{
-  position:fixed;right:20px;bottom:20px;z-index:1400;
-  width:74px;height:74px;border-radius:50%;border:1px solid rgba(170,255,0,.45);
+  position:fixed;right:30px;bottom:28px;z-index:1400;
+  width:82px;height:82px;border-radius:50%;border:1px solid rgba(170,255,0,.45);
   background:linear-gradient(140deg,rgba(170,255,0,.18),rgba(0,212,255,.16));
-  color:var(--text);font-size:30px;display:flex;align-items:center;justify-content:center;
+  color:var(--text);font-size:34px;display:flex;align-items:center;justify-content:center;
   box-shadow:0 14px 34px rgba(0,0,0,.52);transition:all .2s;
 }
 .chatbot-fab:hover{transform:translateY(-3px) scale(1.04);border-color:var(--lime);color:var(--lime)}
@@ -617,7 +715,7 @@ tr:hover{background:var(--surface2)}
   display:flex;align-items:center;justify-content:space-between;gap:8px;
   padding:12px 14px;border-bottom:1px solid var(--border);background:rgba(170,255,0,.06);
 }
-.chatbot-title{font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--lime)}
+.chatbot-title{font-size:13px;font-weight:700;font-family:'Neco',sans-serif;color:var(--lime)}
 .chatbot-sub{font-size:10px;color:var(--muted);margin-top:1px}
 .chatbot-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:8px}
 .chatbot-close:hover{border-color:var(--lime);color:var(--lime)}
@@ -627,7 +725,7 @@ tr:hover{background:var(--surface2)}
 .chat-msg.bot{align-self:flex-start;background:var(--surface2);border:1px solid var(--border)}
 .chatbot-status{min-height:18px;padding:0 12px 8px;color:var(--muted);font-size:10px}
 .chatbot-input{
-  display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:rgba(255,255,255,.02)
+  display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:rgba(0,0,0,.03)
 }
 .chatbot-text{
   flex:1;resize:none;height:40px;max-height:110px;background:var(--surface2);border:1px solid var(--border);
@@ -641,7 +739,7 @@ tr:hover{background:var(--surface2)}
 .chatbot-send:hover:not(:disabled){background:rgba(170,255,0,.2)}
 .chatbot-send:disabled{opacity:.5;cursor:not-allowed}
 @media (max-width:640px){
-  .chatbot-fab{right:14px;bottom:14px;width:68px;height:68px;font-size:28px}
+  .chatbot-fab{right:18px;bottom:18px;width:70px;height:70px;font-size:28px}
   .chatbot-panel{right:12px;bottom:94px;left:12px;width:auto;max-width:none}
   .chatbot-messages{max-height:52vh}
 }
@@ -661,39 +759,122 @@ tr:hover{background:var(--surface2)}
 /* ═══════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════ */
-@media (max-width:1024px) {
+@media (max-width:1200px){
+  .app{padding:0 20px 52px}
+  .header{padding:24px 0 20px;margin-bottom:22px}
+  .logo-text h1{font-size:22px}
   .grid-2{grid-template-columns:1fr}
-  .carousel-slide{grid-template-columns:repeat(2,1fr)}
-  .semaforo-row-panel{grid-template-columns:1fr}
-  .semaforo-copy{border-left:none;border-top:1px solid var(--border)}
-  .semaforo-stage{justify-content:center;padding:24px}
+  .carousel-slide{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .semaforo-row-panel{grid-template-columns:1fr;min-height:auto}
+  .semaforo-copy{border-left:none;border-top:1px solid var(--border);padding:22px 22px 20px}
+  .semaforo-copy-title{font-size:clamp(24px,4.4vw,34px)}
+  .semaforo-copy-quote{font-size:16px;line-height:1.6;max-width:none}
   .pies-grid{grid-template-columns:1fr}
 }
-@media (max-width:640px) {
-  .app{padding:0 16px 40px}
-  .header{padding:20px 0 16px;margin-bottom:20px}
-  .logo-text h1{font-size:20px}
-  .header-top{flex-direction:column;align-items:flex-start}
-  .kpi-grid{grid-template-columns:1fr}
+
+@media (max-width:900px){
+  .header-top{flex-direction:column;align-items:flex-start;gap:12px}
+  .header-actions{width:100%;justify-content:space-between}
+  .header-badge{padding:7px 14px;font-size:11px}
+  .consenso-intro{
+    font-size:clamp(18px,5vw,24px);
+    line-height:1.35;
+    padding:2px 6px 10px;
+    margin-bottom:16px;
+  }
+  .semaforo-stage{min-height:236px;justify-content:center;padding:18px 0 8px}
+  .semaforo-stage-card{
+    width:min(90vw,320px);
+    height:208px;
+    top:0;
+    left:50%;
+  }
+  .semaforo-stage-card.back {transform:translate(calc(-50% + 24px),12px) rotate(6deg)}
+  .semaforo-stage-card.mid  {transform:translate(calc(-50% + 12px),6px) rotate(3deg)}
+  .semaforo-stage-card.front{transform:translate(-50%,0) rotate(0)}
+  .semaforo-stage-card.front:hover{transform:translate(-50%,-3px) scale(1.02)}
+  .semaforo-stage-title{font-size:18px;line-height:1.15}
+  .semaforo-stage-chip{font-size:11px;padding:4px 10px}
+  .semaforo-copy-actions{gap:12px}
+  .semaforo-nav-btn{width:46px;height:46px}
+  .semaforo-open-btn{padding:11px 18px;font-size:13px}
+  .year-pie-body{flex-direction:column;align-items:center;text-align:center}
+  .year-pie-legend{width:100%}
+  .tipo-donut-wrap{gap:18px}
+  .tipo-canvas-container{width:240px;height:240px}
+  .tipo-legend{min-width:0;max-width:none;width:100%}
   .carousel-slide{grid-template-columns:1fr}
-  .semaforo-copy-title{font-size:30px}
-  .semaforo-copy-quote{font-size:22px}
-  .semaforo-stage{height:200px}
-  .semaforo-stage-card{height:188px;width:88%}
-  .year-pie-body{flex-direction:column;align-items:flex-start}
-  #yearPieCanvas,#tipoProyectoPieCanvas{width:170px;height:170px}
-  .simple-table-scroll{max-height:300px}
-  .carousel-btn{width:32px;height:32px;font-size:16px}
-  .carousel-btn.prev{left:0}
-  .carousel-btn.next{right:0}
-  .grid-2{gap:16px}
+  .carousel-btn.prev{left:2px}
+  .carousel-btn.next{right:2px}
+  .carousel-viewport{padding:14px 0}
+  .dest-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .bills-list{grid-template-columns:1fr}
-  .dest-grid{grid-template-columns:repeat(2,1fr)}
+  .simple-table-scroll{max-height:320px}
+  .table-wrapper{overflow:auto;-webkit-overflow-scrolling:touch}
+  .modal-content{width:calc(100vw - 24px);max-height:88vh;padding:20px;border-radius:14px}
+  .modal-title{font-size:20px}
+  .modal-subtitle{font-size:13px}
+  .modal-close{top:10px;right:10px}
+  .method-grid{grid-template-columns:1fr}
+}
+
+@media (max-width:640px){
+  .app{padding:0 12px 30px}
+  .header{padding:16px 0 14px;margin-bottom:16px}
+  .logo{gap:10px}
+  .logo-icon{width:40px;height:40px;font-size:16px;border-radius:12px}
+  .logo-text h1{font-size:18px}
+  .logo-text p{font-size:11px}
+  .header-actions a{padding:6px 10px !important;font-size:11px !important}
+  .header-badge{padding:6px 10px;border-radius:999px}
+  .kpi-grid{gap:12px}
+  .kpi-card{padding:16px}
+  .kpi-value{font-size:28px}
+  .semaforo-wrap{padding:14px}
+  .semaforo-stack{gap:14px}
+  .semaforo-row{border-radius:16px}
+  .semaforo-stage{min-height:210px;padding:14px 0 4px}
+  .semaforo-stage-card{height:188px;width:min(92vw,300px);border-radius:16px}
+  .semaforo-stage-title{font-size:17px}
+  .semaforo-copy{padding:16px 14px 14px}
+  .semaforo-copy-title{font-size:clamp(24px,8vw,32px);line-height:1.08}
+  .semaforo-copy-quote{font-size:15px;line-height:1.55}
+  .semaforo-copy-actions{margin-top:14px;gap:10px}
+  .semaforo-nav-btn{width:44px;height:44px;font-size:20px}
+  .semaforo-open-btn{padding:10px 14px;font-size:12px}
+  .semaforo-page{font-size:13px}
+  .semaforo-detail{padding:14px}
+  .semaforo-bills{grid-template-columns:1fr}
+  .year-pie-wrap{padding:14px}
+  #yearPieCanvas,#tipoProyectoPieCanvas{width:160px;height:160px}
+  .year-pie-title,.simple-table-title{font-size:16px}
+  .simple-table{font-size:11px}
+  .simple-table thead th,.simple-table tbody td{padding:8px}
+  .carousel-btn{width:34px;height:34px;font-size:18px}
+  .dest-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .dest-item{padding:12px}
+  .modal-content{width:calc(100vw - 16px);max-height:90vh;padding:16px}
+  .modal-content-wide{max-width:none}
+  .chatbot-fab{right:18px;bottom:18px;width:70px;height:70px;font-size:28px}
+  .chatbot-panel{left:8px;right:8px;bottom:84px;width:auto;max-width:none;border-radius:12px}
+  .chatbot-messages{max-height:48vh;padding:10px}
+  .chatbot-input{padding:8px}
+  .chatbot-text{height:44px;font-size:13px}
   table{font-size:12px}
   th,td{padding:8px}
 }
-@media (max-width:820px) {
-  .method-grid{grid-template-columns:1fr}
+
+@media (max-width:420px){
+  .header-actions{gap:8px}
+  .header-actions a{padding:5px 8px !important}
+  .consenso-intro{font-size:17px}
+  .semaforo-stage-card{width:min(92vw,284px);height:176px}
+  .semaforo-stage-title{font-size:16px}
+  .semaforo-copy-title{font-size:24px}
+  .semaforo-copy-quote{font-size:14px}
+  .semaforo-open-btn{width:100%;justify-content:center}
+  .semaforo-copy-actions{gap:8px}
+  .modal-title{font-size:18px}
 }
 </style>
 
@@ -720,14 +901,14 @@ tr:hover{background:var(--surface2)}
         <p>Proyectos de Ley 2019-2026 — IA Argentina</p>
       </div>
     </a>
-    <div style="display:flex;align-items:center;gap:12px">
+    <div class="header-actions" style="display:flex;align-items:center;gap:12px">
       <a href="index.html" style="
         font-size:12px;color:#6b7280;text-decoration:none;
-        border:1px solid rgba(255,255,255,0.07);border-radius:8px;
+        border:1px solid rgba(0,0,0,0.12);border-radius:8px;
         padding:5px 12px;transition:all .2s;white-space:nowrap;
-        font-family:'Space Grotesk',sans-serif;
-      " onmouseover="this.style.color='#aaff00';this.style.borderColor='rgba(170,255,0,.3)'"
-         onmouseout="this.style.color='#6b7280';this.style.borderColor='rgba(255,255,255,0.07)'">
+        font-family:'Neco',sans-serif;
+      " onmouseover="this.style.color='#2d6a2d';this.style.borderColor='rgba(45,106,45,.4)'"
+         onmouseout="this.style.color='#6b7280';this.style.borderColor='rgba(0,0,0,0.12)'">
         ← Inicio
       </a>
       <div class="header-badge">
@@ -773,12 +954,11 @@ tr:hover{background:var(--surface2)}
   </div>
 </div>
 
-<div class="semaforo-wrap anim d2" id="semaforoSection">
-  <div class="semaforo-head">
-    <div class="semaforo-title">Semaforo de Coincidencias</div>
-    <div class="semaforo-sub">Vista politica para agrupar proyectos por afinidad tematica. Clic en un grupo para ver proyectos similares.</div>
-  </div>
+<div class="consenso-intro anim d2">
+  Para identificar niveles de consenso entre las iniciativas analizadas, ordenamos los proyectos en un <strong>semáforo de coincidencias</strong> (verde, amarillo y rojo), destacando con claridad los puntos de convergencia y divergencia en la regulación de la inteligencia artificial.
+</div>
 
+<div class="semaforo-wrap anim d2" id="semaforoSection">
   <div class="semaforo-stack">
     <div class="semaforo-row green"  id="rowVerde">  <div class="semaforo-stripe"></div></div>
     <div class="semaforo-row yellow" id="rowAmarillo"><div class="semaforo-stripe"></div></div>
@@ -786,8 +966,8 @@ tr:hover{background:var(--surface2)}
   </div>
 
   <div class="semaforo-detail" id="semaforoDetail" style="display:none">
-    <div class="semaforo-detail-title">Selecciona un grupo del semaforo</div>
-    <div class="semaforo-detail-sub">Aca vamos a mostrar los proyectos similares del grupo elegido.</div>
+    <div class="semaforo-detail-title">Selecciona un grupo del semáforo</div>
+    <div class="semaforo-detail-sub">Acá vamos a mostrar los proyectos similares del grupo elegido.</div>
     <div class="semaforo-bills"></div>
   </div>
 </div>
@@ -804,7 +984,7 @@ tr:hover{background:var(--surface2)}
 
   <div class="year-pie-wrap" id="tipoProyectoPieSection">
     <div class="year-pie-title">Tipo de proyecto</div>
-    <div class="year-pie-sub">Distribución temática sobre 39 proyectos</div>
+    <div class="year-pie-sub" id="tipoProyectoPieSub">Distribución temática sobre el total actual</div>
     <div class="year-pie-body">
       <canvas id="tipoProyectoPieCanvas" width="210" height="210" aria-label="Torta de tipo de proyecto"></canvas>
       <div class="year-pie-legend" id="tipoProyectoPieLegend"></div>
@@ -1195,6 +1375,7 @@ function updateDynamicSubtitles(total) {
   setText('insightsSubtitle', `Análisis transversal de los ${total} proyectos — deslizá para ver más`);
   setText('tipoSubtitle', `Clasificación de los ${total} proyectos según su naturaleza legislativa — SI = regulación directa, INDIRECTA = regulación tangencial`);
   setText('puenteSubtitle', `Análisis de convergencia entre bloques en los ${total} proyectos: 5 ejes técnicos + líneas rojas — clic en un bloque para ver detalle por proyecto`);
+  setText('tipoProyectoPieSub', `Distribución temática sobre ${total} proyectos`);
 }
 
 function getBridgeBill(billId) {
@@ -1259,9 +1440,9 @@ async function loadData() {
     document.getElementById('overlay').innerHTML =
       `<div style="text-align:center;padding:40px">
         <div style="font-size:48px">⚠️</div>
-        <div style="font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin:16px 0">Error al cargar datos</div>
+        <div style="font-family:'Neco',sans-serif;font-size:18px;font-weight:700;margin:16px 0">Error al cargar datos</div>
         <div style="color:#6b7280;font-size:13px">
-          Aseguráte de correr desde un servidor:<br>
+          Asegurate de correr desde un servidor:<br>
           <code style="background:#1a1a1a;padding:4px 8px;border-radius:6px;margin-top:8px;display:inline-block">
             python3 -m http.server 9090
           </code>
@@ -1460,56 +1641,89 @@ function updateKPIs() {
 const SEMAFORO_BASE = {
   verde: [
     {
-      key: 'integridad-digital-deepfakes',
-      title: 'Integridad Digital y Deepfakes',
-      summary: 'Coincidencias fuertes en tratamiento de clonacion de rostro/voz y trazabilidad.',
-      reasons: ['Razon principal (completar)', 'Razon secundaria (completar)'],
+      key: 'contenidos-sinteticos',
+      cardTitle: 'Deepfakes',
+      title: 'Grado significativo de convergencia',
+      summary: 'Actualmente, la Argentina no cuenta con una normativa específica en la materia y existe una multiplicidad de proyectos que abordan esta problemática de manera autónoma. La diversidad de origen partidario de estas iniciativas evidencia que se trata de una preocupación que trasciende las diferencias ideológicas. Asimismo, muchos de los proyectos de marco regulatorio general incluyen apartados específicos sobre este tema, lo que refuerza su centralidad. A ello se suma una demanda social creciente, asociada a casos concretos que hoy carecen de respuesta normativa.',
+      reasons: [],
       projectIds: [],
-      keywords: ['deepfake','clonacion de rostro','rostro y voz','suplantacion de identidad']
+      keywords: ['deepfake','clonacion de rostro','rostro y voz','suplantacion de identidad','imagen sintetica']
     },
     {
-      key: 'garantias-transparencia-etica',
-      title: 'Garantías de Transparencia y Ética',
-      summary: 'Convergencias en principios de transparencia, trazabilidad y uso responsable de IA.',
-      reasons: ['Razon principal (completar)', 'Razon secundaria (completar)'],
+      key: 'garantias-transparencia',
+      cardTitle: 'Proyectos autónomos',
+      title: 'Definición de una serie de presupuestos mínimos',
+      summary: 'Existen algunos proyectos autónomos (como, por ejemplo, el de la diputada Giudici), que proponen la definición de una serie de presupuestos mínimos que funcionen con un estándar a la hora del desarrollo y la implementación de Sistemas de Inteligencia Artificial. Si bien resulta discutible el alcance y la conveniencia de fijar estos estándares, lo cierto es que pareciera existir un punto de convergencia en torno a la posibilidad de establecer un conjunto de principios mínimos comunes, vinculados a cuestiones de transparencia, criterios éticos y protección de derechos humanos, sobre los cuales podría alcanzarse un acuerdo.',
+      reasons: [],
       projectIds: [],
-      keywords: ['transparencia','trazabilidad','etica','sesgo','explicabilidad']
+      keywords: ['transparencia','etica','derechos humanos','auditoria','sesgo','responsabilidad algorítmica']
     },
     {
-      key: 'limites-resguardo-democratico',
-      title: 'Límites y Resguardo Democrático',
-      summary: 'Acuerdos sobre limites al uso de IA para proteger derechos y convivencia democratica.',
-      reasons: ['Razon principal (completar)', 'Razon secundaria (completar)'],
+      key: 'limites-democraticos',
+      cardTitle: 'Principios comunes',
+      title: 'Inteligencia artificial de alto riesgo',
+      summary: 'Se pueden observar principios comunes en la prohibición de determinados usos de la inteligencia artificial considerados de alto riesgo o incompatibles con el orden democrático, tales como los sistemas de vigilancia masiva o los esquemas de puntuación social. Si bien pueden existir diferencias en la técnica normativa para instrumentar estas prohibiciones, el consenso respecto de su inadmisibilidad es claro.',
+      reasons: [],
       projectIds: [],
-      keywords: ['democracia','derechos humanos','resguardo','prohibicion','control']
+      keywords: ['vigilancia','social scoring','garantias constitucionales','puntuacion social','reconocimiento facial']
     },
     {
-      key: 'transformacion-educativa-federal',
-      title: 'Transformación Educativa Federal',
-      summary: 'Coincidencias en alfabetizacion digital, formacion docente y despliegue educativo federal.',
-      reasons: ['Razon principal (completar)', 'Razon secundaria (completar)'],
+      key: 'transformacion-educativa',
+      cardTitle: 'Educación',
+      title: 'Sistema educativo',
+      summary: 'También se identifican coincidencias relevantes en torno a la necesidad de adaptación del sistema educativo frente a la irrupción de la inteligencia artificial. En este punto contamos con una serie de proyectos autónomos que buscan discutir la adaptación del sistema a esta nueva tecnología. Es importante hacer mención en este apartado de que esta cuestión ya está siendo aplicada actualmente por varias provincias de distintos gobiernos.',
+      reasons: [],
       projectIds: [],
-      keywords: ['educacion','formacion docente','alfabetizacion','escuela','federal']
+      keywords: ['educacion','curricula','escolar','formacion docente','fluidez digital','desercion','robotica']
     }
   ],
   amarillo: [
     {
-      key: 'educacion-ia',
-      title: 'IA en educacion',
-      summary: 'Convergencia parcial entre enfoques de formacion y regulacion en escuelas.',
-      reasons: ['Razon principal (completar)', 'Razon secundaria (completar)'],
+      key: 'clasificacion-riesgos',
+      cardTitle: 'Clasificación',
+      title: 'Clasificación de riesgos y tipologías de sistemas de inteligencia artificial',
+      summary: 'Si bien hay acuerdo en que ciertos usos deben ser restringidos o prohibidos, persisten diferencias respecto de cómo estructurar los distintos niveles de riesgo, qué actividades deben ser alcanzadas por cada categoría y cuáles son los requisitos que deben exigirse en cada caso.',
+      reasons: [],
       projectIds: [],
-      keywords: ['educacion','curricula','escolar','formacion docente']
+      keywords: ['clasificación de riesgos','tipologías','sistemas de inteligencia artificial','prohibiciones','categorías de riesgo']
+    },
+    {
+      key: 'registro-seguimiento',
+      cardTitle: 'Mecanismo de registro y seguimiento',
+      title: 'Mecanismos registrales y de seguimiento',
+      summary: 'Algunos proyectos proponen la creación de registros obligatorios amplios para sistemas o desarrollos de inteligencia artificial, mientras que otros plantean esquemas más acotados, limitados a determinadas actividades o niveles de riesgo. También existen enfoques alternativos que priorizan mecanismos de certificación por sobre los registros (0805-D-2024, diputado Ferraro), así como posiciones que relativizan la necesidad de estos instrumentos. Se trata, en consecuencia, de un eje con margen de convergencia, pero que requiere definición técnica.',
+      reasons: [],
+      projectIds: [],
+      keywords: ['registro','registros obligatorios','seguimiento','certificación','0805-D-2024','ferraro']
     }
   ],
   rojo: [
     {
-      key: 'fiscalidad',
-      title: 'Cargas fiscales y estructura estatal',
-      summary: 'Mayor distancia politica en creacion de cargos e impuestos.',
-      reasons: ['Razon principal (completar)', 'Razon secundaria (completar)'],
+      key: 'divergencia-enfoques',
+      cardTitle: 'Divergencia de enfoques',
+      title: 'Enfoque regulatorio general',
+      summary: 'Mientras algunos proyectos promueven un rol estatal más activo y prescriptivo, con regulaciones detalladas y mecanismos de control más intensivos, otros proponen esquemas más flexibles, orientados a principios generales y con menor intervención directa. Estas diferencias impactan de manera transversal en el diseño de los proyectos —incluyendo la intensidad regulatoria, los instrumentos de control y los sujetos alcanzados— y configuran uno de los principales ejes de discusión a futuro.',
+      reasons: [],
       projectIds: [],
-      keywords: ['impuesto','tribut','crease','cargo publico']
+      keywords: ['enfoque regulatorio','intervención estatal','intensidad regulatoria','principios generales','control']
+    },
+    {
+      key: 'obligaciones-actores',
+      cardTitle: 'Obligaciones',
+      title: 'Obligaciones de los desarrolladores y proveedores',
+      summary: 'En este aspecto, se observan diferencias significativas entre los proyectos: algunos establecen requisitos taxativos y detallados respecto de las obligaciones que deben cumplir, fijando estándares específicos y exigencias concretas; mientras que otros adoptan enfoques más flexibles, orientados a definir lineamientos generales con menor nivel de prescripción. Asimismo, existen posiciones que sostienen que el marco regulatorio debe ser lo más flexible posible, a fin de no obstaculizar el desarrollo de estas tecnologías ni generar barreras para el crecimiento de la industria en la Argentina.',
+      reasons: [],
+      projectIds: [],
+      keywords: ['obligaciones','desarrolladores','proveedores','estándares','lineamientos generales','prescripción']
+    },
+    {
+      key: 'control-auditoria',
+      cardTitle: 'Control y auditoría',
+      title: 'Procesos de auditoría y control',
+      summary: 'Algunos proyectos proponen esquemas más estrictos y prescriptivos, con instancias de control definidas y exigencias específicas; mientras que otros se orientan hacia modelos más flexibles, que priorizan la responsabilidad de los actores privados y buscan favorecer el desarrollo del ecosistema, en línea con enfoques menos intervencionistas.',
+      reasons: [],
+      projectIds: [],
+      keywords: ['auditoría','control','esquemas estrictos','actores privados','intervencionistas']
     }
   ]
 };
@@ -1538,7 +1752,7 @@ function buildSemaforoSlides(bucketName, groups) {
     slides.push({
       groupKey: group.key,
       title: group.title,
-      role: 'Titulo del eje',
+      cardTitle: group.cardTitle || group.title,
       quote: group.summary,
       projects: bills.length,
       bucketName,
@@ -1547,7 +1761,7 @@ function buildSemaforoSlides(bucketName, groups) {
       slides.push({
         groupKey: group.key,
         title: group.title,
-        role: `Fundamento ${idx + 1}`,
+        cardTitle: group.cardTitle || group.title,
         quote: reason,
         projects: bills.length,
         bucketName,
@@ -1584,27 +1798,24 @@ function renderSemaforoBucket(bucketName, rowId, groups, label, animate) {
       <!-- LEFT stacked cards -->
       <div class="semaforo-stage">
         <div class="semaforo-stage-card back">
-          <div class="semaforo-stage-kicker">${label}</div>
-          <div class="semaforo-stage-title">${next2.title}</div>
+          ${label ? `<div class="semaforo-stage-kicker">${label}</div>` : ''}
+          <div class="semaforo-stage-title">${next2.cardTitle || next2.title}</div>
         </div>
         <div class="semaforo-stage-card mid">
-          <div class="semaforo-stage-kicker">${label}</div>
-          <div class="semaforo-stage-title">${next.title}</div>
+          ${label ? `<div class="semaforo-stage-kicker">${label}</div>` : ''}
+          <div class="semaforo-stage-title">${next.cardTitle || next.title}</div>
         </div>
         <button class="semaforo-stage-card front" onclick="openSemaforoGroup('${bucketName}','${current.groupKey}')">
-          <div class="semaforo-stage-kicker">${label}</div>
-          <div class="semaforo-stage-title">${current.title}</div>
+          ${label ? `<div class="semaforo-stage-kicker">${label}</div>` : ''}
+          <div class="semaforo-stage-title">${current.cardTitle || current.title}</div>
           <span class="semaforo-stage-chip">${current.projects} proyecto${current.projects !== 1 ? 's' : ''}</span>
         </button>
       </div>
 
       <!-- RIGHT content -->
       <div class="semaforo-copy${animate ? ' animating' : ''}">
-        <div class="semaforo-copy-kicker">
-          <span class="dot-sem"></span>${label}
-        </div>
+        ${label ? `<div class="semaforo-copy-kicker">${label}</div>` : ''}
         <div class="semaforo-copy-title">${current.title}</div>
-        <div class="semaforo-copy-role">${current.role}</div>
         <div class="semaforo-copy-quote">${current.quote}</div>
         <div class="semaforo-copy-actions">
           <button class="semaforo-nav-btn"
@@ -1632,21 +1843,36 @@ function renderSemaforoBucket(bucketName, rowId, groups, label, animate) {
 }
 
 function stepSemaforoSlide(bucketName, dir) {
-  semaforoSlideIndex[bucketName] = (semaforoSlideIndex[bucketName] + dir);
-  /* Only re-render the affected row with animation */
   const map = {
-    verde:    { id:'rowVerde',    groups:SEMAFORO_BASE.verde,    label:'Verde · Coincidencia alta' },
-    amarillo: { id:'rowAmarillo', groups:SEMAFORO_BASE.amarillo, label:'Amarillo · Coincidencia parcial' },
-    rojo:     { id:'rowRojo',     groups:SEMAFORO_BASE.rojo,     label:'Rojo · Coincidencia baja' },
+    verde:    { id:'rowVerde',    groups:SEMAFORO_BASE.verde,    label:'' },
+    amarillo: { id:'rowAmarillo', groups:SEMAFORO_BASE.amarillo, label:'' },
+    rojo:     { id:'rowRojo',     groups:SEMAFORO_BASE.rojo,     label:'' },
   };
   const m = map[bucketName];
-  if(m) renderSemaforoBucket(bucketName, m.id, m.groups, m.label, true);
+  if(!m) return;
+
+  /* 1 — animate front card out */
+  const frontCard = document.querySelector(`#${m.id} .semaforo-stage-card.front`);
+  if(frontCard) {
+    frontCard.classList.add('flip-out');
+  }
+
+  /* 2 — after animation ends, update index and re-render with flip-in */
+  setTimeout(() => {
+    semaforoSlideIndex[bucketName] = semaforoSlideIndex[bucketName] + dir;
+    renderSemaforoBucket(bucketName, m.id, m.groups, m.label, true);
+    /* add flip-in class to new front card */
+    const newFront = document.querySelector(`#${m.id} .semaforo-stage-card.front`);
+    if(newFront) {
+      newFront.classList.add('flip-in');
+    }
+  }, 200);
 }
 
 function renderSemaforo() {
-  renderSemaforoBucket('verde',    'rowVerde',    SEMAFORO_BASE.verde,    'Verde · Coincidencia alta',    false);
-  renderSemaforoBucket('amarillo', 'rowAmarillo', SEMAFORO_BASE.amarillo, 'Amarillo · Coincidencia parcial', false);
-  renderSemaforoBucket('rojo',     'rowRojo',     SEMAFORO_BASE.rojo,     'Rojo · Coincidencia baja',     false);
+  renderSemaforoBucket('verde',    'rowVerde',    SEMAFORO_BASE.verde,    '',    false);
+  renderSemaforoBucket('amarillo', 'rowAmarillo', SEMAFORO_BASE.amarillo, '', false);
+  renderSemaforoBucket('rojo',     'rowRojo',     SEMAFORO_BASE.rojo,     '',     false);
 }
 
 function openSemaforoGroup(bucketName, groupKey, silent=false) {
@@ -1660,8 +1886,8 @@ function openSemaforoGroup(bucketName, groupKey, silent=false) {
     activeSemaforoKey = null;
     detail.style.display = 'none';
     detail.innerHTML = `
-      <div class="semaforo-detail-title">Selecciona un grupo del semaforo</div>
-      <div class="semaforo-detail-sub">Aca vamos a mostrar los proyectos similares del grupo elegido.</div>
+      <div class="semaforo-detail-title">Selecciona un grupo del semáforo</div>
+      <div class="semaforo-detail-sub">Acá vamos a mostrar los proyectos similares del grupo elegido.</div>
       <div class="semaforo-bills"></div>`;
     if(!silent) renderSemaforo();
     return;
@@ -1680,26 +1906,60 @@ function openSemaforoGroup(bucketName, groupKey, silent=false) {
           <div class="semaforo-bill-title">${b.titulo}</div>
           <div class="semaforo-bill-meta">${b.autor_principal || 'Desconocido'} · ${b.bloque || 'Sin datos'}</div>
         </div>
-      `).join('') : '<div style="color:var(--muted);font-size:12px">Sin proyectos cargados todavia en este grupo. Cuando me pases el mapeo final, lo completamos.</div>'}
+      `).join('') : '<div style="color:var(--muted);font-size:12px">Sin proyectos cargados todavía en este grupo. Cuando me pases el mapeo final, lo completamos.</div>'}
     </div>`;
 
   if(!silent) renderSemaforo();
 }
 
-const YEAR_PIE_COLORS = ['#aaff00','#00d4ff','#8b5cf6','#ff8c00','#2dd4bf','#ff2d78','#60a5fa','#fbbf24'];
+const YEAR_PIE_COLORS = ['#2d6a2d','#1a4a8a','#6d28d9','#c45a00','#0f766e','#be123c','#1e40af','#92400e'];
 let _yearPieSlices = [];
 let _yearPieHover = null;
 let _tipoPieSlices = [];
 let _tipoPieHover = null;
 
-const TIPO_PROYECTO_PIE_DATA = [
-  { label: 'Marco regulatorio', count: 15, color: '#aaff00' },
-  { label: 'Educativa', count: 5, color: '#00d4ff' },
-  { label: 'Deepfakes e imagenes', count: 9, color: '#ff2d78' },
-  { label: 'Otros', count: 4, color: '#8b5cf6' },
-  { label: 'Adm. publica', count: 2, color: '#ff8c00' },
-  { label: 'Crea organos', count: 4, color: '#2dd4bf' },
+const TIPO_PIE_COLOR = {
+  'Marco regulatorio': '#aaff00',
+  'Educativa': '#00d4ff',
+  'Deepfakes e imágenes': '#ff2d78',
+  'Adm. pública': '#ff8c00',
+  'Crea órganos': '#2dd4bf',
+  'Otros': '#8b5cf6',
+};
+
+const TIPO_TO_PIE_LABEL = {
+  'MARCO REGULATORIO': 'Marco regulatorio',
+  'EDUCATIVA': 'Educativa',
+  'DEEPFAKE Y SIMILARES': 'Deepfakes e imágenes',
+  'ADMINISTRACIÓN PUBLICA': 'Adm. pública',
+  'CREA ORGANOS': 'Crea órganos',
+};
+
+const TIPO_PIE_ORDER = [
+  'Marco regulatorio',
+  'Educativa',
+  'Deepfakes e imágenes',
+  'Adm. pública',
+  'Crea órganos',
+  'Otros',
 ];
+
+function getTipoPieLabelByTipo(tipo='') {
+  const normalized = String(tipo || '').trim().toUpperCase();
+  return TIPO_TO_PIE_LABEL[normalized] || 'Otros';
+}
+
+function buildTipoProyectoPieData(items = FILTERED) {
+  const counts = {};
+  for (const label of TIPO_PIE_ORDER) counts[label] = 0;
+  for (const b of (items || [])) {
+    const label = getTipoPieLabelByTipo(b.tipo);
+    counts[label] = (counts[label] || 0) + 1;
+  }
+  return TIPO_PIE_ORDER
+    .map(label => ({ label, count: counts[label] || 0, color: TIPO_PIE_COLOR[label] || '#8b5cf6' }))
+    .filter(item => item.count > 0);
+}
 
 function getPieHit(canvas, slices, e, innerR=56, outerR=98) {
   const rect = canvas.getBoundingClientRect();
@@ -1739,25 +1999,7 @@ function showProjectsByYear(year) {
 }
 
 function getBillsByTipoPie(label) {
-  const defs = {
-    'Marco regulatorio': ['marco regulatorio','marco legal','marco normativo','regulacion','regulación'],
-    'Educativa': ['educacion','educación','escuela','curricula','currícul','formacion docente'],
-    'Deepfakes e imagenes': ['deepfake','deepfakes','imagen sintetica','imágenes sintéticas','rostro y voz','clonacion'],
-    'Adm. publica': ['administracion publica','administración pública','sector publico','sector público','ministerio','apn'],
-    'Crea organos': ['créase','crease','organismo','agencia','autoridad de aplicacion','autoridad de aplicación'],
-  };
-  if(label === 'Otros') {
-    const used = new Set();
-    Object.keys(defs).forEach(k => {
-      getBillsByTipoPie(k).forEach(b => used.add(b.id));
-    });
-    return FILTERED.filter(b => !used.has(b.id));
-  }
-  const keys = defs[label] || [];
-  return FILTERED.filter(b => {
-    const txt = `${b.titulo || ''} ${b.resumen || ''}`.toLowerCase();
-    return keys.some(k => txt.includes(k));
-  });
+  return FILTERED.filter(b => getTipoPieLabelByTipo(b.tipo) === label);
 }
 
 function showProjectsByTipoPie(label) {
@@ -1796,7 +2038,7 @@ function drawPieDonut(canvas, slices, hoveredKey) {
     ctx.closePath();
     ctx.fillStyle = s.color;
     ctx.fill();
-    ctx.strokeStyle = 'rgba(8,8,8,.62)';
+    ctx.strokeStyle = 'rgba(245,240,232,.62)';
     ctx.lineWidth = 2;
     ctx.stroke();
   });
@@ -1835,12 +2077,12 @@ function renderYearPie() {
   const ctx = canvas.getContext('2d');
   const cx = canvas.width / 2, cy = canvas.height / 2;
   ctx.fillStyle = 'var(--text)';
-  ctx.font = "700 20px 'Space Grotesk', sans-serif";
+  ctx.font = "700 20px 'Neco', sans-serif";
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(String(total), cx, cy - 7);
   ctx.fillStyle = 'var(--muted)';
-  ctx.font = "500 11px 'Inter', sans-serif";
+  ctx.font = "500 11px 'Neco', sans-serif";
   ctx.fillText('proyectos', cx, cy + 13);
 
   legend.innerHTML = _yearPieSlices.map(item => `
@@ -1855,8 +2097,8 @@ function renderYearPie() {
       _yearPieHover = hit;
       drawPieDonut(canvas, _yearPieSlices, _yearPieHover);
       const ctx2 = canvas.getContext('2d');
-      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Space Grotesk', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Inter', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
       document.querySelectorAll('#yearPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
       if(hit) document.querySelector(`#yearPieLegend .year-pie-item[data-pie="year:${hit}"]`)?.classList.add('active');
     }
@@ -1865,8 +2107,8 @@ function renderYearPie() {
     _yearPieHover = null;
     drawPieDonut(canvas, _yearPieSlices, null);
     const ctx2 = canvas.getContext('2d');
-    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Space Grotesk', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Inter', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
     document.querySelectorAll('#yearPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
   };
   canvas.onclick = e => {
@@ -1880,9 +2122,10 @@ function renderTipoProyectoPie() {
   const legend = document.getElementById('tipoProyectoPieLegend');
   if(!canvas || !legend) return;
 
-  const total = TIPO_PROYECTO_PIE_DATA.reduce((s,x)=>s+x.count,0);
+  const pieData = buildTipoProyectoPieData(FILTERED);
+  const total = pieData.reduce((s,x)=>s+x.count,0);
   let angle = -Math.PI/2;
-  _tipoPieSlices = TIPO_PROYECTO_PIE_DATA.map(item => {
+  _tipoPieSlices = pieData.map(item => {
     const sweep = total ? (item.count/total)*Math.PI*2 : 0;
     const slice = { key:item.label, label:item.label, color:item.color, count:item.count, start:angle, end:angle+sweep, pct: total ? Math.round(item.count*100/total) : 0 };
     angle += sweep;
@@ -1894,12 +2137,12 @@ function renderTipoProyectoPie() {
   const ctx = canvas.getContext('2d');
   const cx = canvas.width / 2, cy = canvas.height / 2;
   ctx.fillStyle = 'var(--text)';
-  ctx.font = "700 20px 'Space Grotesk', sans-serif";
+  ctx.font = "700 20px 'Neco', sans-serif";
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(String(total), cx, cy - 7);
   ctx.fillStyle = 'var(--muted)';
-  ctx.font = "500 11px 'Inter', sans-serif";
+  ctx.font = "500 11px 'Neco', sans-serif";
   ctx.fillText('proyectos', cx, cy + 13);
 
   legend.innerHTML = _tipoPieSlices.map(item => `
@@ -1914,8 +2157,8 @@ function renderTipoProyectoPie() {
       _tipoPieHover = hit;
       drawPieDonut(canvas, _tipoPieSlices, _tipoPieHover);
       const ctx2 = canvas.getContext('2d');
-      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Space Grotesk', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Inter', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
       document.querySelectorAll('#tipoProyectoPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
       if(hit) document.querySelector(`#tipoProyectoPieLegend .year-pie-item[data-pie="tipo:${CSS.escape(hit)}"]`)?.classList.add('active');
     }
@@ -1924,8 +2167,8 @@ function renderTipoProyectoPie() {
     _tipoPieHover = null;
     drawPieDonut(canvas, _tipoPieSlices, null);
     const ctx2 = canvas.getContext('2d');
-    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Space Grotesk', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Inter', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
     document.querySelectorAll('#tipoProyectoPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
   };
   canvas.onclick = e => {
@@ -2230,7 +2473,7 @@ function drawDonut(canvas, hoveredTipo) {
     ctx.fill();
 
     /* Borde tenue */
-    ctx.strokeStyle = 'rgba(8,8,8,0.55)';
+    ctx.strokeStyle = 'rgba(245,240,232,0.55)';
     ctx.lineWidth   = 2;
     ctx.stroke();
 
@@ -2242,7 +2485,7 @@ function drawDonut(canvas, hoveredTipo) {
       const lx     = cx + labelR * Math.cos(midAngle);
       const ly     = cy + labelR * Math.sin(midAngle);
       ctx.fillStyle = 'rgba(0,0,0,0.75)';
-      ctx.font      = `bold 11px 'Space Grotesk', sans-serif`;
+      ctx.font      = `bold 11px 'Neco', sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(Math.round(pct) + '%', lx, ly);
@@ -2372,14 +2615,14 @@ const BILL_EVIDENCE = {
   "1472-D-2023": ["Art. 3bis — Agrega principios éticos (diversidad, paz, justicia) a Ley 25.467","Art. 8bis — Requiere registro de sistemas de IA ante GACTEC","Art. 8bis — Autoridad puede detener investigación si vulnera principios éticos","Art. 8ter — Permite denuncias ante SETCIP por sistemas de IA dañinos","Art. 3bis — Principios enfocados en derechos humanos y colectivos"],
   "2504-D-2023": ["Art. 1° — Regula IA en educación (inicial a superior, estatal y privada)","Art. 4° — Consentimiento informado para recopilación de datos de estudiantes","Art. 5° — Ministerio de Educación es autoridad aplicadora","Art. 7° — Evaluaciones periódicas para garantizar calidad educativa","Art. 9° — Supervisión por Consejo Federal de Educación"],
   "2505-D-2023": ["Art. 1° — Marco legal integral para IA con enfoque derechos humanos y privacidad","Art. 9° — Evaluaciones de impacto de IA obligatorias","Art. 10° — Clasificación de riesgos: inaceptables, elevados, limitados, insignificantes","Art. 11° — Registro ante GACTEC y verificación/certificación obligatoria","Art. 12° — Prohibiciones por violación derechos, discriminación, falta transparencia"],
-  "3003-D-2024": ["Art. 1° — Régimen jurídico para uso responsable de IA en Argentina","Art. 6° — Evaluación de impacto sobre derechos humanos obligatoria","Art. 7° — Categorías de riesgo: inaceptables (prohibidas), alto, limitado","Art. 7.1c — Prohibe identificación biométrica en tiempo real, excepto casos específicos","Art. 5° — Principios rectores: transparencia, robustez, equidad, responsabilidad proactiva"],
+  "3003-D-2024": ["Art. 1° — Régimen jurídico para uso responsable de IA en Argentina","Art. 6° — Evaluación de impacto sobre derechos humanos obligatoria","Art. 7° — Categorías de riesgo: inaceptables (prohibidas), alto, limitado","Art. 7.1c — Prohíbe identificación biométrica en tiempo real, excepto casos específicos","Art. 5° — Principios rectores: transparencia, robustez, equidad, responsabilidad proactiva"],
   "3161-D-2023": ["Art. 1° — Crea Consejo Federal de IA (COFEIA) como órgano interjurisdiccional","Art. 2a° — Fomenta investigación, estudio, concientización sobre IA","Art. 2i° — Elabora guías de mejores prácticas, fomenta código abierto","Art. 3° — Integrado por máximo nivel de Ciencia y Tecnología de provincias","Art. 1° — Carácter consultivo sobre temáticas de IA"],
   "3900-D-2024": ["Art. 1° — Crea Observatorio Federal sobre Inteligencia Artificial (O.F.I.A.)","Art. 1° — Ubicado en ámbito del Poder Ejecutivo Nacional","Art. X° — Funciones de monitoreo, análisis y reportes públicos sobre IA","Art. X° — Observatorio consultivo sin poder de sancionar directamente","Art. X° — Protege derechos fundamentales frente a impactos de IA"],
   "3955-D-2024": ["Art. 139ter — Incorpora nuevo artículo al Código Penal sobre manipulación digital","Art. 139ter — Penas por manipulación de información digital que afecte derechos","Art. 139ter — Protección contra deepfakes y contenido generado por IA malicioso","Art. X° — Enfoque punitivo en protección de individuos contra manipulación","Art. X° — Derechos fundamentales frente a tecnologías de manipulación"],
   "4079-D-2024": ["Art. X° — Presupuestos mínimos para promoción de desarrollo de IA","Art. X° — Establece marcos de promoción, no regulación estricta","Art. X° — Incentivos para desarrollo nacional de tecnologías de IA","Art. X° — Enfoque preventivo más que sancionatorio","Art. X° — Protege derechos en contexto de promoción económica"],
   "4329-D-2023": ["Art. 1° — Regulación y uso de IA (título general sin detalle en primeras líneas)","Art. X° — Establece marco regulatorio para desarrollo y uso de IA","Art. X° — Autoridad supervisora o de aplicación (a verificar en detalles)","Art. X° — Principios éticos y responsabilidad de desarrolladores","Art. X° — Protecciones individuales contra riesgos de IA"],
   "4898-D-2024": ["Art. 1bis (Ley 24.240) — Define usuario directo como quien interactúa con IA","Art. 1bis — Modifica Ley de Defensa del Consumidor para incluir usuarios de IA","Art. X° — Protección del consumidor en contexto de sistemas de IA","Art. X° — Establece derechos del usuario ante aplicaciones de IA","Art. 1bis — Enfoque en protección del usuario/consumidor individual"],
-  "6156-D-2024": ["Art. 1° — Marco regulatoria integral de IA para Argentina","Art. X° — Establece principios, requisitos y supervisión de sistemas de IA","Art. X° — Gobierno de datos y responsabilidad de actores","Art. X° — Mecanismos de control y verificación de cumplimiento","Art. X° — Protecciones para individuos y derechos fundamentales"],
+  "6156-D-2024": ["Art. 1° — Marco regulatorio integral de IA para Argentina","Art. X° — Establece principios, requisitos y supervisión de sistemas de IA","Art. X° — Gobierno de datos y responsabilidad de actores","Art. X° — Mecanismos de control y verificación de cumplimiento","Art. X° — Protecciones para individuos y derechos fundamentales"],
   "6976-D-2024": ["Art. 1° — Regulación de inteligencia artificial (general framework)","Art. X° — Establece régimen jurídico para sistemas de IA","Art. X° — Autoridad de aplicación y supervisión","Art. X° — Principios orientadores para desarrollo de IA","Art. X° — Derechos y protecciones de personas afectadas"],
   "7045-D-2024": ["Art. 1° — Información y responsabilidad de proveedores de IA","Art. X° — Requiere transparencia en funcionamiento de sistemas de IA","Art. X° — Responsabilidad de proveedores ante afectados","Art. X° — Derechos del usuario a información clara sobre IA utilizada","Art. X° — Enfoque consumidor/usuario en protecciones"],
   "3654-D-2024": ["Art. 1° — Crea Comisión Multisectorial de Análisis de Alternativas Regulatorias de la IA en el Congreso","Art. 2° — Objeto: elaborar proyecto de ley marco regulatorio coherente con derechos humanos, democracia y estado de derecho","Art. 3° — Comisión integrada por legisladores, Poder Ejecutivo, ONGs, empresas privadas y CONICET","Art. 2b° — Resguardar salud, seguridad y derechos fundamentales de las personas ante usos nocivos de IA","Art. 5° — Plazo de 365 días para elevar propuesta de ley marco a ambas Cámaras del Congreso"],
@@ -2406,7 +2649,7 @@ function ejeCellColor(val) {
   return `rgba(99,102,241,${(0.08 + t * 0.58).toFixed(2)})`;
 }
 function ejeCellText(val) {
-  return val <= 4 ? 'rgba(255,255,255,0.45)' : val <= 7 ? 'rgba(255,255,255,0.85)' : '#ffffff';
+  return val <= 4 ? 'rgba(28,25,23,0.5)' : val <= 7 ? 'rgba(28,25,23,0.85)' : '#1c1917';
 }
 
 function computeBillNormativeSignals(bill) {
@@ -2631,7 +2874,7 @@ function renderBlocHeatmap(container, blocData) {
         return `<td><span class="heatmap-cell" style="background:${ejeCellColor(v)};color:${ejeCellText(v)};cursor:pointer;flex-direction:column;height:auto;min-height:28px;padding:4px 6px;gap:1px"
           onclick="event.stopPropagation();showBlocEvidenceTooltip(event,'${bloc.name}',${i})"
           title="Clic para ver respaldo técnico">
-          <span style="font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif">${v}</span>
+          <span style="font-size:13px;font-weight:700;font-family:'Neco',sans-serif">${v}</span>
           ${rangeHtml}
         </span></td>`;
       }).join('')}
@@ -2741,26 +2984,26 @@ function renderScatterPlot(container) {
         <!-- Quadrant backgrounds -->
         <rect x="${ML}" y="${MT}" width="${(midX-ML).toFixed(1)}" height="${(midY-MT).toFixed(1)}" fill="rgba(0,212,255,0.04)" rx="2"/>
         <rect x="${midX.toFixed(1)}" y="${MT}" width="${(ML+PW-midX).toFixed(1)}" height="${(midY-MT).toFixed(1)}" fill="rgba(255,45,120,0.04)" rx="2"/>
-        <rect x="${ML}" y="${midY.toFixed(1)}" width="${(midX-ML).toFixed(1)}" height="${(MT+PH-midY).toFixed(1)}" fill="rgba(255,255,255,0.02)" rx="2"/>
+        <rect x="${ML}" y="${midY.toFixed(1)}" width="${(midX-ML).toFixed(1)}" height="${(MT+PH-midY).toFixed(1)}" fill="rgba(0,0,0,0.03)" rx="2"/>
         <rect x="${midX.toFixed(1)}" y="${midY.toFixed(1)}" width="${(ML+PW-midX).toFixed(1)}" height="${(MT+PH-midY).toFixed(1)}" fill="rgba(170,255,0,0.03)" rx="2"/>
         <!-- Dividers -->
-        <line x1="${midX.toFixed(1)}" y1="${MT}" x2="${midX.toFixed(1)}" y2="${MT+PH}" stroke="rgba(255,255,255,0.1)" stroke-dasharray="4,3"/>
-        <line x1="${ML}" y1="${midY.toFixed(1)}" x2="${ML+PW}" y2="${midY.toFixed(1)}" stroke="rgba(255,255,255,0.1)" stroke-dasharray="4,3"/>
+        <line x1="${midX.toFixed(1)}" y1="${MT}" x2="${midX.toFixed(1)}" y2="${MT+PH}" stroke="rgba(0,0,0,0.12)" stroke-dasharray="4,3"/>
+        <line x1="${ML}" y1="${midY.toFixed(1)}" x2="${ML+PW}" y2="${midY.toFixed(1)}" stroke="rgba(0,0,0,0.12)" stroke-dasharray="4,3"/>
         <!-- Quadrant labels -->
         <text x="${(ML + (midX-ML)/2).toFixed(1)}" y="${(MT + (midY-MT)/2).toFixed(1)}" text-anchor="middle" fill="rgba(0,212,255,0.45)" font-size="9.5" font-family="Inter,sans-serif">Liberal</text>
         <text x="${(midX + (ML+PW-midX)/2).toFixed(1)}" y="${(MT + (midY-MT)/2).toFixed(1)}" text-anchor="middle" fill="rgba(255,45,120,0.45)" font-size="9.5" font-family="Inter,sans-serif">Regulador de Derechos</text>
-        <text x="${(ML + (midX-ML)/2).toFixed(1)}" y="${(midY + (MT+PH-midY)/2).toFixed(1)}" text-anchor="middle" fill="rgba(255,255,255,0.25)" font-size="9.5" font-family="Inter,sans-serif">Soberanista Pasivo</text>
+        <text x="${(ML + (midX-ML)/2).toFixed(1)}" y="${(midY + (MT+PH-midY)/2).toFixed(1)}" text-anchor="middle" fill="rgba(0,0,0,0.25)" font-size="9.5" font-family="Inter,sans-serif">Soberanista Pasivo</text>
         <text x="${(midX + (ML+PW-midX)/2).toFixed(1)}" y="${(midY + (MT+PH-midY)/2).toFixed(1)}" text-anchor="middle" fill="rgba(170,255,0,0.35)" font-size="9.5" font-family="Inter,sans-serif">Estatista</text>
         <!-- Axes -->
-        <line x1="${ML}" y1="${MT+PH}" x2="${ML+PW}" y2="${MT+PH}" stroke="rgba(255,255,255,0.2)"/>
-        <line x1="${ML}" y1="${MT}" x2="${ML}" y2="${MT+PH}" stroke="rgba(255,255,255,0.2)"/>
+        <line x1="${ML}" y1="${MT+PH}" x2="${ML+PW}" y2="${MT+PH}" stroke="rgba(0,0,0,0.2)"/>
+        <line x1="${ML}" y1="${MT}" x2="${ML}" y2="${MT+PH}" stroke="rgba(0,0,0,0.2)"/>
         <!-- X ticks -->
-        ${[1,3,5,7,9].map(v=>`<text x="${sx(v).toFixed(1)}" y="${MT+PH+16}" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">${v}</text>`).join('')}
+        ${[1,3,5,7,9].map(v=>`<text x="${sx(v).toFixed(1)}" y="${MT+PH+16}" text-anchor="middle" fill="rgba(0,0,0,0.45)" font-size="9" font-family="Inter,sans-serif">${v}</text>`).join('')}
         <!-- Y ticks -->
-        ${[1,3,5,7,9].map(v=>`<text x="${ML-6}" y="${(sy(v)+3).toFixed(1)}" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="9" font-family="Inter,sans-serif">${v}</text>`).join('')}
+        ${[1,3,5,7,9].map(v=>`<text x="${ML-6}" y="${(sy(v)+3).toFixed(1)}" text-anchor="end" fill="rgba(0,0,0,0.45)" font-size="9" font-family="Inter,sans-serif">${v}</text>`).join('')}
         <!-- Axis labels -->
-        <text x="${(ML+PW/2).toFixed(1)}" y="${H-4}" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-size="10" font-family="Inter,sans-serif">Intervención Estatal →</text>
-        <text transform="rotate(-90)" x="${-(MT+PH/2).toFixed(1)}" y="11" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-size="10" font-family="Inter,sans-serif">Sujeto Protegido →</text>
+        <text x="${(ML+PW/2).toFixed(1)}" y="${H-4}" text-anchor="middle" fill="rgba(0,0,0,0.5)" font-size="10" font-family="Inter,sans-serif">Intervención Estatal →</text>
+        <text transform="rotate(-90)" x="${-(MT+PH/2).toFixed(1)}" y="11" text-anchor="middle" fill="rgba(0,0,0,0.5)" font-size="10" font-family="Inter,sans-serif">Sujeto Protegido →</text>
         <!-- Dots -->
         ${dots}
       </svg>
