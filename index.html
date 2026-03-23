@@ -700,7 +700,7 @@
                 try {
                     const iaResp = await fetch('bills_data.json');
                     const iaData = await iaResp.json();
-                    const iaTotal = (iaData.bills || []).length;
+                    const iaTotal = (iaData.bills || []).filter(b => String(b.dashboard || '').toUpperCase() !== 'NO').length;
                     document.getElementById('stat-ia').textContent = iaTotal;
                     document.getElementById('card-ia-total').textContent = iaTotal;
                 } catch(e) {
