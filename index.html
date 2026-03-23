@@ -6,38 +6,56 @@
 <title>ProyectosCyT · Inteligencia Legislativa Argentina</title>
 <meta name="description" content="Dashboard interactivo de proyectos de ley del Congreso Argentino sobre inteligencia artificial">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+/* ── NECO FONT ───────────────────────────── */
+@font-face {
+  font-family: 'Neco';
+  src: url('fonts/Neco-Variable.woff2') format('woff2'),
+       url('fonts/Neco-Variable.woff') format('woff');
+  font-weight: 400 900;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Neco';
+  src: url('fonts/Neco-VariableItalic.woff2') format('woff2'),
+       url('fonts/Neco-VariableItalic.woff') format('woff');
+  font-weight: 400 900;
+  font-display: swap;
+  font-style: italic;
+}
+
 /* ── TOKENS ─────────────────────────────── */
 :root {
-  --bg:     #080808;
-  --s1:     #111111;
-  --s2:     #181818;
-  --s3:     #1e1e1e;
-  --border: rgba(255,255,255,0.07);
-  --text:   #f0f0f0;
-  --muted:  #6b7280;
-  --lime:   #aaff00;
-  --blue:   #00d4ff;
-  --violet: #8b5cf6;
-  --pink:   #ff2d78;
+  --bg:     #f5f0e8;
+  --s1:     #ede8df;
+  --s2:     #e5dfd4;
+  --s3:     #ddd7cc;
+  --border: rgba(0,0,0,0.1);
+  --text:   #1c1917;
+  --muted:  #78716c;
+  --lime:   #2d6a2d;
+  --blue:   #1a4a8a;
+  --violet: #6d28d9;
+  --pink:   #be123c;
   --r:      20px;
   --rsm:    12px;
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
 html { scroll-behavior:smooth }
-body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; overflow-x:hidden }
+body { background:var(--bg); color:var(--text); font-family:'Neco',sans-serif; overflow-x:hidden }
 a { color:inherit; text-decoration:none }
 ::-webkit-scrollbar { width:5px }
 ::-webkit-scrollbar-track { background:var(--bg) }
-::-webkit-scrollbar-thumb { background:#222; border-radius:3px }
+::-webkit-scrollbar-thumb { background:#c0b5a0; border-radius:3px }
 
 /* ── ANIMATIONS ─────────────────────────── */
 @keyframes fadeUp   { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
 @keyframes pulse    { 0%,100%{opacity:1} 50%{opacity:.4} }
 @keyframes ticker   { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-@keyframes glowLime { 0%,100%{box-shadow:0 0 20px rgba(170,255,0,.15)} 50%{box-shadow:0 0 40px rgba(170,255,0,.3)} }
-@keyframes borderLime { 0%,100%{border-color:rgba(170,255,0,.2)} 50%{border-color:rgba(170,255,0,.45)} }
+@keyframes glowLime { 0%,100%{box-shadow:0 0 20px rgba(45,106,45,.12)} 50%{box-shadow:0 0 40px rgba(45,106,45,.22)} }
+@keyframes borderLime { 0%,100%{border-color:rgba(45,106,45,.2)} 50%{border-color:rgba(45,106,45,.45)} }
 
 /* card swing in */
 @keyframes swingIA {
@@ -69,7 +87,7 @@ a { color:inherit; text-decoration:none }
 /* ── NAV ────────────────────────────────── */
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
-  background:rgba(8,8,8,.85); border-bottom:1px solid var(--border);
+  background:rgba(245,240,232,.92); border-bottom:1px solid var(--border);
   backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
 }
 .nav-inner {
@@ -79,25 +97,25 @@ nav {
 .nav-logo { display:flex; align-items:center; gap:10px }
 .nav-logo-icon {
   width:36px; height:36px; border-radius:10px;
-  background:linear-gradient(135deg,var(--lime),#44ff88);
+  background:linear-gradient(135deg,var(--lime),#4a8f4a);
   display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:16px; color:#000; font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:16px; color:#fff; font-family:'Neco',sans-serif;
 }
-.nav-logo-text { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700; letter-spacing:-.3px }
+.nav-logo-text { font-family:'Neco',sans-serif; font-size:18px; font-weight:700; letter-spacing:-.3px }
 .nav-badge {
   font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted);
   background:var(--s2); border:1px solid var(--border); padding:4px 10px; border-radius:20px; display:none;
 }
 @media(min-width:640px){ .nav-badge{display:block} }
 .nav-cta {
-  background:var(--lime); color:#000; font-weight:700; font-size:13px;
+  background:var(--lime); color:#fff; font-weight:700; font-size:13px;
   padding:8px 18px; border-radius:var(--rsm); border:none; cursor:pointer;
-  transition:opacity .2s,transform .15s; font-family:'Space Grotesk',sans-serif; display:inline-block;
+  transition:opacity .2s,transform .15s; font-family:'Neco',sans-serif; display:inline-block;
 }
 .nav-cta:hover { opacity:.85; transform:translateY(-1px) }
 .nav-links{display:flex;align-items:center;gap:8px}
-.nav-cta-ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.15)}
-.nav-cta-ghost:hover{border-color:rgba(0,212,255,.45);color:var(--blue)}
+.nav-cta-ghost{background:transparent;color:var(--text);border:1px solid rgba(0,0,0,.2)}
+.nav-cta-ghost:hover{border-color:var(--blue);color:var(--blue)}
 
 /* ── HERO ────────────────────────────────── */
 .hero {
@@ -113,14 +131,14 @@ nav {
 .hero-bg {
   position:fixed; inset:0; pointer-events:none; z-index:0;
   background:
-    radial-gradient(ellipse 55% 45% at 70% 40%, rgba(0,212,255,.04) 0%, transparent 65%),
-    radial-gradient(ellipse 40% 35% at 30% 60%, rgba(139,92,246,.04) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 30% at 50% 0%,  rgba(170,255,0,.04) 0%, transparent 60%);
+    radial-gradient(ellipse 55% 45% at 70% 40%, rgba(26,74,138,.05) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 35% at 30% 60%, rgba(109,40,217,.04) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 30% at 50% 0%,  rgba(45,106,45,.04) 0%, transparent 60%);
 }
 /* subtle dot grid */
 .hero-bg::after {
   content:''; position:absolute; inset:0;
-  background-image:radial-gradient(circle, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-image:radial-gradient(circle, rgba(0,0,0,.07) 1px, transparent 1px);
   background-size:32px 32px; opacity:.4;
 }
 
@@ -139,15 +157,15 @@ nav {
   opacity:.45;
 }
 .bg-boxes-grid span{
-  border:1px solid rgba(148,163,184,.16);
-  background:rgba(15,23,42,.28);
+  border:1px solid rgba(0,0,0,.07);
+  background:rgba(0,0,0,.03);
   border-radius:8px;
   animation:boxFloat var(--dur,7s) ease-in-out infinite;
   animation-delay:var(--delay,0s);
 }
 .bg-boxes-mask{
   position:absolute; inset:0;
-  background:rgba(8,8,8,.62);
+  background:rgba(245,240,232,.68);
   mask-image:radial-gradient(circle at 50% 40%, transparent 0 22%, white 60%);
   -webkit-mask-image:radial-gradient(circle at 50% 40%, transparent 0 22%, white 60%);
 }
@@ -159,31 +177,31 @@ nav {
 .hero-left { position:relative; z-index:1 }
 .hero-eyebrow {
   display:inline-flex; align-items:center; gap:8px;
-  background:rgba(170,255,0,.06); border:1px solid rgba(170,255,0,.18);
+  background:rgba(45,106,45,.07); border:1px solid rgba(45,106,45,.22);
   padding:6px 14px; border-radius:50px;
   font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--lime); letter-spacing:.5px;
   margin-bottom:24px; animation:borderLime 3s ease infinite;
 }
 .hero-eyebrow .dot { width:6px; height:6px; border-radius:50%; background:var(--lime); animation:pulse 2s infinite }
 .hero-h1 {
-  font-family:'Space Grotesk',sans-serif;
+  font-family:'Neco',sans-serif;
   font-size:clamp(44px, 7vw, 88px);
   font-weight:700; letter-spacing:-3px; line-height:.92; margin-bottom:20px;
 }
 .hero-h1 .lime { color:var(--lime) }
-.hero-h1 .dim  { color:rgba(240,240,240,.2) }
+.hero-h1 .dim  { color:rgba(28,25,23,.2) }
 .hero-sub {
   font-size:clamp(15px,1.6vw,18px); color:var(--muted);
   max-width:440px; line-height:1.65; margin-bottom:36px;
 }
-.hero-sub strong { color:rgba(240,240,240,.75) }
+.hero-sub strong { color:rgba(28,25,23,.85) }
 @media(max-width:900px){ .hero-sub { margin:0 auto 36px } }
 .hero-btn-row { display:flex; gap:12px; flex-wrap:wrap }
 @media(max-width:900px){ .hero-btn-row { justify-content:center } }
 .btn-primary {
-  background:var(--lime); color:#000; font-weight:700; font-size:14px;
+  background:var(--lime); color:#fff; font-weight:700; font-size:14px;
   padding:12px 24px; border-radius:var(--rsm); border:none; cursor:pointer;
-  font-family:'Space Grotesk',sans-serif; transition:opacity .2s,transform .15s;
+  font-family:'Neco',sans-serif; transition:opacity .2s,transform .15s;
   display:inline-flex; align-items:center; gap:8px;
   animation:glowLime 3s ease infinite;
 }
@@ -191,15 +209,15 @@ nav {
 .btn-ghost {
   background:transparent; color:var(--text); font-weight:500; font-size:14px;
   padding:12px 24px; border-radius:var(--rsm); border:1px solid var(--border); cursor:pointer;
-  font-family:'Space Grotesk',sans-serif; transition:all .2s; display:inline-flex; align-items:center; gap:8px;
+  font-family:'Neco',sans-serif; transition:all .2s; display:inline-flex; align-items:center; gap:8px;
 }
-.btn-ghost:hover { border-color:rgba(255,255,255,.25); background:rgba(255,255,255,.03) }
+.btn-ghost:hover { border-color:rgba(0,0,0,.25); background:rgba(0,0,0,.04) }
 
 /* ── IMPACTO 360° strip ───────────────────── */
 .impact-strip {
   margin-top:36px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
+  background:rgba(0,0,0,.04);
+  border:1px solid rgba(0,0,0,.1);
   border-radius:16px;
   padding:18px 20px;
   max-width:480px;
@@ -215,14 +233,14 @@ nav {
 @media(max-width:900px){ .impact-grid { grid-template-columns:repeat(4,1fr) } }
 .impact-cell {
   display:flex; flex-direction:column; align-items:center; gap:4px;
-  background:rgba(255,255,255,.04); border-radius:10px;
+  background:rgba(0,0,0,.04); border-radius:10px;
   padding:10px 6px; border:1px solid transparent;
   transition:border-color .2s;
 }
-.impact-cell:hover { border-color:rgba(170,255,0,.25) }
+.impact-cell:hover { border-color:rgba(45,106,45,.3) }
 .impact-icon { font-size:18px; line-height:1 }
 .impact-count {
-  font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:700;
+  font-family:'Neco',sans-serif; font-size:18px; font-weight:700;
   color:var(--lime); line-height:1;
 }
 .impact-lbl {
@@ -233,8 +251,9 @@ nav {
 /* ── LANYARD CARDS ───────────────────────── */
 .hero-right {
   position:relative; z-index:1;
-  display:flex; align-items:flex-start; justify-content:center; gap:20px;
-  padding-top:60px; /* room for cords */
+  display:flex; align-items:flex-end; justify-content:center; gap:12px;
+  padding-top:40px;
+  overflow:clip;
 }
 
 /* cord container */
@@ -246,12 +265,11 @@ nav {
 /* SVG cord */
 .cord-svg {
   display:block; width:32px; height:80px; flex-shrink:0;
-  overflow:visible;
+  overflow:hidden;
 }
 
 /* card body */
 .lcard {
-  width:210px;
   background:var(--s2);
   border-radius:16px;
   border:1px solid var(--border);
@@ -260,6 +278,31 @@ nav {
   will-change:transform;
   position:relative;
 }
+/* CyT = parent → bigger */
+.lcard.large { width:240px }
+/* IA = subset → smaller */
+.lcard.small { width:185px }
+
+/* "contiene" tag on CyT */
+.card-contains {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:9.5px; font-weight:700; letter-spacing:.4px;
+  padding:4px 9px; border-radius:20px; margin-top:10px;
+  background:rgba(109,40,217,.08); color:var(--violet);
+  border:1px solid rgba(109,40,217,.22);
+  font-family:'JetBrains Mono',monospace;
+}
+/* "subconjunto" tag on IA */
+.card-subset {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:9px; font-weight:700; letter-spacing:.3px;
+  padding:3px 8px; border-radius:20px; margin-bottom:8px;
+  background:rgba(109,40,217,.06); color:var(--violet);
+  border:1px solid rgba(109,40,217,.18);
+  font-family:'JetBrains Mono',monospace;
+}
+
+/* no connector needed — hierarchy communicated via card size + badges */
 /* transform-origin at the top-center for swing pivot */
 .lanyard-wrap { transform-origin:top center }
 
@@ -277,7 +320,7 @@ nav {
 }
 .card-hole-circle {
   width:18px; height:18px; border-radius:50%;
-  border:2px solid rgba(255,255,255,.15);
+  border:2px solid rgba(0,0,0,.15);
   background:var(--bg);
 }
 
@@ -295,18 +338,18 @@ nav {
 }
 .card-logo-icon {
   width:28px; height:28px; border-radius:8px;
-  background:linear-gradient(135deg,var(--lime),#44ff88);
+  background:linear-gradient(135deg,var(--lime),#4a8f4a);
   display:flex; align-items:center; justify-content:center;
-  font-size:13px; font-weight:700; color:#000; font-family:'Space Grotesk',sans-serif;
+  font-size:13px; font-weight:700; color:#fff; font-family:'Neco',sans-serif;
 }
 .card-logo-name {
-  font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; letter-spacing:-.2px;
+  font-family:'Neco',sans-serif; font-size:14px; font-weight:700; letter-spacing:-.2px;
 }
 .card-divider { height:1px; background:var(--border); margin-bottom:16px }
 
 .card-emoji { font-size:34px; line-height:1; margin-bottom:10px; display:block }
 .card-title {
-  font-family:'Space Grotesk',sans-serif; font-size:16px; font-weight:700;
+  font-family:'Neco',sans-serif; font-size:16px; font-weight:700;
   line-height:1.2; margin-bottom:4px; letter-spacing:-.3px;
 }
 .card-count { font-size:11px; color:var(--muted); margin-bottom:18px }
@@ -317,13 +360,13 @@ nav {
   padding:5px 10px; border-radius:20px;
   font-family:'JetBrains Mono',monospace;
 }
-.card-badge.blue   { background:rgba(0,212,255,.12);  color:var(--blue);   border:1px solid rgba(0,212,255,.2) }
-.card-badge.violet { background:rgba(139,92,246,.12); color:var(--violet); border:1px solid rgba(139,92,246,.2) }
+.card-badge.blue   { background:rgba(26,74,138,.08);  color:var(--blue);   border:1px solid rgba(26,74,138,.2) }
+.card-badge.violet { background:rgba(109,40,217,.08); color:var(--violet); border:1px solid rgba(109,40,217,.2) }
 
 .card-footer {
   padding:10px 20px 14px; border-top:1px solid var(--border);
   display:flex; justify-content:space-between; align-items:center;
-  background:rgba(0,0,0,.2); position:relative; z-index:1;
+  background:rgba(0,0,0,.06); position:relative; z-index:1;
 }
 .card-footer-label {
   font-family:'JetBrains Mono',monospace; font-size:9px;
@@ -370,7 +413,7 @@ nav {
   letter-spacing:.8px; text-transform:uppercase; margin-bottom:12px;
 }
 .section-title {
-  font-family:'Space Grotesk',sans-serif; font-size:clamp(26px,4vw,40px);
+  font-family:'Neco',sans-serif; font-size:clamp(26px,4vw,40px);
   font-weight:700; letter-spacing:-.5px; margin-bottom:8px;
 }
 .section-sub { font-size:15px; color:var(--muted); max-width:460px; line-height:1.65; margin-bottom:40px }
@@ -385,8 +428,8 @@ nav {
 .portal::before {
   content:''; position:absolute; inset:0; opacity:0; transition:opacity .2s;
 }
-.portal.ia::before  { background:radial-gradient(ellipse at top left, rgba(0,212,255,.08), transparent 60%) }
-.portal.tech::before{ background:radial-gradient(ellipse at top left, rgba(139,92,246,.08), transparent 60%) }
+.portal.ia::before  { background:radial-gradient(ellipse at top left, rgba(26,74,138,.06), transparent 60%) }
+.portal.tech::before{ background:radial-gradient(ellipse at top left, rgba(109,40,217,.06), transparent 60%) }
 .portal:hover { transform:translateY(-3px) }
 .portal.ia:hover   { border-color:rgba(0,212,255,.4) }
 .portal.tech:hover { border-color:rgba(139,92,246,.4) }
@@ -401,7 +444,7 @@ nav {
 .portal.ia:hover .portal-arrow-btn   { border-color:var(--blue); color:var(--blue); transform:translateX(3px) }
 .portal.tech:hover .portal-arrow-btn { border-color:var(--violet); color:var(--violet); transform:translateX(3px) }
 .portal-name {
-  font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; margin-bottom:6px;
+  font-family:'Neco',sans-serif; font-size:20px; font-weight:700; margin-bottom:6px;
 }
 .portal.ia   .portal-name { color:var(--blue) }
 .portal.tech .portal-name { color:var(--violet) }
@@ -411,11 +454,11 @@ nav {
   font-size:11px; font-weight:600; letter-spacing:.3px; padding:3px 9px; border-radius:20px;
   font-family:'JetBrains Mono',monospace;
 }
-.pill.blue   { background:rgba(0,212,255,.1);  color:var(--blue);   border:1px solid rgba(0,212,255,.2) }
-.pill.violet { background:rgba(139,92,246,.1); color:var(--violet); border:1px solid rgba(139,92,246,.2) }
+.pill.blue   { background:rgba(26,74,138,.08);  color:var(--blue);   border:1px solid rgba(26,74,138,.2) }
+.pill.violet { background:rgba(109,40,217,.08); color:var(--violet); border:1px solid rgba(109,40,217,.2) }
 .portal-count {
   position:absolute; bottom:18px; right:22px;
-  font-family:'Space Grotesk',sans-serif; font-size:11px; color:var(--muted); text-align:right;
+  font-family:'Neco',sans-serif; font-size:11px; color:var(--muted); text-align:right;
 }
 .portal-count strong { font-size:24px; font-weight:700; display:block; line-height:1 }
 .portal.ia   .portal-count strong { color:var(--blue) }
@@ -427,17 +470,17 @@ nav {
   background:var(--s1); border:1px solid var(--border); border-radius:var(--r); padding:26px;
   transition:border-color .2s;
 }
-.feat:hover { border-color:rgba(255,255,255,.14) }
+.feat:hover { border-color:rgba(0,0,0,.18) }
 .feat-icon {
   width:46px; height:46px; border-radius:13px;
   display:flex; align-items:center; justify-content:center;
   font-size:21px; margin-bottom:14px; border:1px solid var(--border);
 }
-.feat-icon.lime   { background:rgba(170,255,0,.08);  border-color:rgba(170,255,0,.15) }
-.feat-icon.blue   { background:rgba(0,212,255,.08);  border-color:rgba(0,212,255,.15) }
-.feat-icon.violet { background:rgba(139,92,246,.08); border-color:rgba(139,92,246,.15) }
-.feat-icon.pink   { background:rgba(255,45,120,.08); border-color:rgba(255,45,120,.15) }
-.feat h3 { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:600; margin-bottom:7px }
+.feat-icon.lime   { background:rgba(45,106,45,.08);  border-color:rgba(45,106,45,.2) }
+.feat-icon.blue   { background:rgba(26,74,138,.08);  border-color:rgba(26,74,138,.18) }
+.feat-icon.violet { background:rgba(109,40,217,.08); border-color:rgba(109,40,217,.18) }
+.feat-icon.pink   { background:rgba(190,18,60,.08);  border-color:rgba(190,18,60,.18) }
+.feat h3 { font-family:'Neco',sans-serif; font-size:15px; font-weight:600; margin-bottom:7px }
 .feat p  { font-size:13px; color:var(--muted); line-height:1.6 }
 
 .divider { height:1px; background:var(--border); max-width:1100px; margin:0 auto }
@@ -450,11 +493,11 @@ nav {
 }
 .cta-box::before {
   content:''; position:absolute; inset:0;
-  background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(170,255,0,.05), transparent 70%);
+  background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(45,106,45,.06), transparent 70%);
   pointer-events:none;
 }
 .cta-box h2 {
-  font-family:'Space Grotesk',sans-serif; font-size:clamp(24px,4vw,38px);
+  font-family:'Neco',sans-serif; font-size:clamp(24px,4vw,38px);
   font-weight:700; letter-spacing:-.5px; margin-bottom:12px;
 }
 .cta-box p { font-size:15px; color:var(--muted); margin-bottom:30px; line-height:1.65 }
@@ -466,17 +509,16 @@ footer { border-top:1px solid var(--border); padding:32px 24px; text-align:cente
 .footer-logo { display:flex; align-items:center; gap:10px; justify-content:center; margin-bottom:18px }
 .footer-logo-icon {
   width:32px; height:32px; border-radius:9px;
-  background:linear-gradient(135deg,var(--lime),#44ff88);
+  background:linear-gradient(135deg,var(--lime),#4a8f4a);
   display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:13px; color:#000; font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:13px; color:#fff; font-family:'Neco',sans-serif;
 }
-.footer-logo-text { font-family:'Space Grotesk',sans-serif; font-size:15px; font-weight:700 }
+.footer-logo-text { font-family:'Neco',sans-serif; font-size:15px; font-weight:700 }
 .footer-links { display:flex; gap:22px; justify-content:center; flex-wrap:wrap; margin-bottom:14px }
 .footer-links a { font-size:13px; color:var(--muted); transition:color .2s }
 .footer-links a:hover { color:var(--text) }
 .footer-copy { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted) }
 </style>
-<link rel="stylesheet" href="smooth-cursor.css">
 </head>
 <body>
 
@@ -515,79 +557,25 @@ footer { border-top:1px solid var(--border); padding:32px 24px; text-align:cente
         <span class="lime">Lex</span><span class="dim">AR</span>
       </h1>
       <p class="hero-sub anim d3">
-        Dashboard de <strong>inteligencia legislativa</strong> sobre proyectos de ley de
-        Inteligencia Artificial en el Congreso Argentino — datos reales, <span id="heroYearRangeText">2025</span>.
+        Plataforma de <strong>inteligencia legislativa</strong> de todos los proyectos presentados en la comisión de ciencia y tecnología, junto con un análisis especial de los proyectos IA presentados.
       </p>
-      <div class="hero-btn-row anim d4">
-        <a href="dashboard.html" class="btn-primary">Ver dashboard →</a>
-        <a href="dashboard-cyt.html" class="btn-ghost">Ciencia y Tecnología →</a>
-      </div>
+
     </div>
 
     <!-- RIGHT: lanyard cards -->
     <div class="hero-right anim d3">
 
-      <!-- IA Card -->
-      <div class="lanyard-wrap ia" id="lanyardIA" onclick="window.location.href='dashboard.html'" title="Ir al dashboard de Inteligencia Artificial">
-
-        <!-- cord SVG -->
-        <svg class="cord-svg" viewBox="0 0 32 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- clip to panel top -->
-          <rect x="12" y="0" width="8" height="6" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-          <!-- rope -->
-          <path d="M16 6 C14 20, 18 40, 16 80" class="cord-ia" stroke-width="1.5" stroke-linecap="round"/>
-          <!-- highlight -->
-          <path d="M16 6 C14.5 20, 17.5 40, 16 80" stroke="rgba(255,255,255,0.07)" stroke-width=".8" stroke-linecap="round"/>
-          <!-- hook ring -->
-          <circle cx="16" cy="6" r="3.5" class="cord-ia" stroke-width="1.5" fill="none"/>
-        </svg>
-
-        <div class="lcard" id="cardIA">
-          <!-- pattern overlay -->
-          <svg class="card-pattern" viewBox="0 0 210 340" preserveAspectRatio="xMidYMid slice">
-            <defs>
-              <pattern id="chevIA" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-                <polyline points="0,20 20,0 40,20 20,40 0,20" fill="none" stroke="white" stroke-width="1"/>
-              </pattern>
-            </defs>
-            <rect width="210" height="340" fill="url(#chevIA)"/>
-          </svg>
-
-          <!-- hole -->
-          <div class="card-hole"><div class="card-hole-circle"></div></div>
-
-          <!-- body -->
-          <div class="card-body">
-            <span class="card-emoji">🤖</span>
-            <div class="card-title" style="color:var(--blue)">Inteligencia<br>Artificial</div>
-            <div class="card-count" id="cardCountIA">22 proyectos · Comisión Diputados</div>
-            <span class="card-badge blue">→ EXPLORAR</span>
-          </div>
-
-          <!-- footer -->
-          <div class="card-footer">
-            <span class="card-footer-label">Comisión Tech · <span id="cardYearRange">2025</span></span>
-            <span class="card-footer-arrow">↗</span>
-          </div>
-        </div>
-
-        <div class="card-hint">clic para explorar</div>
-      </div>
-
-      <!-- CyT Card -->
+      <!-- CyT Card — PARENT (larger) -->
       <div class="lanyard-wrap tech" id="lanyardTech" onclick="window.location.href='dashboard-cyt.html'" title="Ir al dashboard de Ciencia y Tecnología">
-
-        <!-- cord SVG -->
         <svg class="cord-svg" viewBox="0 0 32 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="12" y="0" width="8" height="6" rx="2" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <rect x="12" y="0" width="8" height="6" rx="2" fill="rgba(0,0,0,0.08)" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>
           <path d="M16 6 C18 20, 14 40, 16 80" class="cord-tech" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M16 6 C17.5 20, 14.5 40, 16 80" stroke="rgba(255,255,255,0.07)" stroke-width=".8" stroke-linecap="round"/>
+          <path d="M16 6 C17.5 20, 14.5 40, 16 80" stroke="rgba(0,0,0,0.12)" stroke-width=".8" stroke-linecap="round"/>
           <circle cx="16" cy="6" r="3.5" class="cord-tech" stroke-width="1.5" fill="none"/>
         </svg>
 
-        <div class="lcard" id="cardTech">
-          <!-- pattern overlay -->
-          <svg class="card-pattern" viewBox="0 0 210 340" preserveAspectRatio="xMidYMid slice">
+        <div class="lcard large" id="cardTech">
+          <svg class="card-pattern" viewBox="0 0 240 360" preserveAspectRatio="xMidYMid slice">
             <defs>
               <pattern id="chevTech" x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse">
                 <circle cx="18" cy="18" r="8" fill="none" stroke="white" stroke-width="1"/>
@@ -597,28 +585,59 @@ footer { border-top:1px solid var(--border); padding:32px 24px; text-align:cente
                 <circle cx="36" cy="36" r="8" fill="none" stroke="white" stroke-width="1"/>
               </pattern>
             </defs>
-            <rect width="210" height="340" fill="url(#chevTech)"/>
+            <rect width="240" height="360" fill="url(#chevTech)"/>
           </svg>
-
-          <!-- hole -->
           <div class="card-hole"><div class="card-hole-circle"></div></div>
-
-          <!-- body -->
           <div class="card-body">
             <span class="card-emoji">🔬</span>
             <div class="card-title" style="color:var(--violet)">Ciencia y<br>Tecnología</div>
             <div class="card-count" id="cardCountCyT">Proyectos · Comisión Diputados</div>
-            <span class="card-badge violet">→ EXPLORAR</span>
+            <!-- indica que IA es un subconjunto -->
+            <span class="card-contains">⊃ incluye IA</span><br>
+            <span class="card-badge violet" style="margin-top:10px">→ EXPLORAR</span>
           </div>
-
-          <!-- footer -->
           <div class="card-footer">
             <span class="card-footer-label">Comisión CyT · <span id="cardYearRangeCyT">2019-2026</span></span>
             <span class="card-footer-arrow">↗</span>
           </div>
         </div>
+        <div class="card-hint">categoría principal</div>
+      </div>
 
-        <div class="card-hint">clic para explorar</div>
+
+      <!-- IA Card — SUBSET (smaller) -->
+      <div class="lanyard-wrap ia" id="lanyardIA" onclick="window.location.href='dashboard.html'" title="Ir al dashboard de Inteligencia Artificial">
+        <svg class="cord-svg" viewBox="0 0 32 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="0" width="8" height="6" rx="2" fill="rgba(0,0,0,0.08)" stroke="rgba(0,0,0,0.18)" stroke-width="1"/>
+          <path d="M16 6 C14 20, 18 40, 16 80" class="cord-ia" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 6 C14.5 20, 17.5 40, 16 80" stroke="rgba(0,0,0,0.12)" stroke-width=".8" stroke-linecap="round"/>
+          <circle cx="16" cy="6" r="3.5" class="cord-ia" stroke-width="1.5" fill="none"/>
+        </svg>
+
+        <div class="lcard small" id="cardIA">
+          <svg class="card-pattern" viewBox="0 0 185 320" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <pattern id="chevIA" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+                <polyline points="0,20 20,0 40,20 20,40 0,20" fill="none" stroke="white" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="185" height="320" fill="url(#chevIA)"/>
+          </svg>
+          <div class="card-hole"><div class="card-hole-circle"></div></div>
+          <div class="card-body" style="padding:16px 16px 12px">
+            <!-- indica que pertenece a CyT -->
+            <span class="card-subset">↳ parte de CyT</span>
+            <span class="card-emoji" style="font-size:28px">🤖</span>
+            <div class="card-title" style="color:var(--blue);font-size:14px">Inteligencia<br>Artificial</div>
+            <div class="card-count" id="cardCountIA" style="font-size:10px">22 proyectos</div>
+            <span class="card-badge blue" style="font-size:9px;padding:4px 8px;margin-top:8px">→ EXPLORAR</span>
+          </div>
+          <div class="card-footer" style="padding:8px 14px 10px">
+            <span class="card-footer-label" style="font-size:8px">Tech · <span id="cardYearRange">2025</span></span>
+            <span class="card-footer-arrow">↗</span>
+          </div>
+        </div>
+        <div class="card-hint">subconjunto de CyT</div>
       </div>
 
     </div><!-- /hero-right -->
@@ -749,13 +768,13 @@ async function syncLandingCopyFromData() {
 /* ── Init ─── */
 window.addEventListener('DOMContentLoaded', () => {
   initBackgroundBoxes();
-  initTilt('lanyardIA',   'cardIA');
   initTilt('lanyardTech', 'cardTech');
-  startIdle('lanyardIA',   1600);
-  startIdle('lanyardTech', 1800);
+  initTilt('lanyardIA',   'cardIA');
+  startIdle('lanyardTech', 1700);
+  startIdle('lanyardIA',   1950);
   syncLandingCopyFromData();
 });
 </script>
-<script src="smooth-cursor.js"></script>
+
 </body>
 </html>

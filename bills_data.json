@@ -382,7 +382,7 @@
       "resumen": "Crea una comisión bicameral multisectorial integrada por legisladores, Poder Ejecutivo, ONG, CONICET y empresas para estudiar alternativas regulatorias de IA y elaborar un proyecto de ley en 365 días.",
       "expediente": "3654/2024",
       "tipo": "CREA ORGANOS",
-      "dashboard": "SI",
+      "dashboard": "NO",
       "pdf_path": "./3654-D-2024.pdf"
     },
     {
@@ -849,7 +849,7 @@
     },
     {
       "id": "0004-D-2026",
-      "titulo": "Presupuestos Mínimos para la Promoción del desarrollo de la Inteligencia Artificial (IA) en la República Argentina",
+      "titulo": "Presupuestos Mínimos para la Promoción del desarrollo de la Inteligencia Artificial (IA) en la República Argentina (primer giro: Legislación General)",
       "autores": [
         "GIUDICI, SILVANA"
       ],
@@ -893,7 +893,7 @@
       "resumen": "Sanciona penalmente la generación, manipulación y publicación de deepfakes sin consentimiento, con penas agravadas para casos que afecten a menores de edad o causas electorales.",
       "expediente": "0005/2026",
       "tipo": "DEEPFAKE Y SIMILARES",
-      "dashboard": "SI",
+      "dashboard": "NO",
       "pdf_path": "./Mateo proyectos/0005-D-2026.pdf"
     },
     {

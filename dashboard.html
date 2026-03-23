@@ -363,6 +363,23 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 .year-pie-left{display:flex;align-items:center;gap:8px;color:var(--muted)}
 .year-pie-dot{width:10px;height:10px;border-radius:999px}
 .year-pie-count{font-weight:700;color:var(--text)}
+.outside-cyt-note{
+  margin:-10px 0 24px;
+  background:var(--surface);
+  border:1px dashed rgba(0,0,0,.22);
+  border-radius:14px;
+  padding:12px 14px;
+  font-size:13px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:all .18s;
+}
+.outside-cyt-note strong{color:var(--text)}
+.outside-cyt-note:hover{
+  border-color:rgba(45,106,45,.45);
+  color:var(--text);
+  transform:translateY(-1px);
+}
 
 /* Tabla simple de proyectos */
 .simple-table-wrap{
@@ -848,6 +865,7 @@ tr:hover{background:var(--surface2)}
   .year-pie-wrap{padding:14px}
   #yearPieCanvas,#tipoProyectoPieCanvas{width:160px;height:160px}
   .year-pie-title,.simple-table-title{font-size:16px}
+  .outside-cyt-note{margin:-6px 0 18px;padding:11px 12px;font-size:12px}
   .simple-table{font-size:11px}
   .simple-table thead th,.simple-table tbody td{padding:8px}
   .carousel-btn{width:34px;height:34px;font-size:18px}
@@ -878,7 +896,6 @@ tr:hover{background:var(--surface2)}
 }
 </style>
 
-<link rel="stylesheet" href="smooth-cursor.css">
 </head>
 <body>
 
@@ -990,6 +1007,11 @@ tr:hover{background:var(--surface2)}
       <div class="year-pie-legend" id="tipoProyectoPieLegend"></div>
     </div>
   </div>
+</div>
+
+<div class="outside-cyt-note anim d3" onclick="openOutsideCytModal()">
+  <strong>Hay 7 proyectos de ley vinculados a IA que no tramitan en la Comisión de Ciencia y Tecnología.</strong>
+  Ver detalle (estos proyectos no se incluyen en el conteo de 33).
 </div>
 
 <!-- ════════════════════════════════════════════════════════
@@ -1356,6 +1378,15 @@ const DEFAULT_EVIDENCE = [
   'Sin evidencia textual cargada para este eje.',
   'Sin evidencia textual cargada para este eje',
 ];
+const OUTSIDE_CYT_BILLS = [
+  { id:'0005-D-2026', año:2026, tipo:'DEEPFAKE Y SIMILARES', autor:'GIUDICI, SILVANA', bloque:'La Libertad Avanza', nota:'NO ESTÁ EN CIENCIA Y TECNOLOGÍA', pdf:'./Mateo proyectos/0005-D-2026.pdf' },
+  { id:'3654-D-2024', año:2024, tipo:'CREA ORGANOS', autor:'FEIN, MONICA', bloque:'Sin bloque', nota:'NO ESTÁ EN CIENCIA Y TECNOLOGÍA', pdf:'./3654-D-2024.pdf' },
+  { id:'4080-D-2025', año:2025, tipo:'DEEPFAKE Y SIMILARES', autor:'AGOST CARREÑO, OSCAR', bloque:'PRO', nota:'NO ESTÁ EN CIENCIA Y TECNOLOGÍA', pdf:'./4080-D-2025.pdf' },
+  { id:'4410-D-2023', año:2023, tipo:'DEEPFAKE Y SIMILARES', autor:'MILMAN, GERARDO', bloque:'PRO', nota:'NO ESTÁ EN CIENCIA Y TECNOLOGÍA', pdf:'./4410-D-2023.pdf' },
+  { id:'4411-D-2023', año:2023, tipo:'DEEPFAKE Y SIMILARES', autor:'MILMAN, GERARDO', bloque:'PRO', nota:'NO ESTÁ EN CIENCIA Y TECNOLOGÍA', pdf:'./4411-D-2023.pdf' },
+  { id:'4436-D-2023', año:2023, tipo:'DEEPFAKE Y SIMILARES', autor:'LOSPENNATO, SILVIA GABRIELA', bloque:'PRO', nota:'NO ESTÁ EN CIENCIA Y TECNOLOGÍA', pdf:'./4436-D-2023.pdf' },
+  { id:'5327-D-2024', año:2024, tipo:'DEEPFAKE Y SIMILARES', autor:'BORNORONI, GABRIEL', bloque:'LLA', nota:'NO ESTÁ EN CIENCIA Y TECNOLOGÍA', pdf:'./5327-D-2024.pdf' },
+];
 
 function getYearRange(items=BILLS) {
   if(!items.length) return '2019-2026';
@@ -1420,7 +1451,7 @@ async function loadData() {
   try {
     const billsResp = await fetch('./bills_data.json');
     const d = await billsResp.json();
-    BILLS = d.bills || [];
+    BILLS = (d.bills || []).filter(b => (b.dashboard || 'SI') !== 'NO');
     META  = d;
 
     BRIDGE_ANALYSIS = null;
@@ -1642,7 +1673,7 @@ const SEMAFORO_BASE = {
   verde: [
     {
       key: 'contenidos-sinteticos',
-      cardTitle: 'Deepfakes',
+      cardTitle: 'Integridad Digital y Deepfakes',
       title: 'Grado significativo de convergencia',
       summary: 'Actualmente, la Argentina no cuenta con una normativa específica en la materia y existe una multiplicidad de proyectos que abordan esta problemática de manera autónoma. La diversidad de origen partidario de estas iniciativas evidencia que se trata de una preocupación que trasciende las diferencias ideológicas. Asimismo, muchos de los proyectos de marco regulatorio general incluyen apartados específicos sobre este tema, lo que refuerza su centralidad. A ello se suma una demanda social creciente, asociada a casos concretos que hoy carecen de respuesta normativa.',
       reasons: [],
@@ -1651,7 +1682,7 @@ const SEMAFORO_BASE = {
     },
     {
       key: 'garantias-transparencia',
-      cardTitle: 'Proyectos autónomos',
+      cardTitle: 'Garantías de Transparencia y Ética',
       title: 'Definición de una serie de presupuestos mínimos',
       summary: 'Existen algunos proyectos autónomos (como, por ejemplo, el de la diputada Giudici), que proponen la definición de una serie de presupuestos mínimos que funcionen con un estándar a la hora del desarrollo y la implementación de Sistemas de Inteligencia Artificial. Si bien resulta discutible el alcance y la conveniencia de fijar estos estándares, lo cierto es que pareciera existir un punto de convergencia en torno a la posibilidad de establecer un conjunto de principios mínimos comunes, vinculados a cuestiones de transparencia, criterios éticos y protección de derechos humanos, sobre los cuales podría alcanzarse un acuerdo.',
       reasons: [],
@@ -1660,7 +1691,7 @@ const SEMAFORO_BASE = {
     },
     {
       key: 'limites-democraticos',
-      cardTitle: 'Principios comunes',
+      cardTitle: 'Límites y Resguardo Democrático',
       title: 'Inteligencia artificial de alto riesgo',
       summary: 'Se pueden observar principios comunes en la prohibición de determinados usos de la inteligencia artificial considerados de alto riesgo o incompatibles con el orden democrático, tales como los sistemas de vigilancia masiva o los esquemas de puntuación social. Si bien pueden existir diferencias en la técnica normativa para instrumentar estas prohibiciones, el consenso respecto de su inadmisibilidad es claro.',
       reasons: [],
@@ -1669,7 +1700,7 @@ const SEMAFORO_BASE = {
     },
     {
       key: 'transformacion-educativa',
-      cardTitle: 'Educación',
+      cardTitle: 'Transformación Educativa Federal',
       title: 'Sistema educativo',
       summary: 'También se identifican coincidencias relevantes en torno a la necesidad de adaptación del sistema educativo frente a la irrupción de la inteligencia artificial. En este punto contamos con una serie de proyectos autónomos que buscan discutir la adaptación del sistema a esta nueva tecnología. Es importante hacer mención en este apartado de que esta cuestión ya está siendo aplicada actualmente por varias provincias de distintos gobiernos.',
       reasons: [],
@@ -3355,6 +3386,30 @@ function closeInsightModal() {
   document.getElementById('insightModal').classList.remove('active');
 }
 
+function openOutsideCytModal() {
+  const html = `
+    <div class="modal-title">🗂️ Proyectos Vinculados a IA Fuera de CyT</div>
+    <div class="modal-subtitle">7 proyectos relacionados que no tramitan en la Comisión de Ciencia y Tecnología. No se incluyen en el conteo de 33.</div>
+    <div style="margin-top:18px">
+      ${OUTSIDE_CYT_BILLS.map(p => `
+        <div style="background:var(--surface2);padding:12px;border-radius:8px;margin-bottom:10px;border:1px solid var(--border)">
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
+            <div>
+              <div style="font-weight:700">${p.id}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:2px">${p.tipo} · ${p.año}</div>
+              <div style="font-size:12px;color:var(--text);margin-top:6px">${p.nota}</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:4px">${p.autor} · ${p.bloque}</div>
+            </div>
+            <a href="${p.pdf}" target="_blank" style="font-size:11px;font-weight:700;color:var(--lime);text-decoration:none;border:1px solid rgba(170,255,0,.35);padding:5px 10px;border-radius:999px">Ver PDF</a>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  document.getElementById('insightModalBody').innerHTML = html;
+  document.getElementById('insightModal').classList.add('active');
+}
+
 function openJustificationModal() {
   document.getElementById('justificationModal').classList.add('active');
 }
@@ -3401,6 +3456,22 @@ function setChatStatus(text='') {
   if(st) st.textContent = text;
 }
 
+function getIAChatContext() {
+  return (BILLS || []).map(b => ({
+    id: b.id,
+    expediente: b.expediente,
+    año: b.año,
+    titulo: b.titulo,
+    resumen: b.resumen,
+    tema: b.tema,
+    tipo: b.tipo,
+    dashboard: b.dashboard,
+    autor_principal: b.autor_principal,
+    bloque: b.bloque,
+    destinatarios: b.destinatarios || [],
+  }));
+}
+
 function onChatInputKeydown(event) {
   if(event.key === 'Enter' && !event.shiftKey) {
     event.preventDefault();
@@ -3425,7 +3496,11 @@ async function sendChatMessage() {
     const resp = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pregunta: question }),
+      body: JSON.stringify({
+        pregunta: question,
+        scope: 'ia',
+        contexto: getIAChatContext(),
+      }),
     });
 
     const data = await resp.json().catch(() => ({}));
@@ -3482,6 +3557,5 @@ document.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', loadData);
 </script>
 
-<script src="smooth-cursor.js"></script>
 </body>
 </html>

@@ -22,35 +22,662 @@
   font-display: swap;
   font-style: italic;
 }
-  :root { --bg:#f5f0e8; --surface:#ede8df; --border:rgba(0,0,0,.1); --text:#1c1917; --muted:#78716c; --lime:#2d6a2d; --blue:#1a4a8a; }
-  * { box-sizing:border-box; margin:0; padding:0; }
-  body { background:var(--bg); color:var(--text); font-family:'Neco',system-ui,sans-serif; }
-  .wrap { max-width:900px; margin:0 auto; padding:28px 20px 40px; }
-  .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
-  .logo { font-weight:800; letter-spacing:.2px; }
-  .logo .lex { color:var(--lime); }
-  .logo .ar { color:#8a8f99; }
-  .back { color:var(--muted); text-decoration:none; border:1px solid var(--border); border-radius:10px; padding:8px 12px; font-size:13px; }
-  .back:hover { border-color:rgba(45,106,45,.4); color:var(--lime); }
-  .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:26px; }
-  h1 { font-size:34px; line-height:1.1; margin-bottom:10px; font-weight:800; }
-  p { color:var(--muted); line-height:1.6; max-width:62ch; }
-  .tag { display:inline-block; margin-top:14px; font-size:12px; color:var(--blue); border:1px solid rgba(26,74,138,.35); border-radius:999px; padding:5px 10px; }
+
+/* ── TOKENS ────────────────────────────── */
+:root {
+  --bg:      #f5f0e8;
+  --surface: #ede8df;
+  --surface2:#e5dfd4;
+  --border:  rgba(0,0,0,.1);
+  --text:    #1c1917;
+  --muted:   #78716c;
+  --lime:    #2d6a2d;
+  --blue:    #1a4a8a;
+  --violet:  #6d28d9;
+  --radius:  16px;
+}
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
+body { background:var(--bg); color:var(--text); font-family:'Neco',system-ui,sans-serif; min-height:100vh }
+a { color:inherit; text-decoration:none }
+::-webkit-scrollbar { width:5px }
+::-webkit-scrollbar-track { background:var(--bg) }
+::-webkit-scrollbar-thumb { background:#c0b5a0; border-radius:3px }
+
+/* ── LAYOUT ────────────────────────────── */
+.app { max-width:1200px; margin:0 auto; padding:0 24px 64px }
+@media(max-width:600px) {
+  .app { padding:0 14px 40px }
+  .header { padding:20px 0 16px; margin-bottom:20px }
+  .header-top { gap:10px }
+  .logo-icon { width:34px; height:34px; font-size:15px; border-radius:10px }
+  .logo-text h1 { font-size:17px }
+  .logo-text p { font-size:11px }
+  .back-link { font-size:12px; padding:6px 10px }
+  .intro-text { margin-bottom:20px }
+  .donut-section { padding:20px 16px }
+  .donut-section h2 { font-size:18px }
+  .legend-item { padding:9px 10px }
+  .legend-name { font-size:13px }
+  .legend-count { font-size:12px }
+  .modal { max-height:92vh }
+  .modal-header { padding:16px 18px }
+  .modal-body { padding:14px 18px 20px }
+  .proj-card { padding:12px }
+}
+
+/* ── HEADER ────────────────────────────── */
+.header { padding:32px 0 24px; border-bottom:1px solid var(--border); margin-bottom:32px }
+.header-top { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px }
+.logo { display:flex; align-items:center; gap:12px }
+.logo-icon {
+  width:42px; height:42px; border-radius:12px;
+  background:linear-gradient(135deg, var(--violet), #9333ea);
+  display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:18px; color:#fff;
+}
+.logo-text h1 { font-size:22px; font-weight:700; letter-spacing:-.3px }
+.logo-text p { font-size:12px; color:var(--muted); margin-top:2px }
+.back-link {
+  color:var(--muted); border:1px solid var(--border); border-radius:10px;
+  padding:8px 14px; font-size:13px; transition:all .2s;
+}
+.back-link:hover { border-color:rgba(45,106,45,.4); color:var(--lime) }
+
+/* ── INTRO ─────────────────────────────── */
+.intro-text {
+  max-width:1100px;
+  margin:0 auto 28px;
+  text-align:center;
+  font-size:clamp(20px, 2.2vw, 30px);
+  line-height:1.38;
+  letter-spacing:-.3px;
+  color:var(--text);
+  padding:0 8px;
+}
+.intro-text strong { color:var(--lime); font-weight:700 }
+.intro-stats {
+  display:flex; gap:28px; justify-content:center; margin-top:22px; flex-wrap:wrap;
+}
+.intro-stat {
+  display:flex; align-items:baseline; gap:7px;
+}
+.intro-stat-num { font-size:clamp(32px, 4vw, 48px); font-weight:800; color:var(--text); line-height:1 }
+.intro-stat-label { font-size:14px; color:var(--muted) }
+
+/* ── DONUT SECTION ─────────────────────── */
+.donut-section {
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+  padding:36px; margin-bottom:36px;
+}
+.donut-section h2 { font-size:22px; font-weight:700; margin-bottom:6px }
+.donut-section .subtitle {
+  font-size:12px; color:var(--muted); margin-bottom:28px;
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(0,0,0,.05); border:1px solid var(--border);
+  border-radius:999px; padding:5px 12px 5px 10px;
+}
+.donut-layout {
+  display:flex; align-items:center; gap:44px;
+}
+@media(max-width:900px) {
+  .donut-layout { flex-direction:column; align-items:stretch }
+  .donut-canvas-wrap { width:100% !important; height:auto !important; aspect-ratio:1 }
+}
+.donut-canvas-wrap {
+  flex-shrink:0; position:relative;
+  width:560px; height:560px;
+}
+.donut-canvas-wrap canvas { cursor:pointer; width:100%; height:100% }
+.donut-center {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  text-align:center; pointer-events:none;
+}
+.donut-center-num { font-size:clamp(36px, 5vw, 52px); font-weight:800; line-height:1 }
+.donut-center-label { font-size:13px; color:var(--muted); margin-top:4px }
+
+/* Legend */
+.donut-legend { flex:1; min-width:220px }
+.legend-item {
+  display:flex; align-items:center; gap:12px; padding:12px 14px;
+  border-radius:12px; cursor:pointer; transition:background .15s;
+  margin-bottom:3px;
+}
+.legend-item:hover, .legend-item.active { background:rgba(0,0,0,.06) }
+.legend-swatch { width:14px; height:14px; border-radius:4px; flex-shrink:0 }
+.legend-name { font-size:14px; font-weight:600; flex:1 }
+.legend-count { font-size:13px; color:var(--muted); font-weight:700 }
+
+/* ── MODAL ─────────────────────────────── */
+.modal-overlay {
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(0,0,0,.35); backdrop-filter:blur(4px);
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.modal-overlay.open { display:flex }
+.modal {
+  background:var(--bg); border:1px solid var(--border); border-radius:var(--radius);
+  max-width:700px; width:100%; max-height:85vh; overflow-y:auto;
+  box-shadow:0 24px 60px rgba(0,0,0,.18);
+}
+@media(max-width:600px) {
+  .modal-overlay { padding:0 }
+  .modal { max-height:100vh; height:100vh; border-radius:0; max-width:100% }
+}
+.modal-header {
+  padding:22px 26px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.modal-header h3 { font-size:18px; font-weight:700 }
+.modal-close {
+  width:32px; height:32px; border-radius:8px; border:1px solid var(--border);
+  background:var(--surface); cursor:pointer; font-size:16px;
+  display:flex; align-items:center; justify-content:center; transition:all .2s;
+}
+.modal-close:hover { border-color:rgba(0,0,0,.25) }
+.modal-body { padding:20px 26px 26px }
+
+/* Sub-category pills in modal */
+.sub-section { margin-bottom:20px }
+.sub-header {
+  display:flex; align-items:center; gap:8px; margin-bottom:10px;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+.sub-swatch { width:10px; height:10px; border-radius:3px }
+.sub-name { font-size:15px; font-weight:700 }
+.sub-count { font-size:12px; color:var(--muted) }
+
+/* Project cards inside modal */
+.proj-card {
+  background:var(--surface); border:1px solid var(--border); border-radius:10px;
+  padding:14px 16px; margin-bottom:8px; transition:all .15s;
+}
+.proj-card:hover { border-color:rgba(0,0,0,.22); transform:translateY(-1px) }
+.proj-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px }
+.proj-exp { font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.3px; text-transform:uppercase }
+.proj-desc { font-size:13px; line-height:1.5; margin-top:6px; color:rgba(28,25,23,.82) }
+.proj-meta { font-size:11px; color:var(--muted); margin-top:6px }
+.proj-pdf {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:11px; font-weight:700; color:var(--blue);
+  border:1px solid rgba(26,74,138,.3); border-radius:6px;
+  padding:4px 10px; transition:all .2s; flex-shrink:0;
+}
+.proj-pdf:hover { background:rgba(26,74,138,.08); border-color:var(--blue) }
+
+/* ── FOOTER ────────────────────────────── */
+footer { border-top:1px solid var(--border); padding:24px; text-align:center }
+.footer-text { font-size:12px; color:var(--muted) }
+
+/* ── CHATBOT ───────────────────────────── */
+.chatbot-fab{
+  position:fixed;right:26px;bottom:24px;z-index:1400;
+  width:74px;height:74px;border-radius:50%;border:1px solid rgba(26,74,138,.42);
+  background:linear-gradient(140deg,rgba(26,74,138,.18),rgba(109,40,217,.14));
+  color:var(--text);font-size:30px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 14px 34px rgba(0,0,0,.28);transition:all .2s;
+}
+.chatbot-fab:hover{transform:translateY(-3px) scale(1.04);border-color:var(--blue);color:var(--blue)}
+.chatbot-panel{
+  position:fixed;right:20px;bottom:102px;z-index:1400;width:360px;max-width:calc(100vw - 24px);
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  display:none;flex-direction:column;overflow:hidden;box-shadow:0 16px 44px rgba(0,0,0,.36);
+}
+.chatbot-panel.active{display:flex}
+.chatbot-head{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:12px 14px;border-bottom:1px solid var(--border);background:rgba(26,74,138,.08);
+}
+.chatbot-title{font-size:13px;font-weight:700;color:var(--blue)}
+.chatbot-sub{font-size:10px;color:var(--muted);margin-top:1px}
+.chatbot-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:8px;cursor:pointer}
+.chatbot-close:hover{border-color:var(--blue);color:var(--blue)}
+.chatbot-messages{max-height:380px;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.chat-msg{padding:9px 11px;border-radius:10px;font-size:12px;line-height:1.5;white-space:pre-wrap}
+.chat-msg.user{align-self:flex-end;background:rgba(26,74,138,.12);border:1px solid rgba(26,74,138,.2)}
+.chat-msg.bot{align-self:flex-start;background:var(--surface2);border:1px solid var(--border)}
+.chatbot-status{min-height:18px;padding:0 12px 8px;color:var(--muted);font-size:10px}
+.chatbot-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:rgba(0,0,0,.03)}
+.chatbot-text{
+  flex:1;resize:none;height:40px;max-height:110px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-size:12px;padding:10px 12px;outline:none
+}
+.chatbot-text:focus{border-color:rgba(26,74,138,.45)}
+.chatbot-send{
+  border:1px solid rgba(26,74,138,.38);background:rgba(26,74,138,.12);color:var(--blue);
+  padding:0 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer
+}
+.chatbot-send:hover:not(:disabled){background:rgba(26,74,138,.2)}
+.chatbot-send:disabled{opacity:.5;cursor:not-allowed}
+@media (max-width:640px){
+  .chatbot-fab{right:18px;bottom:18px;width:68px;height:68px;font-size:28px}
+  .chatbot-panel{left:8px;right:8px;bottom:84px;width:auto;max-width:none;border-radius:12px}
+  .chatbot-messages{max-height:48vh;padding:10px}
+  .chatbot-input{padding:8px}
+  .chatbot-text{height:44px;font-size:13px}
+}
 </style>
-<link rel="stylesheet" href="smooth-cursor.css">
 </head>
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="logo">ProyectosCyT</div>
-      <a class="back" href="index.html">← Volver al inicio</a>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div class="logo">
+        <div class="logo-icon">🔬</div>
+        <div class="logo-text">
+          <h1><span style="color:var(--lime)">Lex</span><span style="color:var(--muted)">AR</span> · Ciencia y Tecnología</h1>
+          <p>Comisión de Ciencia y Tecnología · H. Cámara de Diputados</p>
+        </div>
+      </div>
+      <a class="back-link" href="index.html">← Volver al inicio</a>
     </div>
-    <div class="card">
-      <h1>Dashboard de Ciencia y Tecnología</h1>
-      <p>Este apartado quedó listo como base para cargar los proyectos de Ciencia y Tecnología. Cuando me pases los datos, te lo conecto con estructura completa (KPIs, semáforo, tortas y tabla).</p>
-      <span class="tag">Próximamente</span>
+  </header>
+
+  <!-- INTRO -->
+  <div class="intro-text" id="introCard">
+    <!-- Filled by JS -->
+  </div>
+
+  <!-- DONUT CHART -->
+  <div class="donut-section">
+    <h2>Distribución por Temática</h2>
+    <p class="subtitle"><span>↗</span> Explorá cada grupo</p>
+    <div class="donut-layout">
+      <div class="donut-canvas-wrap">
+        <canvas id="donutCanvas"></canvas>
+        <div class="donut-center">
+          <div class="donut-center-num" id="donutTotal"></div>
+          <div class="donut-center-label">proyectos</div>
+        </div>
+      </div>
+      <div class="donut-legend" id="donutLegend"></div>
     </div>
   </div>
-<script src="smooth-cursor.js"></script>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalTitle"></h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<button id="chatbotFab" class="chatbot-fab" onclick="toggleChatbot()" title="Abrir LeyesBot">🧠</button>
+
+<div id="chatbotPanel" class="chatbot-panel" aria-live="polite">
+  <div class="chatbot-head">
+    <div>
+      <div class="chatbot-title">LeyesBot CyT</div>
+      <div class="chatbot-sub">Consultá sobre los 68 proyectos de CyT</div>
+    </div>
+    <button class="chatbot-close" onclick="toggleChatbot(false)" title="Cerrar">✕</button>
+  </div>
+  <div id="chatbotMessages" class="chatbot-messages"></div>
+  <div id="chatbotStatus" class="chatbot-status"></div>
+  <div class="chatbot-input">
+    <textarea id="chatbotInput" class="chatbot-text" placeholder="Escribí tu pregunta sobre CyT..." onkeydown="onChatInputKeydown(event)"></textarea>
+    <button id="chatbotSend" class="chatbot-send" onclick="sendChatMessage()">Enviar</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-text">ProyectosCyT · Inteligencia legislativa argentina · 2024–2026</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════
+   CYT DASHBOARD DATA & LOGIC
+═══════════════════════════════════════════ */
+
+const CYT_DATA = [{"name": "Estrategia Tecnologica Nacional", "count": 20, "subs": [{"name": "Brecha Digital", "count": 1, "projects": [{"exp": "5539-D-2025", "desc": "ASIGNAR PARTIDAS SUBEJECUTADAS POR LA JEFATURA DE GABINETE DE MINISTROS EN PROGRAMAS DE CONECTIVIDAD, INCLUSION DIGITAL Y FORMULACION DE POLITICAS PUBLICAS QUE PROMUEVEN UNA REDUCCION DE LA BRECHA DIGITAL.", "autor": "—", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/5539-D-2025.pdf"}]}, {"name": "Conmemoración", "count": 1, "projects": [{"exp": "1300-D-2024", "desc": "INSTITUIR EL 10 DE ABRIL DE CADA AÑO COMO \"DIA NACIONAL DEL INVESTIGADOR E INVESTIGADORA CIENTIFICO\", EN CONMEMORACION DEL NATALICIO DEL DOCTOR BERNARDO ALBERTO HOUSSAY.", "autor": "Marziotta Maria Gisela", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/1300-D-2024.pdf"}]}, {"name": "Educación", "count": 4, "projects": [{"exp": "1636-D-2024", "desc": "CREACION DE ESCUELAS DE ROBOTICA.", "autor": "Carlos A. Fernández", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/1636-D-2024.pdf"}, {"exp": "3836-D-2025", "desc": "CREACION DEL PROGRAMA NACIONAL DE CLUBES DE CIENCIAS Y DIGITALES DESTINADO A LA ALFABETIZACION CIENTIFICA Y TECNOLOGICA DE NIÑOS, NIÑAS Y JOVENES.", "autor": "Ariel Rauschenberger y otros", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/3836-D-2025.pdf"}, {"exp": "5765-D-2025", "desc": "ESTABLECESE UN REGIMEN ESPECIAL PARA BECARIOS DOCTORALES Y POSTDOCTORALES DEL SISTEMA NACIONAL DE CIENCIA, TECNOLOGIA E INNOVACION.", "autor": "José Pablo Carro", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/5765-D-2025.pdf"}, {"exp": "7085-D-2025", "desc": "RESTITUIR LA VIGENCIA DEL ARTICULO 52 DE LA LEY 26058, DE EDUCACION TECNICO PROFESIONAL. MODIFICACIONES A LA LEY 27614, DE FINANCIAMIENTO DEL SISTEMA NACIONAL DE CIENCIA, TECNOLOGIA E INNOVACION.", "autor": "Romina Del Plá y otros", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/7085-D-2025.pdf"}]}, {"name": "Estrategía Nacional de Ciencia y Tecnologia", "count": 7, "projects": [{"exp": "1656-D-2024", "desc": "FONDO NACIONAL DE PUBLICACIONES CIENTIFICAS PERIODICAS (FNPCP). CREACION.", "autor": "Ana Carolina Gaillard", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/1656-D-2024.pdf"}, {"exp": "3602-D-2024", "desc": "REGIMEN DE FOMENTO PARA LA RECONVERSION INDUSTRIAL E INNOVACION TECNOLOGICA DE TIERRA DEL FUEGO (REGITEC-TDF). CREACION.", "autor": "Jorge Neri Araujo Hdez.", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3602-D-2024.pdf"}, {"exp": "3723-D-2025", "desc": "ANULACION DEL DECRETO 447/2025 SOBRE MODIFICACION DE LA ESTRUCTURA Y FUNCIONES DE LA AGENCIA NACIONAL DE PROMOCION DE LA INVESTIGACION, EL DESARROLLO TECNOLOGICO Y LA INNOVACION.", "autor": "Mercedes de Mendieta", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/3723-D-2025.pdf"}, {"exp": "4412-D-2025", "desc": "RECHAZAR LOS DECRETOS DEL PODER EJECUTIVO 396, 447, 458 Y 459/2025.", "autor": "Daniel Gollan y otros", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/4412-D-2025.pdf"}, {"exp": "6954-D-2025", "desc": "REGIMEN DE PROTECCION DE ACTIVOS ESTRATEGICOS DE LA NACION. CREACION DE LA COMISION BICAMERAL DE ANALISIS DE ACTIVOS ESTRATEGICOS DE LA NACION.", "autor": "Eduardo Toniolli", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/6954-D-2025.pdf"}, {"exp": "0513-D-2026", "desc": "SISTEMA NACIONAL DE PLANIFICACION Y EJECUCION TECNOLOGICA ESTRATEGICA (SINPET). CREACION.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0513-D-2026.pdf"}, {"exp": "0514-D-2026", "desc": "REGIMEN NACIONAL DE PROMOCION DE LA TRANSFERENCIA DE CONOCIMIENTO CIENTIFICO Y TECNOLOGICO AL SECTOR PRODUCTIVO (RENTRANS). CREACION.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0514-D-2026.pdf"}]}, {"name": "Politicas de Genero", "count": 1, "projects": [{"exp": "0903-D-2025", "desc": "MODIFICACIONES SOBRE IGUALDAD DE GENERO EN POLITICA CIENTIFICO TECNOLOGICA.", "autor": "—", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/0903-D-2025.pdf"}]}, {"name": "Sector Antartico", "count": 1, "projects": [{"exp": "5823-D-2025", "desc": "DECLARAR DE INTERES NACIONAL Y ESTRATEGICO EL DESARROLLO DE LA REPUBLICA ARGENTINA COMO CENTRO INTERNACIONAL DE SERVICIOS CIENTIFICOS, LOGISTICOS Y DE INFRAESTRUCTURA PARA ACTIVIDADES ANTARTICAS, EN EL MARCO DEL TRATADO ANTARTICO.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/5823-D-2025.pdf"}]}, {"name": "Sistema Nacional de Ciencía, Tecnología e Innovación (Sostenimiento y Financiación)", "count": 5, "projects": [{"exp": "1269-D-2024", "desc": "GARANTICESE EL FINANCIAMIENTO DEL SISTEMA NACIONAL DE CIENCIA, TECNOLOGIA E INNOVACION.", "autor": "Mónica Macha", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/1269-D-2024.pdf"}, {"exp": "2435-D-2024", "desc": "DECLARAR LA EMERGENCIA DEL SISTEMA NACIONAL DE CIENCIA, TECNOLOGIA E INNOVACION.", "autor": "Daniel G. Gollan", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/2435-D-2024.pdf"}, {"exp": "1311-D-2025", "desc": "REGIMEN DE SALVAGUARDA Y PROTECCION DEL SISTEMA NACIONAL DE CIENCIA, TECNOLOGIA E INNOVACION.", "autor": "Esteban Paulón / M. Fein", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/1311-D-2025.pdf"}, {"exp": "2079-D-2025", "desc": "DECLARAR LA EMERGENCIA PRESUPUESTARIA DEL SISTEMA UNIVERSITARIO NACIONAL Y DEL SISTEMA DE CIENCIA Y TECNICA PARA EL EJERCICIO 2025.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/2079-D-2025.pdf"}, {"exp": "2114-D-2025", "desc": "GARANTIZAR EL SOSTENIMIENTO DEL SISTEMA NACIONAL DE CIENCIA TECNOLOGIA E INNOVACION DURANTE EL EJERCICIO FISCAL 2025.", "autor": "Mónica Macha", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/2114-D-2025.pdf"}]}]}, {"name": "IA", "count": 26, "subs": [{"name": "Creación de Organismos especializados", "count": 2, "projects": [{"exp": "3900-D-2024", "desc": "CREACION DEL OBSERVATORIO FEDERAL SOBRE INTELIGENCIA ARTIFICIAL (O.F.I.A.).", "autor": "Silvana Micaela Ginocchio", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3900-D-2024.pdf"}, {"exp": "0345-D-2025", "desc": "CONSEJO FEDERAL DE INTELIGENCIA ARTIFICIAL. CREACION.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/0345-D-2025.pdf"}]}, {"name": "Deepfake y generación de contenido", "count": 5, "projects": [{"exp": "3955-D-2024", "desc": "CODIGO PENAL DE LA NACION - LEY 11179 - MODIFICACIONES SOBRE EL USO DE LA INTELIGENCIA ARTIFICIAL PARA CREACION O MANIPULACION DE CONTENIDOS AUDIOVISUALES.", "autor": "Juan Fernando Brügge", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3955-D-2024.pdf"}, {"exp": "2300-D-2025", "desc": "REGIMEN DE PROTECCION DE LA PRIVACIDAD, LA DIGNIDAD Y LOS DERECHOS FUNDAMENTALES DE LAS PERSONAS FRENTE A LA MANIPULACION DE IMAGENES MEDIANTE INTELIGENCIA ARTIFICIAL.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/2300-D-2025.pdf"}, {"exp": "3558-D-2025", "desc": "REGULACION DEL USO DE INTELIGENCIA ARTIFICIAL EN LOCUCION Y PRODUCCION AUDIOVISUAL.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/3558-D-2025.pdf"}, {"exp": "4094-D-2025", "desc": "REGULACION DEL USO DE IMAGENES DIGITALES Y FIGURAS HUMANAS CREADAS POR INTELIGENCIA ARTIFICIAL EN PUBLICIDAD COMERCIAL Y POLITICA.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/4094-D-2025.pdf"}, {"exp": "0253-D-2026", "desc": "REGIMEN NACIONAL DE INTELIGENCIA ARTIFICIAL SOBERANA. MODIFICACION DEL CODIGO PENAL DE LA NACION.", "autor": "", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0253-D-2026.pdf"}]}, {"name": "Defensa del Consumidor", "count": 1, "projects": [{"exp": "4898-D-2024", "desc": "DEFENSA DEL CONSUMIDOR - LEY 24240 -. MODIFICACIONES SOBRE PROVEEDORES DE BIENES Y SERVICIOS UTILIZANDO INTELIGENCIA ARTIFICIAL - IA -.", "autor": "Vega Yolanda", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/4898-D-2024.pdf"}]}, {"name": "Implementación de la IA por parte de la Administración Publica", "count": 3, "projects": [{"exp": "2903-D-2025", "desc": "IMPLEMENTACION DE SISTEMAS DE INTELIGENCIA ARTIFICIAL POR PARTE DE LA ADMINISTRACION PUBLICA NACIONAL. REGIMEN.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/2903-D-2025.pdf"}, {"exp": "4219-D-2025", "desc": "MARCO REGULATORIO PARA EL DESARROLLO, IMPLEMENTACION Y USO DE LA INTELIGENCIA ARTIFICIAL EN LA ADMINISTRACION PUBLICA NACIONAL.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/4219-D-2025.pdf"}, {"exp": "0519-D-2026", "desc": "PROMOCION DE LA INTELIGENCIA ARTIFICIAL APLICADA A LA PRODUCCION, LA COMPETITIVIDAD Y LOS SERVICIOS PUBLICOS. REGIMEN.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0519-D-2026.pdf"}]}, {"name": "Marco Regulatorio", "count": 11, "projects": [{"exp": "1013-D-2024", "desc": "READECUACION DEL SISTEMA LEGAL ARGENTINO POR EL IMPACTO DE LA INTELIGENCIA ARTIFICIAL. CODIGO CIVIL Y COMERCIAL DE LA NACION. PROPIEDAD INTELECTUAL - LEY 11723 -. CODIGO PENAL DE LA NACION. DATOS PERSONALES - LEY 25326 -. MODIFICACIONES.", "autor": "Oscar Agost Carreño", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/1013-D-2024.pdf"}, {"exp": "3003-D-2024", "desc": "REGIMEN LEGAL PARA EL USO RESPONSABLE DE LA INTELIGENCIA ARTIFICIAL EN LA REPUBLICA ARGENTINA.", "autor": "Juan Fernando Brügge", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3003-D-2024.pdf"}, {"exp": "4079-D-2024", "desc": "PRESUPUESTOS MINIMOS PARA LA PROMOCION DEL DESARROLLO DE LA INTELIGENCIA ARTIFICIAL (IA) EN LA REPUBLICA ARGENTINA. REGIMEN.", "autor": "SILVANA GIUDICI", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/4079-D-2024.pdf"}, {"exp": "6156-D-2024", "desc": "MARCO REGULATORIO DE LA INTELIGENCIA ARTIFICIAL. CREACION DEL REGISTRO NACIONAL DE SISTEMAS DE INTELIGENCIA ARTIFICIAL.", "autor": "Diego GIULIANO", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/6156-D-2024.pdf"}, {"exp": "7045-D-2024", "desc": "MODIFICACIONES SOBRE RESPONSABILIDAD DE PROVEEDORES EN EL USO DE LA INTELIGENCIA ARTIFICIAL.", "autor": "", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/7045-D-2024.pdf"}, {"exp": "1937-D-2025", "desc": "REGULAR EL DESARROLLO, IMPLEMENTACION Y USO DE LA INTELIGENCIA ARTIFICIAL EN EL TERRITORIO NACIONAL. CREACION DEL MINISTERIO DE INTELIGENCIA ARTIFICIAL.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/1937-D-2025.pdf"}, {"exp": "2130-D-2025", "desc": "MARCO LEGAL PARA EL DESARROLLO, IMPLEMENTACION Y USO RESPONSABLE DE SISTEMAS DE INTELIGENCIA ARTIFICIAL EN ARGENTINA.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/2130-D-2025.pdf"}, {"exp": "4243-D-2025", "desc": "PROTECCION DE DATOS PERSONALES EN SISTEMAS DE INTELIGENCIA ARTIFICIAL. REGIMEN.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/4243-D-2025.pdf"}, {"exp": "6655-D-2025", "desc": "TRANSPARENCIA Y REGULACION DE ALGORITMOS EN PROCESOS AUTOMATIZADOS QUE IMPACTEN EN LOS DERECHOS DE LOS CIUDADANOS. CREACION.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/6655-D-2025.pdf"}, {"exp": "0004-D-2026", "desc": "PRESUPUESTOS MINIMOS PARA LA PROMOCION DEL DESARROLLO DE LA INTELIGENCIA ARTIFICIAL (IA) EN LA REPUBLICA ARGENTINA. REGIMEN.", "autor": "SILVANA GIUDICI", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0004-D-2026.pdf"}, {"exp": "0664-D-2026", "desc": "MARCO LEGAL PARA EL DESARROLLO, INVESTIGACION Y USO DE INTELIGENCIA ARTIFICIAL DENTRO DEL TERRITORIO NACIONAL. CREACION DEL REGISTRO NACIONAL DE SISTEMAS DE INTELIGENCIA ARTIFICIAL.", "autor": "Diego GIULIANO", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0664-D-2026.pdf"}]}, {"name": "Utilización de la IA en el Sistema Educativo", "count": 4, "projects": [{"exp": "6976-D-2024", "desc": "PROGRAMA NACIONAL DE LABORATORIOS DE INFORMATICA E INTELIGENCIA ARTIFICIAL. CREACION.", "autor": "", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/6976-D-2024.pdf"}, {"exp": "4145-D-2025", "desc": "INCORPORAR EN LA CURRICULA ESCOLAR DE LOS NIVELES PRIMARIO, SECUNDARIO, UNIVERSITARIO Y TECNICA SUPERIOR, CONTENIDOS SOBRE INTELIGENCIA ARTIFICIAL.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/4145-D-2025.pdf"}, {"exp": "6189-D-2025", "desc": "PROGRAMA NACIONAL DE USO RESPONSABLE DE LA INTELIGENCIA ARTIFICIAL EN EL AMBITO EDUCATIVO (RESPONSABIA). CREACION.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/6189-D-2025.pdf"}, {"exp": "6656-D-2025", "desc": "EDUCACION NACIONAL - LEY 26206 - MODIFICACIONES INCORPORANDO LA EDUCACION EN INTELIGENCIA ARTIFICIAL EN LA CURRICULA ESCOLAR DE LA EDUCACION INICIAL, PRIMARIA Y SECUNDARIA.", "autor": "", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/6656-D-2025.pdf"}]}]}, {"name": "Innovación y Desarrollo Productivo", "count": 12, "subs": [{"name": "Desarrollo Productivo", "count": 5, "projects": [{"exp": "3709-D-2024", "desc": "PROGRAMA INICIATIVA ARGENTINA PARA EL FOMENTO DEL DESARROLLO PRODUCTIVO INDUSTRIAL DE USO INTENSIVO DE LA CIENCIA Y TECNOLOGIA. CREACION.", "autor": "Martín Yeza", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3709-D-2024.pdf"}, {"exp": "6382-D-2024", "desc": "EXENCION DE DERECHOS DE IMPORTACION A INVAP S.E.", "autor": "Domingo Agustín y otros", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/6382-D-2024.pdf"}, {"exp": "7058-D-2024", "desc": "PROMUEVASE LA CORRECTA RECUPERACION Y RECICLADO DE ACEITES VEGETALES Y GRASAS DE FRITURA USADOS.", "autor": "", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/7058-D-2024.pdf"}, {"exp": "0419-D-2025", "desc": "SELLO OTHEGUY PARA INCENTIVAR LA ASOCIACION DEL CONOCIMIENTO CON EL DESARROLLO SOCIOECONOMICO. CREACION.", "autor": "Juan M. López y otros", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/0419-D-2025.pdf"}, {"exp": "0511-D-2026", "desc": "FONDO SOBERANO DE INVERSION TECNOLOGICA (FOSIT). CREACION.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0511-D-2026.pdf"}]}, {"name": "Ecosistema Startup", "count": 2, "projects": [{"exp": "1635-D-2024", "desc": "DECLARAR A LA PROVINCIA DE MISIONES COMO CAPITAL NACIONAL STARTUP.", "autor": "Carlos A. Fernández", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/1635-D-2024.pdf"}, {"exp": "0478-D-2026", "desc": "REGIMEN JURIDICO PARA STARTUPS TECNOLOGICAS DE LA REPUBLICA ARGENTINA.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0478-D-2026.pdf"}]}, {"name": "I+D", "count": 1, "projects": [{"exp": "0401-D-2025", "desc": "FONDO NACIONAL PARA LA PROMOCION DE INVERSIONES EN INVESTIGACION Y DESARROLLO INDUSTRIAL. CREACION.", "autor": "Juan M. López y otros", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/0401-D-2025.pdf"}]}, {"name": "Plataformas de mensajeria", "count": 1, "projects": [{"exp": "3441-D-2024", "desc": "REGIMEN PARA EL USO DE PLATAFORMAS TECNOLOGICAS EN SERVICIO DE MENSAJERIA URBANA.", "autor": "Cristian Ritondo y otros", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3441-D-2024.pdf"}]}, {"name": "Programas de innovación", "count": 2, "projects": [{"exp": "0389-D-2025", "desc": "PLAN NACIONAL DE NODOS DE INNOVACION. REGIMEN.", "autor": "Juan M. López y otros", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/0389-D-2025.pdf"}, {"exp": "0520-D-2026", "desc": "CREARSE EL ECOSISTEMA NACIONAL DE FINANCIAMIENTO DE LA INNOVACION (ENFI).", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0520-D-2026.pdf"}]}, {"name": "Sandbox", "count": 1, "projects": [{"exp": "3422-D-2024", "desc": "SISTEMA DE ENTORNOS REGULATORIOS EXPERIMENTALES (SANDBOX REGULATORIOS). CREACION.", "autor": "Martin Yeza", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3422-D-2024.pdf"}]}]}, {"name": "Privacidad Digital / Derechos Digitales", "count": 2, "subs": [{"name": "Neurederechos", "count": 1, "projects": [{"exp": "6880-D-2025", "desc": "PROTECCION DE LA ACTIVIDAD CEREBRAL, PRIVACIDAD MENTAL Y NEURODATOS.", "autor": "Oscar Agost Carreño", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/6880-D-2025.pdf"}]}, {"name": "Reconocimiento Facil", "count": 1, "projects": [{"exp": "4420-D-2025", "desc": "REGULACION DEL DESARROLLO, IMPLEMENTACION Y USO DE LAS TECNOLOGIAS DE RECONOCIMIENTO FACIAL.", "autor": "Martín Yeza", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/4420-D-2025.pdf"}]}]}, {"name": "Tecnologías Estratégicas", "count": 8, "subs": [{"name": "Biotecnología", "count": 2, "projects": [{"exp": "6548-D-2025", "desc": "MARCO NACIONAL PARA EL DESARROLLO FEDERAL Y COMPETITIVO DE LA BIOTECNOLOGIA ARGENTINA. CREACION.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/6548-D-2025.pdf"}, {"exp": "0518-D-2026", "desc": "REGIMEN NACIONAL DE PROMOCION DE LA BIOTECNOLOGIA AVANZADA Y LA BIOECONOMIA ESTRATEGICA. CREACION.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0518-D-2026.pdf"}]}, {"name": "Espcial", "count": 1, "projects": [{"exp": "0515-D-2026", "desc": "ACTIVIDADES ESPACIALES, PROMOCION DEL ECOSISTEMA ESPACIAL, SOBERANIA ORBITAL Y ECONOMIA ESPACIAL. REGIMEN.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0515-D-2026.pdf"}]}, {"name": "Nuclear", "count": 1, "projects": [{"exp": "0512-D-2026", "desc": "REGIMEN DE PROMOCION DEL DESARROLLO NUCLEAR TECNOLOGICO (REDNUCLEART). CREACION.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0512-D-2026.pdf"}]}, {"name": "Salud", "count": 3, "projects": [{"exp": "3728-D-2024", "desc": "CREACION DEL INSTITUTO NACIONAL DE EVALUACION DE TECNOLOGIAS SANITARIAS (INETS).", "autor": "Mónica Fein y otros", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/3728-D-2024.pdf"}, {"exp": "7085-D-2024", "desc": "REGIMEN DE PROMOCION DE TRATAMIENTOS INNOVADORES EN MATERIA MEDICA.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2024, "pdf": "PDFs_Proyectos_Ley/2024/7085-D-2024.pdf"}, {"exp": "0439-D-2026", "desc": "SISTEMA NACIONAL DE ACCESO ACELERADO A TERAPIAS GENICAS INDIVIDUALIZADAS PARA ENFERMEDADES POCO FRECUENTES Y ULTRA-RARAS (SNATIGEP). CREACION.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2026, "pdf": "PDFs_Proyectos_Ley/2026/0439-D-2026.pdf"}]}, {"name": "Tecnología Cuantica", "count": 1, "projects": [{"exp": "6539-D-2025", "desc": "CREACION DE UN REGIMEN PARA EL DESARROLLO DE TECNOLOGIAS CUANTICAS Y CONFORMACION DE UNA AGENCIA ESPECIFICA.", "autor": "Marcela M. Pagano", "bloque": "", "año": 2025, "pdf": "PDFs_Proyectos_Ley/2025/6539-D-2025.pdf"}]}]}];
+
+const COLORS = [
+  '#1a4a8a',   /* blue - IA */
+  '#2d6a2d',   /* green - Estrategia */
+  '#c45a00',   /* orange - Innovación */
+  '#6d28d9',   /* violet - Tecnologías Estratégicas */
+  '#be123c',   /* rose - Privacidad */
+];
+
+/* ── Intro paragraph ── */
+function renderIntro() {
+  const total = CYT_DATA.reduce((s,g) => s + g.count, 0);
+  const totalSubs = CYT_DATA.reduce((s,g) => s + g.subs.length, 0);
+  document.getElementById('introCard').innerHTML = `
+    Se analizaron <strong>${total} proyectos de ley</strong> presentados ante la Comisión de Ciencia y Tecnología de la Cámara de Diputados (2024–2026), clasificados en <strong>${CYT_DATA.length} grupos temáticos</strong> y <strong>${totalSubs} subgrupos</strong>, para identificar las prioridades legislativas en materia de ciencia, tecnología e innovación.
+    <div class="intro-stats">
+      <div class="intro-stat"><span class="intro-stat-num">${total}</span><span class="intro-stat-label">proyectos</span></div>
+      <div class="intro-stat"><span class="intro-stat-num">${CYT_DATA.length}</span><span class="intro-stat-label">grupos</span></div>
+      <div class="intro-stat"><span class="intro-stat-num">${totalSubs}</span><span class="intro-stat-label">subgrupos</span></div>
+    </div>
+  `;
+  document.getElementById('donutTotal').textContent = total;
+}
+
+/* ── Donut chart on Canvas ── */
+const canvas = document.getElementById('donutCanvas');
+const ctx = canvas.getContext('2d');
+const dpr = window.devicePixelRatio || 1;
+let W, H, cx, cy, outerR, innerR;
+
+function sizeCanvas() {
+  const wrap = canvas.parentElement;
+  const sz = Math.min(wrap.clientWidth, wrap.clientHeight || wrap.clientWidth);
+  W = sz; H = sz;
+  canvas.width = sz * dpr;
+  canvas.height = sz * dpr;
+  canvas.style.width = sz + 'px';
+  canvas.style.height = sz + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  cx = W / 2; cy = H / 2;
+  outerR = W * 0.397; innerR = W * 0.228;
+}
+sizeCanvas();
+window.addEventListener('resize', () => { sizeCanvas(); buildSlices(); drawDonut(); });
+let slices = [];
+let hoveredSlice = -1;
+
+function buildSlices() {
+  const total = CYT_DATA.reduce((s,g) => s + g.count, 0);
+  let angle = -Math.PI / 2;
+  slices = [];
+  CYT_DATA.forEach((g, i) => {
+    const sweep = (g.count / total) * Math.PI * 2;
+    slices.push({ start: angle, end: angle + sweep, color: COLORS[i % COLORS.length], group: g, index: i });
+    angle += sweep;
+  });
+}
+
+function drawDonut() {
+  ctx.clearRect(0, 0, W, H);
+  slices.forEach((s, i) => {
+    const isHovered = i === hoveredSlice;
+    const midAngle = (s.start + s.end) / 2;
+    const offset = isHovered ? 8 : 0;
+    const ox = cx + Math.cos(midAngle) * offset;
+    const oy = cy + Math.sin(midAngle) * offset;
+    const r = isHovered ? outerR + 4 : outerR;
+
+    ctx.beginPath();
+    ctx.arc(ox, oy, r, s.start, s.end);
+    ctx.arc(ox, oy, innerR, s.end, s.start, true);
+    ctx.closePath();
+    ctx.fillStyle = s.color;
+    ctx.globalAlpha = (hoveredSlice >= 0 && !isHovered) ? 0.4 : 1;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    /* slice separator */
+    ctx.beginPath();
+    ctx.arc(ox, oy, r, s.start, s.end);
+    ctx.arc(ox, oy, innerR, s.end, s.start, true);
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(245,240,232,.6)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    /* percentage label */
+    const total = CYT_DATA.reduce((sum,g) => sum + g.count, 0);
+    const pct = Math.round(s.group.count / total * 100);
+    if (pct >= 5) {
+      const labelR = (outerR + innerR) / 2;
+      const lx = ox + Math.cos(midAngle) * labelR;
+      const ly = oy + Math.sin(midAngle) * labelR;
+      ctx.fillStyle = '#fff';
+      ctx.font = '700 13px Neco, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(pct + '%', lx, ly);
+    }
+  });
+}
+
+function getSliceAt(x, y) {
+  const dx = x - cx, dy = y - cy;
+  const dist = Math.sqrt(dx*dx + dy*dy);
+  if (dist < innerR || dist > outerR + 12) return -1;
+  let angle = Math.atan2(dy, dx);
+  if (angle < -Math.PI / 2) angle += Math.PI * 2;
+  for (let i = 0; i < slices.length; i++) {
+    let start = slices[i].start, end = slices[i].end;
+    if (angle >= start && angle <= end) return i;
+  }
+  return -1;
+}
+
+function canvasCoords(e) {
+  const rect = canvas.getBoundingClientRect();
+  return { x: (e.clientX - rect.left) * (W / rect.width), y: (e.clientY - rect.top) * (H / rect.height) };
+}
+
+canvas.addEventListener('mousemove', e => {
+  const {x, y} = canvasCoords(e);
+  const idx = getSliceAt(x, y);
+  if (idx !== hoveredSlice) {
+    hoveredSlice = idx;
+    drawDonut();
+    syncLegendHover(idx);
+    canvas.style.cursor = idx >= 0 ? 'pointer' : 'default';
+  }
+});
+
+canvas.addEventListener('mouseleave', () => {
+  hoveredSlice = -1;
+  drawDonut();
+  syncLegendHover(-1);
+});
+
+canvas.addEventListener('click', e => {
+  const {x, y} = canvasCoords(e);
+  const idx = getSliceAt(x, y);
+  if (idx >= 0) openModal(idx);
+});
+
+/* Touch support for mobile */
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const touch = e.touches[0];
+  const {x, y} = canvasCoords(touch);
+  const idx = getSliceAt(x, y);
+  if (idx >= 0) openModal(idx);
+}, { passive: false });
+
+/* ── Legend ── */
+function renderLegend() {
+  const legend = document.getElementById('donutLegend');
+  legend.innerHTML = CYT_DATA.map((g, i) => `
+    <div class="legend-item" data-idx="${i}"
+         onmouseenter="hoverSlice(${i})" onmouseleave="hoverSlice(-1)"
+         onclick="openModal(${i})">
+      <div class="legend-swatch" style="background:${COLORS[i % COLORS.length]}"></div>
+      <span class="legend-name">${g.name}</span>
+      <span class="legend-count">${g.count}</span>
+    </div>
+  `).join('');
+}
+
+function hoverSlice(idx) {
+  hoveredSlice = idx;
+  drawDonut();
+  syncLegendHover(idx);
+}
+
+function syncLegendHover(idx) {
+  document.querySelectorAll('.legend-item').forEach((el, i) => {
+    el.classList.toggle('active', i === idx);
+  });
+}
+
+/* ── Modal ── */
+function openModal(idx) {
+  const group = CYT_DATA[idx];
+  const color = COLORS[idx % COLORS.length];
+  document.getElementById('modalTitle').innerHTML =
+    `<span style="color:${color}">●</span> ${group.name} <span style="font-weight:400;font-size:14px;color:var(--muted)">(${group.count} proyectos)</span>`;
+
+  let html = '';
+  group.subs.forEach(sub => {
+    html += `<div class="sub-section">
+      <div class="sub-header">
+        <div class="sub-swatch" style="background:${color}"></div>
+        <span class="sub-name">${sub.name}</span>
+        <span class="sub-count">${sub.count} proyecto${sub.count !== 1 ? 's' : ''}</span>
+      </div>`;
+    sub.projects.forEach(p => {
+      const pdfBtn = p.pdf
+        ? `<a class="proj-pdf" href="${p.pdf}" target="_blank">📄 Ver PDF</a>`
+        : '';
+      html += `<div class="proj-card">
+        <div class="proj-top">
+          <div>
+            <div class="proj-exp">${p.exp}</div>
+            <div class="proj-desc">${p.desc}</div>
+            <div class="proj-meta">${p.autor}${p.bloque ? ' · ' + p.bloque : ''} · ${p.año}</div>
+          </div>
+          ${pdfBtn}
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    toggleChatbot(false);
+  }
+});
+
+/* ── Chatbot ── */
+let chatbotInitialized = false;
+let chatbotLoading = false;
+
+function toggleChatbot(forceState = null) {
+  const panel = document.getElementById('chatbotPanel');
+  if(!panel) return;
+  const open = forceState === null ? !panel.classList.contains('active') : !!forceState;
+  panel.classList.toggle('active', open);
+  if(open) {
+    initChatbotIfNeeded();
+    document.getElementById('chatbotInput')?.focus();
+  }
+}
+
+function initChatbotIfNeeded() {
+  if(chatbotInitialized) return;
+  chatbotInitialized = true;
+  appendChatMessage('bot', 'Hola, soy LeyesBot para CyT. Preguntame sobre los proyectos de Ciencia y Tecnología.');
+}
+
+function appendChatMessage(role, text) {
+  const box = document.getElementById('chatbotMessages');
+  if(!box) return;
+  const el = document.createElement('div');
+  el.className = `chat-msg ${role}`;
+  el.textContent = text;
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+}
+
+function setChatStatus(text='') {
+  const st = document.getElementById('chatbotStatus');
+  if(st) st.textContent = text;
+}
+
+function onChatInputKeydown(event) {
+  if(event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    sendChatMessage();
+  }
+}
+
+function getCYTChatContext() {
+  const projects = [];
+  CYT_DATA.forEach(group => {
+    group.subs.forEach(sub => {
+      sub.projects.forEach(p => {
+        projects.push({
+          id: p.exp,
+          expediente: p.exp,
+          titulo: p.desc,
+          resumen: p.desc,
+          grupo: group.name,
+          subtematica: sub.name,
+          autor_principal: p.autor || '',
+          bloque: p.bloque || '',
+          año: p.año,
+          pdf_path: p.pdf || '',
+        });
+      });
+    });
+  });
+  return projects;
+}
+
+async function sendChatMessage() {
+  if(chatbotLoading) return;
+  const input = document.getElementById('chatbotInput');
+  const sendBtn = document.getElementById('chatbotSend');
+  const question = (input?.value || '').trim();
+  if(!question) return;
+
+  appendChatMessage('user', question);
+  input.value = '';
+  chatbotLoading = true;
+  if(sendBtn) sendBtn.disabled = true;
+  setChatStatus('LeyesBot está pensando...');
+
+  try {
+    const resp = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        pregunta: question,
+        scope: 'cyt',
+        contexto: getCYTChatContext(),
+      }),
+    });
+
+    const data = await resp.json().catch(() => ({}));
+    if(!resp.ok) {
+      const err = data?.error || 'No se pudo obtener respuesta del servidor.';
+      appendChatMessage('bot', `Error: ${err}`);
+    } else {
+      const answer = data?.texto || data?.respuesta || 'Sin respuesta del modelo.';
+      appendChatMessage('bot', answer);
+    }
+  } catch (err) {
+    appendChatMessage('bot', 'Error de conexión con el endpoint /api/chat.');
+  } finally {
+    chatbotLoading = false;
+    if(sendBtn) sendBtn.disabled = false;
+    setChatStatus('');
+  }
+}
+
+/* ── Init ── */
+renderIntro();
+buildSlices();
+drawDonut();
+renderLegend();
+</script>
 </body>
 </html>
