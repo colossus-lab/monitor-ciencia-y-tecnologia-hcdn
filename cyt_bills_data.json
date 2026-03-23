@@ -4,7 +4,7 @@
     "total": 68,
     "fuente": "Comisión de Ciencia, Tecnología e Innovación Productiva — H. Cámara de Diputados",
     "periodo": "2024–2026",
-    "con_autor": 60,
+    "con_autor": 68,
     "con_bloque": 45
   },
   "eje_stats": [
@@ -171,6 +171,22 @@
       "total": 3
     },
     {
+      "autor": "Juan M. López y otros",
+      "total": 3
+    },
+    {
+      "autor": "Gabriel Chumpitaz",
+      "total": 2
+    },
+    {
+      "autor": "Mónica Macha",
+      "total": 2
+    },
+    {
+      "autor": "Martín Yeza",
+      "total": 2
+    },
+    {
       "autor": "Oscar Agost Carreño",
       "total": 2
     },
@@ -179,43 +195,27 @@
       "total": 2
     },
     {
-      "autor": "Gabriel Chumpitaz",
+      "autor": "Juan Fernando Brügge",
       "total": 2
     },
     {
-      "autor": "hbaldassi",
+      "autor": "Silvana Giudici",
       "total": 1
     },
     {
-      "autor": "Facundo Manes",
+      "autor": "Esteban Paulón / M. Fein",
       "total": 1
     },
     {
-      "autor": "Adolfo Bermejo",
+      "autor": "Maximiliano Ferraro",
       "total": 1
     },
     {
-      "autor": "Cristian Adrián Ritondo",
+      "autor": "AGUIRRE, MANUEL IGNACIO",
       "total": 1
     },
     {
-      "autor": "Diputado Esteban Paulón",
-      "total": 1
-    },
-    {
-      "autor": "Silvana Micaela Ginocchio",
-      "total": 1
-    },
-    {
-      "autor": "Sergio Eduardo",
-      "total": 1
-    },
-    {
-      "autor": "Jorge Neri",
-      "total": 1
-    },
-    {
-      "autor": "Domingo Agustín",
+      "autor": "Danya Tavela",
       "total": 1
     }
   ],
@@ -1294,7 +1294,7 @@
       "id": "2300-D-2025",
       "titulo": "Objeto de la Ley",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "AGUIRRE, MANUEL IGNACIO",
       "bloque": "UCR",
       "camara": "Diputados",
       "año": 2025,
@@ -1445,7 +1445,7 @@
       "id": "4243-D-2025",
       "titulo": "regular la utilización de los datos personales de ciudadanos por parte de las personas humanas o jurídicas que desarrollen, operen, implementen o come",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "MARZIOTTA, GISELA",
       "bloque": "Unión por la Patria",
       "camara": "Diputados",
       "año": 2025,
@@ -1816,7 +1816,7 @@
       "id": "0805-D-2024",
       "titulo": "Responsabilidad Algorítmica Y Promoción De La Robótica, Algoritmos Verdes E Inteligencia Artificial En La Capítulo I Responsabilidad Y Transparencia Algorítmica",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "FERRARO, MAXIMILIANO",
       "bloque": "Coalición Cívica",
       "camara": "Diputados",
       "año": 2024,
@@ -1890,7 +1890,7 @@
       "id": "1300-D-2024",
       "titulo": "Institu yase el 10 de abril de cada an o como “El Dí a Nacional del Investigador e Investigadora Cientí fico” en conmemoracio n del natalicio del Dr",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "Marziotta Maria Gisela",
       "bloque": "Sin datos",
       "camara": "Diputados",
       "año": 2024,
@@ -1983,7 +1983,7 @@
       "id": "3003-D-2024",
       "titulo": "“Régimen Juridico Aplicable Para El Uso Responsable De La Inteligencia Artificial En La República Argentina”",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "Juan Fernando Brügge",
       "bloque": "Provincias Unidas",
       "camara": "Diputados",
       "año": 2024,
@@ -2000,7 +2000,7 @@
       "id": "3422-D-2024",
       "titulo": "SandBox IA Argentina",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "Martin Yeza",
       "bloque": "PRO",
       "camara": "Diputados",
       "año": 2024,
@@ -2113,7 +2113,7 @@
       "id": "3955-D-2024",
       "titulo": "INCORPORASE el artículo 139 ter al Código Penal de la Nación, cuyo texto es el siguiente: “Artículo 139° ter: Será reprimido con prisión de cuatro (4)",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "Juan Fernando Brügge",
       "bloque": "Provincias Unidas",
       "camara": "Diputados",
       "año": 2024,
@@ -2151,7 +2151,7 @@
       "id": "4898-D-2024",
       "titulo": "Incorpórese como artículo 1bis de la ley 24.240, el siguiente: Articulo 1bis: Se considera usuario directo de la IA a aquellos que interactúan directa",
       "autores": [],
-      "autor_principal": "No disponible",
+      "autor_principal": "Vega Yolanda",
       "bloque": "Innovación Federal",
       "camara": "Diputados",
       "año": 2024,
