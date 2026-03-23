@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProyectosCyT · Dashboard Legislativo 2019-2026</title>
-<meta name="description" content="Dashboard interactivo de proyectos de ley del Congreso Argentino sobre Inteligencia Artificial">
+<title>Comisión de CyT — Dashboard Inteligencia Artificial</title>
+<meta name="description" content="Dashboard de proyectos de ley sobre IA — Comisión de Ciencia, Tecnología e Innovación Productiva, H. Cámara de Diputados">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ── NECO FONT ───────────────────────────── */
@@ -31,16 +31,16 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════════════ */
 :root {
-  --bg:        #f5f0e8;
-  --surface:   #ede8df;
-  --surface2:  #e5dfd4;
-  --border:    rgba(0,0,0,0.1);
-  --text:      #1c1917;
-  --muted:     #78716c;
-  --lime:      #2d6a2d;
-  --blue:      #1a4a8a;
-  --violet:    #6d28d9;
-  --pink:      #be123c;
+  --bg:        #f0f5fa;
+  --surface:   #dce8f2;
+  --surface2:  #cddcea;
+  --border:    rgba(12,27,51,0.12);
+  --text:      #0c1b33;
+  --muted:     #4b5563;
+  --lime:      #1e4175;
+  --blue:      #2563a0;
+  --violet:    #d4a91a;
+  --pink:      #b8910f;
   --orange:    #c45a00;
   --teal:      #0f766e;
 
@@ -49,7 +49,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Neco',sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Source Serif 4',sans-serif;min-height:100vh;overflow-x:hidden}
 button{cursor:pointer;font-family:inherit}
 select,input{font-family:inherit}
 button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
@@ -82,11 +82,11 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 .logo{display:flex;align-items:center;gap:12px}
 .logo-icon{
   width:46px;height:46px;border-radius:14px;
-  background:linear-gradient(135deg,var(--lime),#4a8f4a);
+  background:linear-gradient(135deg,var(--violet),#e8c547);
   display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:20px;color:#fff;font-family:'Neco',sans-serif;
+  font-weight:700;font-size:20px;color:#0c1b33;font-family:'Source Serif 4',serif;
 }
-.logo-text h1{font-family:'Neco',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px}
+.logo-text h1{font-family:'Source Serif 4',serif;font-size:24px;font-weight:700;letter-spacing:-.5px}
 .logo-text p{font-size:12px;color:var(--muted);margin-top:2px}
 .header-badge{
   display:flex;align-items:center;gap:8px;
@@ -128,7 +128,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 }
 .kpi-card:hover::before{opacity:1}
 .kpi-label{font-size:12px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
-.kpi-value{font-size:32px;font-weight:700;font-family:'Neco',sans-serif;margin-bottom:12px;color:var(--lime)}
+.kpi-value{font-size:32px;font-weight:700;font-family:'Source Serif 4',serif;margin-bottom:12px;color:var(--lime)}
 .kpi-tag{
   display:inline-block;background:rgba(170,255,0,0.1);border:1px solid rgba(170,255,0,0.3);
   color:var(--lime);padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;
@@ -139,7 +139,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
   margin:0 auto 26px;
   padding:8px 18px 10px;
   text-align:center;
-  font-family:'Neco',sans-serif;
+  font-family:'Source Serif 4',serif;
   font-size:clamp(22px,2vw,32px);
   line-height:1.32;
   letter-spacing:-0.3px;
@@ -271,7 +271,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 
 .semaforo-stage-kicker{font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:rgba(28,25,23,.55);font-weight:700}
 .semaforo-stage-title{
-  font-size:20px;line-height:1.18;font-weight:700;font-family:'Neco',sans-serif;
+  font-size:20px;line-height:1.18;font-weight:700;font-family:'Source Serif 4',serif;
   margin:auto 0;color:var(--text);text-align:center;
 }
 .semaforo-stage-chip{
@@ -306,7 +306,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 
 .semaforo-copy-title{
   font-size:clamp(20px,2.4vw,30px);line-height:1.1;font-weight:700;
-  font-family:'Neco',sans-serif;letter-spacing:-.4px;margin-bottom:5px;
+  font-family:'Source Serif 4',serif;letter-spacing:-.4px;margin-bottom:5px;
 }
 .semaforo-copy-quote{font-size:17px;line-height:1.72;color:rgba(28,25,23,.72);max-width:1040px}
 
@@ -319,7 +319,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 }
 .semaforo-nav-btn:hover{border-color:rgba(0,0,0,.25);color:var(--text);background:var(--surface)}
 .semaforo-nav-btn:disabled{opacity:.3;cursor:default}
-.semaforo-page{font-size:12px;color:var(--muted);font-family:'Neco',sans-serif;font-weight:600;min-width:28px;text-align:center}
+.semaforo-page{font-size:12px;color:var(--muted);font-family:'Source Serif 4',serif;font-weight:600;min-width:28px;text-align:center}
 .semaforo-open-btn{
   display:inline-flex;align-items:center;gap:6px;
   border:1px solid rgba(45,106,45,.35);background:rgba(45,106,45,.1);color:var(--lime);
@@ -332,7 +332,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 .semaforo-detail{
   border-top:1px solid var(--border);background:var(--surface);padding:20px 24px;
 }
-.semaforo-detail-title{font-size:15px;font-family:'Neco',sans-serif;font-weight:700;margin-bottom:4px}
+.semaforo-detail-title{font-size:15px;font-family:'Source Serif 4',serif;font-weight:700;margin-bottom:4px}
 .semaforo-detail-sub{font-size:12px;color:var(--muted);margin-bottom:14px}
 .semaforo-bills{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
 .semaforo-bill{
@@ -353,7 +353,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
   padding:18px;
   margin:0;
 }
-.year-pie-title{font-family:'Neco',sans-serif;font-size:18px;font-weight:700}
+.year-pie-title{font-family:'Source Serif 4',serif;font-size:18px;font-weight:700}
 .year-pie-sub{font-size:12px;color:var(--muted);margin-top:3px}
 .year-pie-body{display:flex;align-items:center;gap:16px;margin-top:12px}
 #yearPieCanvas,#tipoProyectoPieCanvas{width:210px;height:210px;display:block;cursor:pointer}
@@ -390,7 +390,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
   margin:0 0 32px;
 }
 .simple-table-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:10px}
-.simple-table-title{font-family:'Neco',sans-serif;font-size:18px;font-weight:700}
+.simple-table-title{font-family:'Source Serif 4',serif;font-size:18px;font-weight:700}
 .simple-table-sub{font-size:12px;color:var(--muted)}
 .simple-table-scroll{max-height:360px;overflow:auto;border:1px solid var(--border);border-radius:10px}
 .simple-table{width:100%;border-collapse:collapse;font-size:12px}
@@ -412,7 +412,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
   padding:20px;
 }
 .card-header{margin-bottom:16px}
-.card-title{font-size:18px;font-weight:700;font-family:'Neco',sans-serif;margin-bottom:4px}
+.card-title{font-size:18px;font-weight:700;font-family:'Source Serif 4',serif;margin-bottom:4px}
 .card-subtitle{font-size:12px;color:var(--muted)}
 .chart-wrapper{position:relative;height:280px}
 
@@ -449,7 +449,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 .sector-cell.empty:hover{transform:none;border-color:var(--border);background:var(--surface2);box-shadow:none}
 .sector-icon{font-size:24px;line-height:1}
 .sector-count{
-  font-family:'Neco',sans-serif;
+  font-family:'Source Serif 4',serif;
   font-size:28px;
   font-weight:700;
   line-height:1;
@@ -490,7 +490,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 .heatmap-cell{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:38px;height:28px;border-radius:6px;font-weight:700;font-size:13px;
-  font-family:'Neco',sans-serif;
+  font-family:'Source Serif 4',serif;
 }
 .heatmap-bool{font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px}
 
@@ -501,7 +501,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 }
 .puente-badge-title{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .puente-badge-body{font-size:13px;color:var(--text);font-weight:500;line-height:1.45}
-.puente-badge-score{font-family:'Neco',sans-serif;font-size:20px;font-weight:700}
+.puente-badge-score{font-family:'Source Serif 4',serif;font-size:20px;font-weight:700}
 
 .bloc-expand{
   background:rgba(0,0,0,.3);border-radius:0 0 10px 10px;padding:12px 10px;margin-bottom:6px;
@@ -579,7 +579,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 }
 .tipo-canvas-center-num{
   font-size:36px;font-weight:700;
-  font-family:'Neco',sans-serif;
+  font-family:'Source Serif 4',serif;
   color:var(--lime);line-height:1;
 }
 .tipo-canvas-center-label{
@@ -603,7 +603,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 }
 .tipo-legend-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px}
 .tipo-legend-count{
-  font-size:16px;font-weight:700;font-family:'Neco',sans-serif;
+  font-size:16px;font-weight:700;font-family:'Source Serif 4',serif;
 }
 .tipo-legend-badges{display:flex;gap:4px}
 .tipo-badge-si{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;background:rgba(170,255,0,.1);color:var(--lime);border:1px solid rgba(170,255,0,.2)}
@@ -618,7 +618,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 }
 .insight-item:hover{border-color:var(--lime);transform:translateY(-4px);background:var(--surface)}
 .insight-emoji{font-size:32px;margin-bottom:8px}
-.insight-num{font-size:24px;font-weight:700;color:var(--lime);margin-bottom:4px;font-family:'Neco',sans-serif}
+.insight-num{font-size:24px;font-weight:700;color:var(--lime);margin-bottom:4px;font-family:'Source Serif 4',serif}
 .insight-label{font-size:12px;color:var(--muted);line-height:1.4}
 
 
@@ -633,7 +633,7 @@ button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
 .dest-item:hover{border-color:var(--lime);transform:translateY(-2px)}
 .dest-icon{font-size:28px;margin-bottom:8px}
 .dest-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px}
-.dest-count{font-size:13px;color:var(--lime);font-weight:700;font-family:'Neco',sans-serif}
+.dest-count{font-size:13px;color:var(--lime);font-weight:700;font-family:'Source Serif 4',serif}
 
 /* ═══════════════════════════════════════════════════
    TABLE & PAGINATION
@@ -692,7 +692,7 @@ tr:hover{background:var(--surface2)}
   color:var(--text);transition:all 0.2s;
 }
 .modal-close:hover{border-color:var(--lime);color:var(--lime)}
-.modal-title{font-size:22px;font-weight:700;font-family:'Neco',sans-serif;margin-bottom:8px;color:var(--lime)}
+.modal-title{font-size:22px;font-weight:700;font-family:'Source Serif 4',serif;margin-bottom:8px;color:var(--lime)}
 .modal-subtitle{font-size:12px;color:var(--muted);margin-bottom:20px}
 .modal-field{margin-bottom:16px}
 .modal-label{font-size:11px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:4px}
@@ -732,7 +732,7 @@ tr:hover{background:var(--surface2)}
   display:flex;align-items:center;justify-content:space-between;gap:8px;
   padding:12px 14px;border-bottom:1px solid var(--border);background:rgba(170,255,0,.06);
 }
-.chatbot-title{font-size:13px;font-weight:700;font-family:'Neco',sans-serif;color:var(--lime)}
+.chatbot-title{font-size:13px;font-weight:700;font-family:'Source Serif 4',serif;color:var(--lime)}
 .chatbot-sub{font-size:10px;color:var(--muted);margin-top:1px}
 .chatbot-close{background:transparent;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:8px}
 .chatbot-close:hover{border-color:var(--lime);color:var(--lime)}
@@ -912,10 +912,10 @@ tr:hover{background:var(--surface2)}
 <div class="header">
   <div class="header-top">
     <a href="index.html" class="logo" style="text-decoration:none;color:inherit" title="Ir a la landing">
-      <div class="logo-icon">LX</div>
+      <div class="logo-icon">🤖</div>
       <div class="logo-text">
-        <h1>ProyectosCyT</h1>
-        <p>Proyectos de Ley 2019-2026 — IA Argentina</p>
+        <h1>Comisión de CyT · IA</h1>
+        <p>H. Cámara de Diputados de la Nación Argentina</p>
       </div>
     </a>
     <div class="header-actions" style="display:flex;align-items:center;gap:12px">
@@ -923,9 +923,9 @@ tr:hover{background:var(--surface2)}
         font-size:12px;color:#6b7280;text-decoration:none;
         border:1px solid rgba(0,0,0,0.12);border-radius:8px;
         padding:5px 12px;transition:all .2s;white-space:nowrap;
-        font-family:'Neco',sans-serif;
-      " onmouseover="this.style.color='#2d6a2d';this.style.borderColor='rgba(45,106,45,.4)'"
-         onmouseout="this.style.color='#6b7280';this.style.borderColor='rgba(0,0,0,0.12)'">
+        font-family:'Inter',sans-serif;
+      " onmouseover="this.style.color='#1e4175';this.style.borderColor='rgba(30,65,117,.4)'"
+         onmouseout="this.style.color='#6b7280';this.style.borderColor='rgba(12,27,51,0.12)'">  
         ← Inicio
       </a>
       <div class="header-badge">
@@ -1167,7 +1167,7 @@ tr:hover{background:var(--surface2)}
      FOOTER
 ════════════════════════════════════════════════════════ -->
 <div style="text-align:center;padding:40px 0;border-top:1px solid var(--border);margin-top:48px;color:var(--muted);font-size:12px">
-  <p>ProyectosCyT • Proyectos de Ley 2019-2026 • Datos legislativos de Argentina</p>
+  <p>Comisión de CyT · H. Cámara de Diputados de la Nación Argentina · 2019-2026</p>
   <p style="margin-top:8px;font-size:11px">Información actualizada — Todos los proyectos sobre Inteligencia Artificial</p>
 </div>
 
@@ -1472,7 +1472,7 @@ async function loadData() {
     document.getElementById('overlay').innerHTML =
       `<div style="text-align:center;padding:40px">
         <div style="font-size:48px">⚠️</div>
-        <div style="font-family:'Neco',sans-serif;font-size:18px;font-weight:700;margin:16px 0">Error al cargar datos</div>
+        <div style="font-family:'Source Serif 4',serif;font-size:18px;font-weight:700;margin:16px 0">Error al cargar datos</div>
         <div style="color:#6b7280;font-size:13px">
           Asegurate de correr desde un servidor:<br>
           <code style="background:#1a1a1a;padding:4px 8px;border-radius:6px;margin-top:8px;display:inline-block">
@@ -2109,12 +2109,12 @@ function renderYearPie() {
   const ctx = canvas.getContext('2d');
   const cx = canvas.width / 2, cy = canvas.height / 2;
   ctx.fillStyle = 'var(--text)';
-  ctx.font = "700 20px 'Neco', sans-serif";
+  ctx.font = "700 20px 'Source Serif 4', serif";
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(String(total), cx, cy - 7);
   ctx.fillStyle = 'var(--muted)';
-  ctx.font = "500 11px 'Neco', sans-serif";
+  ctx.font = "500 11px 'Source Serif 4', serif";
   ctx.fillText('proyectos', cx, cy + 13);
 
   legend.innerHTML = _yearPieSlices.map(item => `
@@ -2129,8 +2129,8 @@ function renderYearPie() {
       _yearPieHover = hit;
       drawPieDonut(canvas, _yearPieSlices, _yearPieHover);
       const ctx2 = canvas.getContext('2d');
-      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Source Serif 4', serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Source Serif 4', serif"; ctx2.fillText('proyectos', cx, cy + 13);
       document.querySelectorAll('#yearPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
       if(hit) document.querySelector(`#yearPieLegend .year-pie-item[data-pie="year:${hit}"]`)?.classList.add('active');
     }
@@ -2139,8 +2139,8 @@ function renderYearPie() {
     _yearPieHover = null;
     drawPieDonut(canvas, _yearPieSlices, null);
     const ctx2 = canvas.getContext('2d');
-    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Source Serif 4', serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Source Serif 4', serif"; ctx2.fillText('proyectos', cx, cy + 13);
     document.querySelectorAll('#yearPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
   };
   canvas.onclick = e => {
@@ -2169,12 +2169,12 @@ function renderTipoProyectoPie() {
   const ctx = canvas.getContext('2d');
   const cx = canvas.width / 2, cy = canvas.height / 2;
   ctx.fillStyle = 'var(--text)';
-  ctx.font = "700 20px 'Neco', sans-serif";
+  ctx.font = "700 20px 'Source Serif 4', serif";
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
   ctx.fillText(String(total), cx, cy - 7);
   ctx.fillStyle = 'var(--muted)';
-  ctx.font = "500 11px 'Neco', sans-serif";
+  ctx.font = "500 11px 'Source Serif 4', serif";
   ctx.fillText('proyectos', cx, cy + 13);
 
   legend.innerHTML = _tipoPieSlices.map(item => `
@@ -2189,8 +2189,8 @@ function renderTipoProyectoPie() {
       _tipoPieHover = hit;
       drawPieDonut(canvas, _tipoPieSlices, _tipoPieHover);
       const ctx2 = canvas.getContext('2d');
-      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+      ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Source Serif 4', serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+      ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Source Serif 4', serif"; ctx2.fillText('proyectos', cx, cy + 13);
       document.querySelectorAll('#tipoProyectoPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
       if(hit) document.querySelector(`#tipoProyectoPieLegend .year-pie-item[data-pie="tipo:${CSS.escape(hit)}"]`)?.classList.add('active');
     }
@@ -2199,8 +2199,8 @@ function renderTipoProyectoPie() {
     _tipoPieHover = null;
     drawPieDonut(canvas, _tipoPieSlices, null);
     const ctx2 = canvas.getContext('2d');
-    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Neco', sans-serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
-    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Neco', sans-serif"; ctx2.fillText('proyectos', cx, cy + 13);
+    ctx2.fillStyle = 'var(--text)'; ctx2.font = "700 20px 'Source Serif 4', serif"; ctx2.textAlign='center'; ctx2.textBaseline='middle'; ctx2.fillText(String(total), cx, cy - 7);
+    ctx2.fillStyle='var(--muted)'; ctx2.font="500 11px 'Source Serif 4', serif"; ctx2.fillText('proyectos', cx, cy + 13);
     document.querySelectorAll('#tipoProyectoPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
   };
   canvas.onclick = e => {
@@ -2517,7 +2517,7 @@ function drawDonut(canvas, hoveredTipo) {
       const lx     = cx + labelR * Math.cos(midAngle);
       const ly     = cy + labelR * Math.sin(midAngle);
       ctx.fillStyle = 'rgba(0,0,0,0.75)';
-      ctx.font      = `bold 11px 'Neco', sans-serif`;
+      ctx.font      = `bold 11px 'Source Serif 4', serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText(Math.round(pct) + '%', lx, ly);
@@ -2906,7 +2906,7 @@ function renderBlocHeatmap(container, blocData) {
         return `<td><span class="heatmap-cell" style="background:${ejeCellColor(v)};color:${ejeCellText(v)};cursor:pointer;flex-direction:column;height:auto;min-height:28px;padding:4px 6px;gap:1px"
           onclick="event.stopPropagation();showBlocEvidenceTooltip(event,'${bloc.name}',${i})"
           title="Clic para ver respaldo técnico">
-          <span style="font-size:13px;font-weight:700;font-family:'Neco',sans-serif">${v}</span>
+          <span style="font-size:13px;font-weight:700;font-family:'Source Serif 4',serif">${v}</span>
           ${rangeHtml}
         </span></td>`;
       }).join('')}

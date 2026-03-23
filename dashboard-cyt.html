@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ProyectosCyT · Dashboard Ciencia y Tecnología</title>
+<title>Comisión de CyT — Dashboard Ciencia y Tecnología</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 /* ── NECO FONT ───────────────────────────── */
 @font-face {
@@ -25,24 +27,24 @@
 
 /* ── TOKENS ────────────────────────────── */
 :root {
-  --bg:      #f5f0e8;
-  --surface: #ede8df;
-  --surface2:#e5dfd4;
-  --border:  rgba(0,0,0,.1);
-  --text:    #1c1917;
-  --muted:   #78716c;
-  --lime:    #2d6a2d;
-  --blue:    #1a4a8a;
-  --violet:  #6d28d9;
+  --bg:      #f0f5fa;
+  --surface: #dce8f2;
+  --surface2:#c5d9ea;
+  --border:  rgba(12,27,51,.1);
+  --text:    #0c1b33;
+  --muted:   #4b5563;
+  --lime:    #1e4175;
+  --blue:    #2563a0;
+  --violet:  #d4a91a;
   --radius:  16px;
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
 html { scroll-behavior:smooth }
-body { background:var(--bg); color:var(--text); font-family:'Neco',system-ui,sans-serif; min-height:100vh }
+body { background:var(--bg); color:var(--text); font-family:'Inter','Source Serif 4',system-ui,sans-serif; min-height:100vh }
 a { color:inherit; text-decoration:none }
 ::-webkit-scrollbar { width:5px }
 ::-webkit-scrollbar-track { background:var(--bg) }
-::-webkit-scrollbar-thumb { background:#c0b5a0; border-radius:3px }
+::-webkit-scrollbar-thumb { background:#7ba3cc; border-radius:3px }
 
 /* ── LAYOUT ────────────────────────────── */
 .app { max-width:1200px; margin:0 auto; padding:0 24px 64px }
@@ -72,17 +74,17 @@ a { color:inherit; text-decoration:none }
 .logo { display:flex; align-items:center; gap:12px }
 .logo-icon {
   width:42px; height:42px; border-radius:12px;
-  background:linear-gradient(135deg, var(--violet), #9333ea);
+  background:linear-gradient(135deg, var(--violet), #e8c547);
   display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:18px; color:#fff;
+  font-weight:700; font-size:18px; color:#0c1b33;
 }
-.logo-text h1 { font-size:22px; font-weight:700; letter-spacing:-.3px }
+.logo-text h1 { font-family:'Source Serif 4',serif; font-size:22px; font-weight:700; letter-spacing:-.3px }
 .logo-text p { font-size:12px; color:var(--muted); margin-top:2px }
 .back-link {
   color:var(--muted); border:1px solid var(--border); border-radius:10px;
   padding:8px 14px; font-size:13px; transition:all .2s;
 }
-.back-link:hover { border-color:rgba(45,106,45,.4); color:var(--lime) }
+.back-link:hover { border-color:rgba(30,65,117,.4); color:var(--lime) }
 
 /* ── INTRO ─────────────────────────────── */
 .intro-text {
@@ -110,11 +112,11 @@ a { color:inherit; text-decoration:none }
   background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
   padding:36px; margin-bottom:36px;
 }
-.donut-section h2 { font-size:22px; font-weight:700; margin-bottom:6px }
+.donut-section h2 { font-family:'Source Serif 4',serif; font-size:22px; font-weight:700; margin-bottom:6px }
 .donut-section .subtitle {
   font-size:12px; color:var(--muted); margin-bottom:28px;
   display:inline-flex; align-items:center; gap:6px;
-  background:rgba(0,0,0,.05); border:1px solid var(--border);
+  background:rgba(12,27,51,.05); border:1px solid var(--border);
   border-radius:999px; padding:5px 12px 5px 10px;
 }
 .donut-layout {
@@ -143,7 +145,7 @@ a { color:inherit; text-decoration:none }
   border-radius:12px; cursor:pointer; transition:background .15s;
   margin-bottom:3px;
 }
-.legend-item:hover, .legend-item.active { background:rgba(0,0,0,.06) }
+.legend-item:hover, .legend-item.active { background:rgba(12,27,51,.06) }
 .legend-swatch { width:14px; height:14px; border-radius:4px; flex-shrink:0 }
 .legend-name { font-size:14px; font-weight:600; flex:1 }
 .legend-count { font-size:13px; color:var(--muted); font-weight:700 }
@@ -193,13 +195,13 @@ a { color:inherit; text-decoration:none }
   padding:22px 26px; border-bottom:1px solid var(--border);
   display:flex; align-items:center; justify-content:space-between;
 }
-.modal-header h3 { font-size:18px; font-weight:700 }
+.modal-header h3 { font-family:'Source Serif 4',serif; font-size:18px; font-weight:700 }
 .modal-close {
   width:32px; height:32px; border-radius:8px; border:1px solid var(--border);
   background:var(--surface); cursor:pointer; font-size:16px;
   display:flex; align-items:center; justify-content:center; transition:all .2s;
 }
-.modal-close:hover { border-color:rgba(0,0,0,.25) }
+.modal-close:hover { border-color:rgba(12,27,51,.25) }
 .modal-body { padding:20px 26px 26px }
 
 /* Sub-category pills in modal */
@@ -217,10 +219,10 @@ a { color:inherit; text-decoration:none }
   background:var(--surface); border:1px solid var(--border); border-radius:10px;
   padding:14px 16px; margin-bottom:8px; transition:all .15s;
 }
-.proj-card:hover { border-color:rgba(0,0,0,.22); transform:translateY(-1px) }
+.proj-card:hover { border-color:rgba(12,27,51,.22); transform:translateY(-1px) }
 .proj-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px }
 .proj-exp { font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.3px; text-transform:uppercase }
-.proj-desc { font-size:13px; line-height:1.5; margin-top:6px; color:rgba(28,25,23,.82) }
+.proj-desc { font-size:13px; line-height:1.5; margin-top:6px; color:rgba(12,27,51,.82) }
 .proj-meta { font-size:11px; color:var(--muted); margin-top:6px }
 .proj-pdf {
   display:inline-flex; align-items:center; gap:5px;
@@ -237,8 +239,8 @@ footer { border-top:1px solid var(--border); padding:24px; text-align:center }
 /* ── CHATBOT ───────────────────────────── */
 .chatbot-fab{
   position:fixed;right:26px;bottom:24px;z-index:1400;
-  width:74px;height:74px;border-radius:50%;border:1px solid rgba(26,74,138,.42);
-  background:linear-gradient(140deg,rgba(26,74,138,.18),rgba(109,40,217,.14));
+  width:74px;height:74px;border-radius:50%;border:1px solid rgba(30,65,117,.42);
+  background:linear-gradient(140deg,rgba(30,65,117,.18),rgba(212,169,26,.14));
   color:var(--text);font-size:30px;display:flex;align-items:center;justify-content:center;
   box-shadow:0 14px 34px rgba(0,0,0,.28);transition:all .2s;
 }
@@ -262,7 +264,7 @@ footer { border-top:1px solid var(--border); padding:24px; text-align:center }
 .chat-msg.user{align-self:flex-end;background:rgba(26,74,138,.12);border:1px solid rgba(26,74,138,.2)}
 .chat-msg.bot{align-self:flex-start;background:var(--surface2);border:1px solid var(--border)}
 .chatbot-status{min-height:18px;padding:0 12px 8px;color:var(--muted);font-size:10px}
-.chatbot-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:rgba(0,0,0,.03)}
+.chatbot-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border);background:rgba(12,27,51,.03)}
 .chatbot-text{
   flex:1;resize:none;height:40px;max-height:110px;background:var(--surface2);border:1px solid var(--border);
   border-radius:10px;color:var(--text);font-size:12px;padding:10px 12px;outline:none
@@ -293,8 +295,8 @@ footer { border-top:1px solid var(--border); padding:24px; text-align:center }
       <div class="logo">
         <div class="logo-icon">🔬</div>
         <div class="logo-text">
-          <h1><span style="color:var(--lime)">Lex</span><span style="color:var(--muted)">AR</span> · Ciencia y Tecnología</h1>
-          <p>Comisión de Ciencia y Tecnología · H. Cámara de Diputados</p>
+          <h1><span style="color:var(--violet)">Comisión de CyT</span> · Ciencia y Tecnología</h1>
+          <p>H. Cámara de Diputados de la Nación Argentina</p>
         </div>
       </div>
       <a class="back-link" href="index.html">← Volver al inicio</a>
@@ -368,7 +370,7 @@ footer { border-top:1px solid var(--border); padding:24px; text-align:center }
 </div>
 
 <footer>
-  <div class="footer-text">ProyectosCyT · Inteligencia legislativa argentina · 2024–2026</div>
+  <div class="footer-text">Comisión de CyT · H. Cámara de Diputados de la Nación Argentina · 2024–2026</div>
 </footer>
 
 <script>
