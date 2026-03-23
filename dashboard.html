@@ -1009,9 +1009,10 @@ tr:hover{background:var(--surface2)}
   </div>
 </div>
 
-<div class="outside-cyt-note anim d3" onclick="openOutsideCytModal()">
+<div class="outside-cyt-note anim d3" onclick="openOutsideCytModal()" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openOutsideCytModal();}">
   <strong>Hay 7 proyectos de Ley relativos a la temática pero que no se encuentran en la Comisión de Ciencia y Tecnología.</strong>
   Hacé clic para ver el detalle y abrir el PDF de cada uno (estos proyectos no se incluyen en el conteo de 33).
+  <div style="margin-top:6px;font-size:12px;font-weight:700;color:var(--lime);text-decoration:underline">Ver los 7 proyectos</div>
 </div>
 
 <!-- ════════════════════════════════════════════════════════
