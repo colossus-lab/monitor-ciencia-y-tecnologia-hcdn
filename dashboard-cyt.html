@@ -1066,6 +1066,7 @@ async function sendChatMessage() {
 
   const bloqueStats = (jsonData.bloque_stats || []).filter(b => b.bloque !== 'Sin datos');
   const autores = jsonData.top_autores || [];
+  const allBills = jsonData.bills || [];
   const totalConBloque = bloqueStats.reduce((s,b) => s + b.total, 0);
 
   /* ── Bloque Donut ── */
@@ -1166,6 +1167,18 @@ async function sendChatMessage() {
     }
   });
   bCanvas.addEventListener('mouseleave', () => { bHovered = -1; drawBloqueDonut(); syncBloqueLegend(-1); });
+  bCanvas.addEventListener('click', e => {
+    const {x, y} = bloqueCanvasCoords(e);
+    const idx = getBloqueSliceAt(x, y);
+    if (idx >= 0) openBloqueModalByIdx(idx);
+  });
+  bCanvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const {x, y} = bloqueCanvasCoords(touch);
+    const idx = getBloqueSliceAt(x, y);
+    if (idx >= 0) openBloqueModalByIdx(idx);
+  }, { passive: false });
 
   function syncBloqueLegend(idx) {
     document.querySelectorAll('#bloqueLegend .bloque-legend-item').forEach((el, i) => {
@@ -1176,14 +1189,71 @@ async function sendChatMessage() {
   function renderBloqueLegend() {
     const legend = document.getElementById('bloqueLegend');
     legend.innerHTML = bloqueStats.map((b, i) => `
-      <div class="bloque-legend-item" data-idx="${i}"
-           onmouseenter="document.querySelectorAll('#bloqueLegend .bloque-legend-item').forEach((el,j)=>el.style.background=j===${i}?'rgba(12,27,51,.06)':'')"
-           onmouseleave="document.querySelectorAll('#bloqueLegend .bloque-legend-item').forEach(el=>el.style.background='')">
+      <div class="bloque-legend-item" data-idx="${i}">
         <div class="bloque-swatch" style="background:${b.color}"></div>
         <span class="bloque-name">${b.bloque}</span>
         <span class="bloque-count">${b.total}</span>
       </div>
     `).join('');
+    legend.querySelectorAll('.bloque-legend-item').forEach((el, i) => {
+      el.addEventListener('mouseenter', () => {
+        bHovered = i;
+        drawBloqueDonut();
+        syncBloqueLegend(i);
+      });
+      el.addEventListener('mouseleave', () => {
+        bHovered = -1;
+        drawBloqueDonut();
+        syncBloqueLegend(-1);
+      });
+      el.addEventListener('click', () => openBloqueModalByIdx(i));
+    });
+  }
+
+  function normalizeKey(text) {
+    return (text || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  }
+
+  function getBillsByBloque(bloque) {
+    const key = normalizeKey(bloque);
+    return allBills.filter(b => normalizeKey(b.bloque) === key);
+  }
+
+  function openBloqueModalByIdx(idx) {
+    const item = bSlices[idx];
+    if (!item) return;
+    const bloque = item.data.bloque;
+    const color = item.color;
+    const bills = getBillsByBloque(bloque);
+    document.getElementById('modalTitle').innerHTML =
+      `<span style="color:${color}">●</span> ${bloque} <span style="font-weight:400;font-size:14px;color:var(--muted)">(${bills.length} proyectos)</span>`;
+
+    const html = bills.length
+      ? bills.map(b => {
+          const pdf = b.pdf_path || '';
+          const pdfBtn = pdf
+            ? `<a class="proj-pdf" href="${pdf}" target="_blank">📄 Ver PDF</a>`
+            : '';
+          return `<div class="proj-card">
+            <div class="proj-top">
+              <div>
+                <div class="proj-exp">${b.id || ''}</div>
+                <div class="proj-desc">${b.titulo || b.resumen || ''}</div>
+                <div class="proj-meta">${b.autor_principal || 'Sin autor'} · ${b.año || ''}</div>
+              </div>
+              ${pdfBtn}
+            </div>
+          </div>`;
+        }).join('')
+      : '<div style="font-size:13px;color:var(--muted)">No hay proyectos cargados para este bloque.</div>';
+
+    document.getElementById('modalBody').innerHTML = html;
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
   }
 
   document.getElementById('bloqueTotal').textContent = totalConBloque;
