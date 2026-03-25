@@ -953,7 +953,6 @@ document.addEventListener('keydown', e => {
 let chatbotInitialized = false;
 let chatbotLoading = false;
 let cytChatContextCache = null;
-let chatbotBasePrompt = '';
 
 function toggleChatbot(forceState = null) {
   const panel = document.getElementById('chatbotPanel');
@@ -970,7 +969,6 @@ function initChatbotIfNeeded() {
   if(chatbotInitialized) return;
   chatbotInitialized = true;
   appendChatMessage('bot', 'Hola, soy LeyesBot para CyT. Preguntame sobre los proyectos de Ciencia y Tecnología.');
-  appendChatMessage('bot', 'Tip: podés escribir `/prompt ...` para ajustar el estilo de respuesta y `/resetprompt` para volver al modo normal.');
 }
 
 function appendChatMessage(role, text) {
@@ -1055,23 +1053,6 @@ async function sendChatMessage() {
   const question = (input?.value || '').trim();
   if(!question) return;
 
-  if (/^\/resetprompt$/i.test(question)) {
-    appendChatMessage('user', question);
-    chatbotBasePrompt = '';
-    appendChatMessage('bot', 'Prompt personalizado desactivado. Volví al modo normal.');
-    input.value = '';
-    return;
-  }
-
-  const promptMatch = question.match(/^\/prompt\s+([\s\S]+)/i);
-  if (promptMatch) {
-    appendChatMessage('user', question);
-    chatbotBasePrompt = promptMatch[1].trim();
-    appendChatMessage('bot', 'Prompt personalizado aplicado para esta sesión de chat.');
-    input.value = '';
-    return;
-  }
-
   appendChatMessage('user', question);
   input.value = '';
   chatbotLoading = true;
@@ -1087,7 +1068,6 @@ async function sendChatMessage() {
         pregunta: question,
         scope: 'cyt',
         contexto,
-        prompt_base: chatbotBasePrompt,
       }),
     });
 
