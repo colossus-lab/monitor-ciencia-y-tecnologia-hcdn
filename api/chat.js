@@ -103,6 +103,18 @@ function fallbackFromContext(consulta, contexto) {
   return `Encontré estos proyectos relacionados:\n${lines.join("\n")}`;
 }
 
+function isTotalProjectsQuestion(consulta) {
+  const q = normalizeText(consulta || "");
+  if (!q) return false;
+  const hasProjects = q.includes("proyecto");
+  const hasCountCue = /(cuantos|cuantas|cantidad|total|numero|nro)/.test(q);
+  const hasSpecificFilter =
+    /\b20\d{2}\b/.test(q) ||
+    /\b\d{4}-d-\d{4}\b/i.test(consulta || "") ||
+    /(bloque|autor|tematica|subtematica|tipo|a[oñ]o)/.test(q);
+  return hasProjects && hasCountCue && !hasSpecificFilter;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).send("Solo POST");
 
@@ -129,16 +141,25 @@ export default async function handler(req, res) {
       } catch (_) {}
     }
 
-    const contextoRelevante = pickRelevantContext(consulta, contextoArray, MAX_CONTEXT_ITEMS);
-    if (contextoRelevante.length) {
-      datosLeyes = JSON.stringify(contextoRelevante);
-    }
-
     const alcance = scope === "cyt"
       ? "Ciencia y Tecnología"
       : scope === "ia"
       ? "Inteligencia Artificial"
       : "General";
+
+    const totalProyectos = Array.isArray(contextoArray) ? contextoArray.length : 0;
+    if (totalProyectos > 0 && isTotalProjectsQuestion(consulta)) {
+      return res.status(200).json({
+        texto: `Actualmente, en el dashboard de ${alcance}, se registran **${totalProyectos} proyectos de ley**.`,
+        model: "count-local",
+        context_items: totalProyectos,
+      });
+    }
+
+    const contextoRelevante = pickRelevantContext(consulta, contextoArray, MAX_CONTEXT_ITEMS);
+    if (contextoRelevante.length) {
+      datosLeyes = JSON.stringify(contextoRelevante);
+    }
 
     const instruccionSistema = `
 Sos "LeyesBot", un experto legal argentino.
