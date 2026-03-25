@@ -49,7 +49,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter','Source Serif 4',sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Inter','Source Serif 4',sans-serif;min-height:100vh;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom)}
 button{cursor:pointer;font-family:inherit}
 select,input{font-family:inherit}
 button,a,.simple-title-btn,.semaforo-stage-card.front{touch-action:manipulation}
@@ -842,7 +842,7 @@ tr:hover{background:var(--surface2)}
   .logo-icon{width:36px;height:36px;font-size:14px;border-radius:10px}
   .logo-text h1{font-size:16px}
   .logo-text p{font-size:10px}
-  .header-actions a{padding:5px 8px !important;font-size:10px !important}
+  .header-actions a{padding:8px 12px !important;font-size:11px !important;min-height:44px;display:inline-flex;align-items:center}
   .header-badge{padding:5px 10px;border-radius:999px;font-size:10px}
   .kpi-grid{gap:10px;grid-template-columns:repeat(2,1fr)}
   .kpi-card{padding:12px}
@@ -863,76 +863,78 @@ tr:hover{background:var(--surface2)}
   .semaforo-copy-title{font-size:clamp(20px,6vw,28px);line-height:1.08}
   .semaforo-copy-quote{font-size:13px;line-height:1.5}
   .semaforo-copy-actions{margin-top:12px;gap:8px}
-  .semaforo-nav-btn{width:38px;height:38px;font-size:16px}
-  .semaforo-open-btn{padding:8px 12px;font-size:11px}
+  .semaforo-nav-btn{width:44px;height:44px;font-size:16px}
+  .semaforo-open-btn{padding:10px 14px;font-size:12px;min-height:44px}
   .semaforo-page{font-size:11px}
   .semaforo-detail{padding:12px}
   .semaforo-detail-title{font-size:13px}
-  .semaforo-detail-sub{font-size:11px;margin-bottom:10px}
+  .semaforo-detail-sub{font-size:12px;margin-bottom:10px}
   .semaforo-bills{grid-template-columns:1fr;gap:8px}
-  .semaforo-bill{padding:10px}
-  .semaforo-bill-id{font-size:9px}
-  .semaforo-bill-title{font-size:12px;margin-top:4px}
-  .semaforo-bill-meta{font-size:10px;margin-top:4px}
+  .semaforo-bill{padding:12px;min-height:48px}
+  .semaforo-bill-id{font-size:10px}
+  .semaforo-bill-title{font-size:13px;margin-top:4px}
+  .semaforo-bill-meta{font-size:11px;margin-top:4px}
   .year-pie-wrap{padding:12px}
   .year-pie-title{font-size:15px}
   .year-pie-sub{font-size:11px}
   #yearPieCanvas,#tipoProyectoPieCanvas{width:140px;height:140px}
+  .year-pie-item{min-height:44px;padding:8px 10px}
   .simple-table-title{font-size:14px}
-  .outside-cyt-note{margin:-6px 0 14px;padding:10px;font-size:11px;border-radius:10px}
-  .simple-table{font-size:10px}
+  .outside-cyt-note{margin:-6px 0 14px;padding:12px;font-size:12px;border-radius:10px;min-height:48px}
+  .simple-table{font-size:11px}
   .simple-table thead th,.simple-table tbody td{padding:6px 8px}
   .simple-table-wrap{padding:10px;border-radius:10px}
   .card{padding:14px;border-radius:10px}
   .card-title{font-size:15px}
   .card-subtitle{font-size:11px}
   .chart-wrapper{height:220px}
-  .carousel-btn{width:30px;height:30px;font-size:16px}
+  .carousel-btn{width:36px;height:36px;font-size:16px}
   .carousel-section .card{padding:16px}
   .insight-emoji{font-size:24px;margin-bottom:6px}
   .insight-num{font-size:18px}
   .insight-label{font-size:11px}
-  .insight-item{padding:12px}
+  .insight-item{padding:12px;min-height:48px}
   .sector-icon{font-size:20px}
   .sector-count{font-size:22px}
-  .sector-label{font-size:10.5px}
-  .sector-cell{padding:12px 10px 10px;border-radius:10px}
+  .sector-label{font-size:11px}
+  .sector-cell{padding:12px 10px 10px;border-radius:10px;min-height:48px}
   .dest-grid{grid-template-columns:repeat(2,1fr);gap:8px}
-  .dest-item{padding:10px;border-radius:10px}
+  .dest-item{padding:10px;border-radius:10px;min-height:48px}
   .dest-icon{font-size:22px;margin-bottom:6px}
   .dest-name{font-size:11px}
   .dest-count{font-size:12px}
   .tipo-canvas-container{width:180px;height:180px}
   .tipo-canvas-center-num{font-size:28px}
-  .tipo-legend-item{padding:7px 10px}
-  .tipo-legend-name{font-size:11px}
+  .tipo-legend-item{padding:10px 10px;min-height:48px}
+  .tipo-legend-name{font-size:12px}
   .tipo-legend-count{font-size:14px}
   .bills-list{grid-template-columns:1fr;gap:10px}
-  .bill-card{padding:10px;border-radius:10px}
+  .bill-card{padding:12px;border-radius:10px}
   .bill-num{font-size:10px}
-  .bill-title{font-size:12px;margin-bottom:6px}
-  .bill-author{font-size:10px}
-  .modal-content{width:calc(100vw - 12px);max-height:92vh;padding:14px;border-radius:12px}
+  .bill-title{font-size:13px;margin-bottom:6px}
+  .bill-author{font-size:11px}
+  .modal-content{width:100vw;max-height:100vh;height:100vh;padding:0;border-radius:0;overscroll-behavior:contain}
   .modal-content-wide{max-width:none}
-  .modal-title{font-size:18px}
-  .modal-subtitle{font-size:11px;margin-bottom:14px}
-  .modal-close{width:28px;height:28px;font-size:16px}
-  .chatbot-fab{right:12px;bottom:12px;width:54px;height:54px;font-size:24px}
-  .chatbot-panel{left:6px;right:6px;bottom:70px;width:auto;max-width:none;border-radius:10px}
-  .chatbot-messages{max-height:44vh;padding:8px}
-  .chatbot-input{padding:6px}
-  .chatbot-text{height:36px;font-size:12px;padding:8px 10px}
-  .chatbot-send{padding:0 10px;font-size:11px}
+  .modal-title{font-size:18px;padding:16px 16px 0}
+  .modal-subtitle{font-size:12px;margin-bottom:14px;padding:0 16px}
+  .modal-close{width:48px;height:48px;font-size:18px;top:8px;right:8px;border-radius:10px}
+  .chatbot-fab{right:12px;bottom:calc(12px + env(safe-area-inset-bottom));width:52px;height:52px;font-size:22px}
+  .chatbot-panel{left:6px;right:6px;bottom:calc(70px + env(safe-area-inset-bottom));width:auto;max-width:none;border-radius:10px;max-height:70vh;overscroll-behavior:contain}
+  .chatbot-messages{max-height:44vh;padding:8px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .chatbot-input{padding:6px;padding-bottom:calc(6px + env(safe-area-inset-bottom))}
+  .chatbot-text{height:36px;font-size:16px;padding:8px 10px}
+  .chatbot-send{padding:0 12px;font-size:12px;min-height:44px}
   table{font-size:11px}
   th,td{padding:7px}
   .pagination{gap:6px;margin:16px 0}
-  .pag-btn{padding:5px 8px;font-size:11px}
+  .pag-btn{padding:8px 12px;font-size:12px;min-height:44px}
+  .pdf-link{min-height:44px;display:inline-flex;align-items:center;padding:8px 12px}
 }
 
 @media (max-width:420px){
   .app{padding:0 8px 20px}
   .header-actions{gap:6px}
-  .header-actions a{padding:4px 7px !important;font-size:9px !important}
+  .header-actions a{padding:6px 10px !important;font-size:10px !important;min-height:40px}
   .logo-text h1{font-size:14px}
   .consenso-intro{font-size:14px}
   .kpi-value{font-size:22px}
@@ -940,11 +942,11 @@ tr:hover{background:var(--surface2)}
   .semaforo-stage-title{font-size:14px}
   .semaforo-copy-title{font-size:20px}
   .semaforo-copy-quote{font-size:12px;line-height:1.45}
-  .semaforo-open-btn{width:100%;justify-content:center}
+  .semaforo-open-btn{width:100%;justify-content:center;min-height:44px}
   .semaforo-copy-actions{gap:6px}
-  .semaforo-nav-btn{width:36px;height:36px;font-size:15px}
+  .semaforo-nav-btn{width:40px;height:40px;font-size:15px}
   .modal-title{font-size:16px}
-  .modal-content{padding:12px}
+  .modal-content{padding:0}
   .sector-count{font-size:20px}
   .insight-num{font-size:16px}
   .tipo-canvas-container{width:150px;height:150px}
@@ -2203,6 +2205,37 @@ function renderYearPie() {
     const hit = getPieHit(canvas, _yearPieSlices, e);
     if(hit) showProjectsByYear(hit);
   };
+
+  /* Touch support for yearPieCanvas */
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const fakeE = { clientX: touch.clientX, clientY: touch.clientY };
+    const hit = getPieHit(canvas, _yearPieSlices, fakeE);
+    if(hit !== _yearPieHover) {
+      _yearPieHover = hit;
+      drawPieDonut(canvas, _yearPieSlices, _yearPieHover);
+      const ctx3 = canvas.getContext('2d');
+      ctx3.fillStyle = 'var(--text)'; ctx3.font = "700 20px 'Source Serif 4', serif"; ctx3.textAlign='center'; ctx3.textBaseline='middle'; ctx3.fillText(String(total), cx, cy - 7);
+      ctx3.fillStyle='var(--muted)'; ctx3.font="500 11px 'Source Serif 4', serif"; ctx3.fillText('proyectos', cx, cy + 13);
+      document.querySelectorAll('#yearPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
+      if(hit) document.querySelector(`#yearPieLegend .year-pie-item[data-pie="year:${hit}"]`)?.classList.add('active');
+    }
+    if(hit) {
+      setTimeout(() => showProjectsByYear(hit), 200);
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', () => {
+    setTimeout(() => {
+      _yearPieHover = null;
+      drawPieDonut(canvas, _yearPieSlices, null);
+      const ctx3 = canvas.getContext('2d');
+      ctx3.fillStyle = 'var(--text)'; ctx3.font = "700 20px 'Source Serif 4', serif"; ctx3.textAlign='center'; ctx3.textBaseline='middle'; ctx3.fillText(String(total), cx, cy - 7);
+      ctx3.fillStyle='var(--muted)'; ctx3.font="500 11px 'Source Serif 4', serif"; ctx3.fillText('proyectos', cx, cy + 13);
+      document.querySelectorAll('#yearPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
+    }, 1500);
+  }, { passive: true });
 }
 
 function renderTipoProyectoPie() {
@@ -2263,6 +2296,37 @@ function renderTipoProyectoPie() {
     const hit = getPieHit(canvas, _tipoPieSlices, e);
     if(hit) showProjectsByTipoPie(hit);
   };
+
+  /* Touch support for tipoProyectoPieCanvas */
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const fakeE = { clientX: touch.clientX, clientY: touch.clientY };
+    const hit = getPieHit(canvas, _tipoPieSlices, fakeE);
+    if(hit !== _tipoPieHover) {
+      _tipoPieHover = hit;
+      drawPieDonut(canvas, _tipoPieSlices, _tipoPieHover);
+      const ctx3 = canvas.getContext('2d');
+      ctx3.fillStyle = 'var(--text)'; ctx3.font = "700 20px 'Source Serif 4', serif"; ctx3.textAlign='center'; ctx3.textBaseline='middle'; ctx3.fillText(String(total), cx, cy - 7);
+      ctx3.fillStyle='var(--muted)'; ctx3.font="500 11px 'Source Serif 4', serif"; ctx3.fillText('proyectos', cx, cy + 13);
+      document.querySelectorAll('#tipoProyectoPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
+      if(hit) document.querySelector(`#tipoProyectoPieLegend .year-pie-item[data-pie="tipo:${CSS.escape(hit)}"]`)?.classList.add('active');
+    }
+    if(hit) {
+      setTimeout(() => showProjectsByTipoPie(hit), 200);
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', () => {
+    setTimeout(() => {
+      _tipoPieHover = null;
+      drawPieDonut(canvas, _tipoPieSlices, null);
+      const ctx3 = canvas.getContext('2d');
+      ctx3.fillStyle = 'var(--text)'; ctx3.font = "700 20px 'Source Serif 4', serif"; ctx3.textAlign='center'; ctx3.textBaseline='middle'; ctx3.fillText(String(total), cx, cy - 7);
+      ctx3.fillStyle='var(--muted)'; ctx3.font="500 11px 'Source Serif 4', serif"; ctx3.fillText('proyectos', cx, cy + 13);
+      document.querySelectorAll('#tipoProyectoPieLegend .year-pie-item').forEach(el => el.classList.remove('active'));
+    }, 1500);
+  }, { passive: true });
 }
 
 function escHtml(v='') {
@@ -2527,6 +2591,34 @@ function renderTipoGrid() {
     const hit = getSliceAtEvent(canvas, e);
     if (hit) openTipoModal(hit);
   };
+
+  /* Touch support for tipoCanvas */
+  canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const fakeE = { clientX: touch.clientX, clientY: touch.clientY };
+    const hit = getSliceAtEvent(canvas, fakeE);
+    if (hit !== _tipoHovered) {
+      _tipoHovered = hit;
+      drawDonut(canvas, hit);
+      document.querySelectorAll('.tipo-legend-item').forEach(el => el.classList.remove('hovered'));
+      if (hit) {
+        const el = document.getElementById('legItem_' + CSS.escape(hit));
+        if (el) el.classList.add('hovered');
+      }
+    }
+    if (hit) {
+      setTimeout(() => openTipoModal(hit), 200);
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', () => {
+    setTimeout(() => {
+      _tipoHovered = null;
+      drawDonut(canvas, null);
+      document.querySelectorAll('.tipo-legend-item').forEach(el => el.classList.remove('hovered'));
+    }, 1500);
+  }, { passive: true });
 }
 
 function drawDonut(canvas, hoveredTipo) {
