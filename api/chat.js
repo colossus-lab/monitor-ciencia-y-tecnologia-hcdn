@@ -6,7 +6,6 @@ const MODEL_CANDIDATES = [
   "gemini-2.5-pro",
   "gemini-2.5-flash",
   "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
 ].filter(Boolean);
 
 const MAX_CONTEXT_ITEMS = 40;
@@ -101,6 +100,57 @@ function fallbackFromContext(consulta, contexto) {
     return `• ${id}: ${titulo} (Autor: ${autor})`;
   });
   return `Encontré estos proyectos relacionados:\n${lines.join("\n")}`;
+}
+
+function isDashboardOverviewQuestion(consulta) {
+  const q = normalizeText(consulta || "");
+  if (!q) return false;
+  const asksOverview = /(que contiene|que hay|de que trata|resumen|vision general|panorama|overview|que incluye|contenido)/.test(q);
+  const referencesDashboard = /(dashboard|cyt|ciencia|tecnologia|proyectos)/.test(q);
+  return asksOverview && referencesDashboard;
+}
+
+function buildDashboardOverview(contexto, alcance) {
+  const items = Array.isArray(contexto) ? contexto : [];
+  const total = items.length;
+  if (!total) return "Esa información no figura en los proyectos actuales";
+
+  const byTematica = new Map();
+  const byYear = new Map();
+
+  for (const x of items) {
+    const tema = (x.tematica || x.grupo || x.eje || "Sin temática").toString();
+    const year = (x.año || x.anio || "S/D").toString();
+    byTematica.set(tema, (byTematica.get(tema) || 0) + 1);
+    byYear.set(year, (byYear.get(year) || 0) + 1);
+  }
+
+  const topTemas = [...byTematica.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 4)
+    .map(([t, n]) => `${t}: ${n}`)
+    .join(" · ");
+
+  const years = [...byYear.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([y, n]) => `${y}: ${n}`)
+    .join(" · ");
+
+  return `El dashboard de ${alcance} contiene **${total} proyectos de ley**. Distribución principal por temática: ${topTemas}. Distribución por año: ${years}. Si querés, te detallo una temática o un expediente puntual.`;
+}
+
+function extractGeminiText(response) {
+  try {
+    const direct = (response?.text?.() || "").trim();
+    if (direct) return direct;
+  } catch (_) {}
+
+  const parts = response?.candidates?.[0]?.content?.parts || [];
+  const alt = parts
+    .map((p) => (typeof p?.text === "string" ? p.text : ""))
+    .join("\n")
+    .trim();
+  return alt;
 }
 
 function isPromptInjectionAttempt(consulta) {
@@ -202,6 +252,14 @@ export default async function handler(req, res) {
       });
     }
 
+    if (totalProyectos > 0 && isDashboardOverviewQuestion(consulta)) {
+      return res.status(200).json({
+        texto: buildDashboardOverview(contextoArray, alcance),
+        model: "overview-local",
+        context_items: totalProyectos,
+      });
+    }
+
     const contextoRelevante = pickRelevantContext(consulta, contextoArray, MAX_CONTEXT_ITEMS);
     if (contextoRelevante.length) {
       datosLeyes = JSON.stringify(contextoRelevante);
@@ -257,8 +315,17 @@ Reglas:
         });
         const result = await model.generateContent([instruccionSistema, consulta]);
         const response = await result.response;
+        const modelText = extractGeminiText(response);
+        if (!modelText) {
+          return res.status(200).json({
+            texto: fallbackFromContext(consulta, contextoRelevante.length ? contextoRelevante : contextoArray),
+            model: "fallback-local",
+            note: "Respuesta vacía del modelo; se aplicó fallback local.",
+            context_items: (contextoRelevante.length ? contextoRelevante : contextoArray || []).length,
+          });
+        }
         return res.status(200).json({
-          texto: response.text(),
+          texto: modelText,
           model: modelName,
           context_items: contextoRelevante.length || (contextoArray || []).length,
         });
