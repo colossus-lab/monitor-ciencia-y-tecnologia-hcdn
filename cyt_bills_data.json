@@ -1,46 +1,40 @@
 {
   "metadata": {
-    "generado": "2026-03-22T22:36:30.903895",
-    "total": 68,
+    "generado": "2026-03-25T13:01:09.761246",
+    "total": 44,
     "fuente": "Comisión de Ciencia, Tecnología e Innovación Productiva — H. Cámara de Diputados",
-    "periodo": "2024–2026",
-    "con_autor": 68,
-    "con_bloque": 46
+    "periodo": "2025–2026",
+    "con_autor": 41,
+    "con_bloque": 30
   },
   "eje_stats": [
     {
       "eje": "Gobernanza e Institucionalidad CyT",
-      "total": 28,
+      "total": 16,
       "icon": "🏛️",
       "color": "#475569"
     },
     {
       "eje": "Inteligencia Artificial",
-      "total": 16,
+      "total": 9,
       "icon": "🤖",
       "color": "#2563eb"
     },
     {
       "eje": "I+D y Financiamiento",
-      "total": 9,
+      "total": 6,
       "icon": "💰",
       "color": "#ca8a04"
     },
     {
       "eje": "Educación y Formación CyT",
-      "total": 5,
+      "total": 4,
       "icon": "🎓",
       "color": "#ea580c"
     },
     {
-      "eje": "Salud y Tecnología Médica",
-      "total": 4,
-      "icon": "🏥",
-      "color": "#e11d48"
-    },
-    {
       "eje": "Espacio y Antártida",
-      "total": 3,
+      "total": 2,
       "icon": "🚀",
       "color": "#0891b2"
     },
@@ -51,14 +45,8 @@
       "color": "#16a34a"
     },
     {
-      "eje": "Seguridad Vial y Transporte",
-      "total": 2,
-      "icon": "🚗",
-      "color": "#64748b"
-    },
-    {
       "eje": "Datos y Digitalización",
-      "total": 2,
+      "total": 1,
       "icon": "🔐",
       "color": "#4f46e5"
     },
@@ -83,10 +71,6 @@
   ],
   "year_stats": [
     {
-      "año": "2024",
-      "total": 31
-    },
-    {
       "año": "2025",
       "total": 32
     },
@@ -98,7 +82,7 @@
   "bloque_stats": [
     {
       "bloque": "Sin datos",
-      "total": 29,
+      "total": 14,
       "color": "#9ca3af"
     },
     {
@@ -108,23 +92,18 @@
     },
     {
       "bloque": "Unión por la Patria",
-      "total": 10,
+      "total": 6,
       "color": "#00AEEF"
     },
     {
       "bloque": "La Libertad Avanza",
-      "total": 7,
+      "total": 4,
       "color": "#7B2D8E"
     },
     {
       "bloque": "Innovación Federal",
-      "total": 4,
+      "total": 2,
       "color": "#1e3a8a"
-    },
-    {
-      "bloque": "Provincias Unidas",
-      "total": 4,
-      "color": "#9a3412"
     },
     {
       "bloque": "UCR",
@@ -132,14 +111,9 @@
       "color": "#E30613"
     },
     {
-      "bloque": "Encuentro Federal",
-      "total": 2,
-      "color": "#FF9800"
-    },
-    {
-      "bloque": "PRO",
-      "total": 2,
-      "color": "#FFD700"
+      "bloque": "Provincias Unidas",
+      "total": 1,
+      "color": "#9a3412"
     },
     {
       "bloque": "Democracia para Siempre",
@@ -152,9 +126,9 @@
       "color": "#0369a1"
     },
     {
-      "bloque": "Coalición Cívica",
+      "bloque": "Encuentro Federal",
       "total": 1,
-      "color": "#6d28d9"
+      "color": "#FF9800"
     }
   ],
   "top_autores": [
@@ -163,39 +137,19 @@
       "total": 11
     },
     {
-      "autor": "Cecilia Solange Wissocq",
-      "total": 4
+      "autor": "Juan M. López y otros",
+      "total": 3
     },
     {
       "autor": "Pamela Calletti",
-      "total": 3
-    },
-    {
-      "autor": "Juan M. López y otros",
-      "total": 3
+      "total": 2
     },
     {
       "autor": "Gabriel Chumpitaz",
       "total": 2
     },
     {
-      "autor": "Mónica Macha",
-      "total": 2
-    },
-    {
-      "autor": "Martín Yeza",
-      "total": 2
-    },
-    {
-      "autor": "Oscar Agost Carreño",
-      "total": 2
-    },
-    {
-      "autor": "Carlos Alberto Fernández",
-      "total": 2
-    },
-    {
-      "autor": "Juan Fernando Brügge",
+      "autor": "Cecilia Solange Wissocq",
       "total": 2
     },
     {
@@ -204,6 +158,10 @@
     },
     {
       "autor": "Esteban Paulón / M. Fein",
+      "total": 1
+    },
+    {
+      "autor": "Mónica Macha",
       "total": 1
     },
     {
@@ -217,131 +175,112 @@
     {
       "autor": "Danya Tavela",
       "total": 1
+    },
+    {
+      "autor": "Natalia Sarapura",
+      "total": 1
+    },
+    {
+      "autor": "Mercedes de Mendieta",
+      "total": 1
+    },
+    {
+      "autor": "Ariel Rauschenberger y otros",
+      "total": 1
+    },
+    {
+      "autor": "Pablo Outes",
+      "total": 1
     }
   ],
   "year_tematica_matrix": {
-    "2026": {
-      "IA": 3,
-      "Tecnologías Estratégicas": 4,
-      "Innovación y Desarrollo Productivo": 3,
-      "Estrategia Tecnologica Nacional": 2
-    },
     "2025": {
       "IA": 13,
-      "Innovación y Desarrollo Productivo": 3,
       "Estrategia Tecnologica Nacional": 12,
+      "Innovación y Desarrollo Productivo": 3,
       "Privacidad Digital / Derechos Digitales": 2,
       "Tecnologías Estratégicas": 2
     },
-    "2024": {
-      "Seguridad Vial y Transporte": 2,
-      "Gobernanza e Institucionalidad CyT": 3,
-      "I+D y Financiamiento": 1,
-      "Salud y Tecnología Médica": 1,
-      "IA": 10,
-      "Estrategia Tecnologica Nacional": 6,
-      "Innovación y Desarrollo Productivo": 6,
-      "Tecnologías Estratégicas": 2
+    "2026": {
+      "Tecnologías Estratégicas": 4,
+      "IA": 3,
+      "Innovación y Desarrollo Productivo": 3,
+      "Estrategia Tecnologica Nacional": 2
     }
   },
   "tipo_stats": [
     {
-      "tipo": "IA",
-      "total": 26,
-      "color": "#7c3aed"
+      "tipo": "FINANCIAMIENTO",
+      "total": 11,
+      "color": "#64748b"
     },
     {
-      "tipo": "Estrategia Tecnologica Nacional",
-      "total": 20,
-      "color": "#2563a0"
+      "tipo": "MARCO REGULATORIO",
+      "total": 9,
+      "color": "#64748b"
     },
     {
-      "tipo": "Innovación y Desarrollo Productivo",
-      "total": 12,
-      "color": "#059669"
-    },
-    {
-      "tipo": "Tecnologías Estratégicas",
+      "tipo": "PROYECTO DE LEY",
       "total": 8,
-      "color": "#dc2626"
+      "color": "#64748b"
     },
     {
-      "tipo": "Gobernanza e Institucionalidad CyT",
+      "tipo": "CREA ÓRGANOS",
+      "total": 8,
+      "color": "#64748b"
+    },
+    {
+      "tipo": "DECLARATIVA",
       "total": 3,
-      "color": "#0ea5e9"
+      "color": "#64748b"
     },
     {
-      "tipo": "Seguridad Vial y Transporte",
+      "tipo": "PENAL",
       "total": 2,
-      "color": "#f97316"
+      "color": "#64748b"
     },
     {
-      "tipo": "Privacidad Digital / Derechos Digitales",
+      "tipo": "EDUCATIVA",
       "total": 2,
-      "color": "#d97706"
+      "color": "#64748b"
     },
     {
-      "tipo": "I+D y Financiamiento",
+      "tipo": "MODIFICA LEY",
       "total": 1,
-      "color": "#14b8a6"
-    },
-    {
-      "tipo": "Salud y Tecnología Médica",
-      "total": 1,
-      "color": "#ec4899"
+      "color": "#64748b"
     }
   ],
   "subtema_stats": [
     {
       "subtema": "Marco Regulatorio",
-      "total": 10
-    },
-    {
-      "subtema": "General",
-      "total": 8
-    },
-    {
-      "subtema": "Estrategía Nacional de Ciencia y Tecnologia",
-      "total": 7
-    },
-    {
-      "subtema": "Sistema Nacional de Ciencía, Tecnología e Innovación (Sostenimiento y Financiación)",
       "total": 5
     },
     {
-      "subtema": "Desarrollo Productivo",
+      "subtema": "Estrategía Nacional de Ciencia y Tecnologia",
       "total": 5
     },
     {
       "subtema": "Deepfake y generación de contenido",
-      "total": 5
-    },
-    {
-      "subtema": "Educación",
       "total": 4
-    },
-    {
-      "subtema": "Utilización de la IA en el Sistema Educativo",
-      "total": 4
-    },
-    {
-      "subtema": "Salud",
-      "total": 3
     },
     {
       "subtema": "Implementación de la IA por parte de la Administración Publica",
       "total": 3
     },
     {
-      "subtema": "Ecosistema Startup",
-      "total": 2
+      "subtema": "Sistema Nacional de Ciencía, Tecnología e Innovación (Sostenimiento y Financiación)",
+      "total": 3
     },
     {
-      "subtema": "Creación de Organismos especializados",
-      "total": 2
+      "subtema": "Educación",
+      "total": 3
     },
     {
-      "subtema": "Programas de innovación",
+      "subtema": "Utilización de la IA en el Sistema Educativo",
+      "total": 3
+    },
+    {
+      "subtema": "Desarrollo Productivo",
       "total": 2
     },
     {
@@ -349,19 +288,27 @@
       "total": 2
     },
     {
-      "subtema": "Conmemoración",
+      "subtema": "Programas de innovación",
+      "total": 2
+    },
+    {
+      "subtema": "Salud",
       "total": 1
     },
     {
-      "subtema": "Sandbox",
+      "subtema": "Ecosistema Startup",
       "total": 1
     },
     {
-      "subtema": "Plataformas de mensajeria",
+      "subtema": "Nuclear",
       "total": 1
     },
     {
-      "subtema": "Defensa del Consumidor",
+      "subtema": "Espcial",
+      "total": 1
+    },
+    {
+      "subtema": "Creación de Organismos especializados",
       "total": 1
     },
     {
@@ -390,14 +337,6 @@
     },
     {
       "subtema": "Neurederechos",
-      "total": 1
-    },
-    {
-      "subtema": "Nuclear",
-      "total": 1
-    },
-    {
-      "subtema": "Espcial",
       "total": 1
     }
   ],
@@ -441,16 +380,6 @@
       "weight": 0.181
     },
     {
-      "source": "0004-D-2026",
-      "target": "4079-D-2024",
-      "weight": 0.825
-    },
-    {
-      "source": "0004-D-2026",
-      "target": "6156-D-2024",
-      "weight": 0.167
-    },
-    {
       "source": "0253-D-2026",
       "target": "0515-D-2026",
       "weight": 0.193
@@ -481,19 +410,9 @@
       "weight": 0.226
     },
     {
-      "source": "0253-D-2026",
-      "target": "4079-D-2024",
-      "weight": 0.202
-    },
-    {
       "source": "0478-D-2026",
       "target": "0520-D-2026",
       "weight": 0.178
-    },
-    {
-      "source": "0478-D-2026",
-      "target": "1635-D-2024",
-      "weight": 0.15
     },
     {
       "source": "0511-D-2026",
@@ -519,11 +438,6 @@
       "source": "0513-D-2026",
       "target": "1311-D-2025",
       "weight": 0.156
-    },
-    {
-      "source": "0513-D-2026",
-      "target": "3602-D-2024",
-      "weight": 0.152
     },
     {
       "source": "0514-D-2026",
@@ -561,39 +475,9 @@
       "weight": 0.241
     },
     {
-      "source": "0519-D-2026",
-      "target": "3003-D-2024",
-      "weight": 0.165
-    },
-    {
-      "source": "0520-D-2026",
-      "target": "1635-D-2024",
-      "weight": 0.167
-    },
-    {
-      "source": "0345-D-2025",
-      "target": "3900-D-2024",
-      "weight": 0.328
-    },
-    {
-      "source": "0401-D-2025",
-      "target": "3709-D-2024",
-      "weight": 0.156
-    },
-    {
       "source": "0903-D-2025",
       "target": "6656-D-2025",
       "weight": 0.159
-    },
-    {
-      "source": "0903-D-2025",
-      "target": "0925-D-2024",
-      "weight": 0.192
-    },
-    {
-      "source": "0903-D-2025",
-      "target": "7045-D-2024",
-      "weight": 0.163
     },
     {
       "source": "1311-D-2025",
@@ -609,16 +493,6 @@
       "source": "1311-D-2025",
       "target": "5765-D-2025",
       "weight": 0.152
-    },
-    {
-      "source": "1311-D-2025",
-      "target": "1269-D-2024",
-      "weight": 0.419
-    },
-    {
-      "source": "1311-D-2025",
-      "target": "2435-D-2024",
-      "weight": 0.34
     },
     {
       "source": "1937-D-2025",
@@ -646,39 +520,9 @@
       "weight": 0.225
     },
     {
-      "source": "1937-D-2025",
-      "target": "4079-D-2024",
-      "weight": 0.168
-    },
-    {
-      "source": "1937-D-2025",
-      "target": "6156-D-2024",
-      "weight": 0.249
-    },
-    {
       "source": "2079-D-2025",
       "target": "2114-D-2025",
       "weight": 0.417
-    },
-    {
-      "source": "2079-D-2025",
-      "target": "1269-D-2024",
-      "weight": 0.436
-    },
-    {
-      "source": "2079-D-2025",
-      "target": "2435-D-2024",
-      "weight": 0.429
-    },
-    {
-      "source": "2114-D-2025",
-      "target": "1269-D-2024",
-      "weight": 0.967
-    },
-    {
-      "source": "2114-D-2025",
-      "target": "2435-D-2024",
-      "weight": 0.718
     },
     {
       "source": "2130-D-2025",
@@ -694,26 +538,6 @@
       "source": "2130-D-2025",
       "target": "6189-D-2025",
       "weight": 0.262
-    },
-    {
-      "source": "2130-D-2025",
-      "target": "1013-D-2024",
-      "weight": 0.2
-    },
-    {
-      "source": "2130-D-2025",
-      "target": "3003-D-2024",
-      "weight": 0.348
-    },
-    {
-      "source": "2130-D-2025",
-      "target": "4079-D-2024",
-      "weight": 0.25
-    },
-    {
-      "source": "2130-D-2025",
-      "target": "6156-D-2024",
-      "weight": 0.239
     },
     {
       "source": "2300-D-2025",
@@ -736,11 +560,6 @@
       "weight": 0.676
     },
     {
-      "source": "2903-D-2025",
-      "target": "4079-D-2024",
-      "weight": 0.172
-    },
-    {
       "source": "3558-D-2025",
       "target": "4094-D-2025",
       "weight": 0.15
@@ -756,24 +575,9 @@
       "weight": 0.165
     },
     {
-      "source": "4145-D-2025",
-      "target": "6976-D-2024",
-      "weight": 0.159
-    },
-    {
       "source": "4420-D-2025",
       "target": "6880-D-2025",
       "weight": 0.172
-    },
-    {
-      "source": "5765-D-2025",
-      "target": "1269-D-2024",
-      "weight": 0.173
-    },
-    {
-      "source": "5765-D-2025",
-      "target": "2435-D-2024",
-      "weight": 0.167
     },
     {
       "source": "6189-D-2025",
@@ -781,94 +585,9 @@
       "weight": 0.235
     },
     {
-      "source": "6189-D-2025",
-      "target": "3003-D-2024",
-      "weight": 0.198
-    },
-    {
-      "source": "6189-D-2025",
-      "target": "6976-D-2024",
-      "weight": 0.252
-    },
-    {
-      "source": "6655-D-2025",
-      "target": "0805-D-2024",
-      "weight": 0.197
-    },
-    {
       "source": "6656-D-2025",
       "target": "7085-D-2025",
       "weight": 0.277
-    },
-    {
-      "source": "6656-D-2025",
-      "target": "7045-D-2024",
-      "weight": 0.159
-    },
-    {
-      "source": "0157-D-2024",
-      "target": "0383-D-2024",
-      "weight": 0.257
-    },
-    {
-      "source": "0367-D-2024",
-      "target": "3441-D-2024",
-      "weight": 0.303
-    },
-    {
-      "source": "0372-D-2024",
-      "target": "3955-D-2024",
-      "weight": 0.472
-    },
-    {
-      "source": "0805-D-2024",
-      "target": "6156-D-2024",
-      "weight": 0.157
-    },
-    {
-      "source": "0925-D-2024",
-      "target": "1635-D-2024",
-      "weight": 0.225
-    },
-    {
-      "source": "0925-D-2024",
-      "target": "1636-D-2024",
-      "weight": 0.185
-    },
-    {
-      "source": "0925-D-2024",
-      "target": "7045-D-2024",
-      "weight": 0.158
-    },
-    {
-      "source": "1013-D-2024",
-      "target": "6156-D-2024",
-      "weight": 0.156
-    },
-    {
-      "source": "1269-D-2024",
-      "target": "2435-D-2024",
-      "weight": 0.769
-    },
-    {
-      "source": "1635-D-2024",
-      "target": "1636-D-2024",
-      "weight": 0.286
-    },
-    {
-      "source": "1635-D-2024",
-      "target": "4079-D-2024",
-      "weight": 0.223
-    },
-    {
-      "source": "1636-D-2024",
-      "target": "4079-D-2024",
-      "weight": 0.227
-    },
-    {
-      "source": "4079-D-2024",
-      "target": "6156-D-2024",
-      "weight": 0.158
     }
   ],
   "bills": [
@@ -1702,585 +1421,6 @@
       "tipo": "FINANCIAMIENTO",
       "paginas": 3,
       "pdf_path": "PDFs_Proyectos_Ley/2025/7085-D-2025.pdf"
-    },
-    {
-      "id": "0157-D-2024",
-      "titulo": "Seguridad vial - Facultades al PEN - Ciencia, tecnología e innovación",
-      "autores": [
-        "hbaldassi"
-      ],
-      "autor_principal": "hbaldassi",
-      "bloque": "PRO",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Seguridad Vial y Transporte",
-      "eje_score": 10,
-      "tematica": "Seguridad Vial y Transporte",
-      "subtematica": "General",
-      "resumen": "Modificase el último párrafo del",
-      "tipo": "PROYECTO DE LEY",
-      "paginas": 3,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0157-D-2024.pdf"
-    },
-    {
-      "id": "0367-D-2024",
-      "titulo": "Estatuto Del Trabajador De Plataformas Tecnologicas",
-      "autores": [],
-      "autor_principal": "No disponible",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "Gobernanza e Institucionalidad CyT",
-      "subtematica": "General",
-      "resumen": "Ámbito personal. El Estatuto del Trabajador de Plataformas Tecnológicas rige en todo el territorio de la República Argentina para las relaciones laborales que vinculen a las plataformas tecnológicas debidamente registradas, con las personas mayores de 18 años que ponen a disposición su fuerza de tra...",
-      "tipo": "PROYECTO DE LEY",
-      "paginas": 24,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0367-D-2024.pdf"
-    },
-    {
-      "id": "0372-D-2024",
-      "titulo": "Fundamentos:",
-      "autores": [],
-      "autor_principal": "No disponible",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "Gobernanza e Institucionalidad CyT",
-      "subtematica": "General",
-      "resumen": "Incorpórese al Código Penal de la Nación como artículo 117 ter el siguiente: “Artículo 117 ter: Sera reprimido con pena de 6 meses a dos años de prisión quien, sin consentimiento expreso de la víctima, revelare, publicare, facilitare, o difundiere por cualquier medio o pusiera a disposición de terce...",
-      "tipo": "PENAL",
-      "paginas": 6,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0372-D-2024.pdf"
-    },
-    {
-      "id": "0383-D-2024",
-      "titulo": "Modifíquese el texto del",
-      "autores": [],
-      "autor_principal": "No disponible",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Seguridad Vial y Transporte",
-      "eje_score": 18,
-      "tematica": "Seguridad Vial y Transporte",
-      "subtematica": "General",
-      "resumen": "Sr. Presidente Los aquí suscribientes ponemos nuevamente a su consideración el siguiente proyecto de ley modificatorio de la ley 24.653 de transporte automotor de cargas, proponiendo la implementación de cambios en su articulado que tiendan a su modernización y la atención de deficiencias que el sec...",
-      "tipo": "MODIFICA LEY",
-      "paginas": 10,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0383-D-2024.pdf"
-    },
-    {
-      "id": "0565-D-2024",
-      "titulo": "Incentivos a proyectos de I+D y producción tecnológica",
-      "autores": [
-        "Facundo Manes",
-        "Nacional \n \nDanya Tavela",
-        "Nacional \n \nFabio Quetglas",
-        "Nacional \n \nPablo Juliano"
-      ],
-      "autor_principal": "Facundo Manes",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "I+D y Financiamiento",
-      "eje_score": 20,
-      "tematica": "I+D y Financiamiento",
-      "subtematica": "General",
-      "resumen": "Objeto. Es objeto de la presente ley establecer un programa de incentivos para que las empresas e instituciones, tanto públicas como privadas, desarrollen productos y servicios de alto valor agregado tecnológico para la economía de la Nación Argentina.",
-      "tipo": "PROMOCIÓN",
-      "paginas": 8,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0565-D-2024.pdf"
-    },
-    {
-      "id": "0703-D-2024",
-      "titulo": "Regulación de Medicamentos y Tecnologías de",
-      "autores": [],
-      "autor_principal": "No disponible",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Salud y Tecnología Médica",
-      "eje_score": 10,
-      "tematica": "Salud y Tecnología Médica",
-      "subtematica": "General",
-      "resumen": "Objeto. La presente Ley tiene por objeto garantizar el acceso a los Medicamentos de Alto Precio, considerándose como tales a aquellos fármacos destinados a la atención de enfermedades de baja prevalencia que integran el Anexo III y IV de la Resolución 1200/2012 de la Superintendencia de Servicios de...",
-      "tipo": "FINANCIAMIENTO",
-      "paginas": 10,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0703-D-2024.pdf"
-    },
-    {
-      "id": "0805-D-2024",
-      "titulo": "Responsabilidad Algorítmica Y Promoción De La Robótica, Algoritmos Verdes E Inteligencia Artificial En La Capítulo I Responsabilidad Y Transparencia Algorítmica",
-      "autores": [],
-      "autor_principal": "FERRARO, MAXIMILIANO",
-      "bloque": "Coalición Cívica",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Inteligencia Artificial",
-      "eje_score": 12,
-      "tematica": "IA",
-      "subtematica": "General",
-      "resumen": "Objetivo: El objetivo de la presente ley es establecer un marco legal a los desarrollos de la inteligencia artificial con el objetivo de crear certificaciones de buenas prácticas, implementar un registro de riesgos significativos, promover la inteligencia artificial en pequeñas y medianas empresas, ...",
-      "tipo": "MARCO REGULATORIO",
-      "paginas": 15,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0805-D-2024.pdf"
-    },
-    {
-      "id": "0925-D-2024",
-      "titulo": "“2024 - Año De La Defensa De La Vida, La Libertad Y La Propiedad”",
-      "autores": [
-        "Adolfo Bermejo"
-      ],
-      "autor_principal": "Adolfo Bermejo",
-      "bloque": "Unión por la Patria",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "Gobernanza e Institucionalidad CyT",
-      "subtematica": "General",
-      "resumen": "— Modifíquese el artículo 4° de la Ley 27.227, el cual quedará redactado de la siguiente forma: “ARTICULO 4°— “El Ministerio de Ciencia, Tecnología e Innovación junto con el Ministerio de Desarrollo Productivo, deberán evaluar e implementar estrategias tecnológicas a fin de propiciar la producción n...",
-      "tipo": "FINANCIAMIENTO",
-      "paginas": 8,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/0925-D-2024.pdf"
-    },
-    {
-      "id": "1013-D-2024",
-      "titulo": "Ley Turing: Readecuación Del Sistema Legal Argentino Por El Impacto De La Inteligencia Artificial. Capitulo I: Disposiciones Generales",
-      "autores": [
-        "Oscar Agost Carreño"
-      ],
-      "autor_principal": "Oscar Agost Carreño",
-      "bloque": "Encuentro Federal",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Inteligencia Artificial",
-      "eje_score": 6,
-      "tematica": "IA",
-      "subtematica": "Marco Regulatorio",
-      "resumen": "— Objeto. La presente ley tiene por objeto; a. Adecuar el marco normativo argentino por el impacto de la Inteligencia artificial; b. Proveer de normas armonizadas para la introducción en el mercado, la puesta en servicio y la utilización de sistemas de inteligencia artificial en el territorio de la ...",
-      "tipo": "MARCO REGULATORIO",
-      "paginas": 15,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/1013-D-2024.pdf"
-    },
-    {
-      "id": "1269-D-2024",
-      "titulo": "Ley De Sostenimiento Del Sistema Nacional De Ciencia, Tecnología E Innovación.",
-      "autores": [
-        "Mónica Macha"
-      ],
-      "autor_principal": "Mónica Macha",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "I+D y Financiamiento",
-      "eje_score": 10,
-      "tematica": "Estrategia Tecnologica Nacional",
-      "subtematica": "Sistema Nacional de Ciencía, Tecnología e Innovación (Sostenimiento y Financiación)",
-      "resumen": "Objeto. La presente Ley tiene por objeto garantizar el sostenimiento del financiamiento del Sistema Nacional de Ciencia, Tecnología e Innovación durante el vigente ejercicio fiscal, asegurando el cumplimiento de las responsabilidades indelegables que ha asumido el Estado nacional de conformidad con ...",
-      "tipo": "FINANCIAMIENTO",
-      "paginas": 7,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/1269-D-2024.pdf"
-    },
-    {
-      "id": "1300-D-2024",
-      "titulo": "Institu yase el 10 de abril de cada an o como “El Dí a Nacional del Investigador e Investigadora Cientí fico” en conmemoracio n del natalicio del Dr",
-      "autores": [],
-      "autor_principal": "Marziotta Maria Gisela",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "Estrategia Tecnologica Nacional",
-      "subtematica": "Conmemoración",
-      "resumen": "Institu yase el 10 de abril de cada an o como “El Dí a Nacional del Investigador e Investigadora Cientí fico” en conmemoracio n del natalicio del Dr. Bernardo Alberto Houssay.",
-      "tipo": "DECLARATIVA",
-      "paginas": 5,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/1300-D-2024.pdf"
-    },
-    {
-      "id": "1635-D-2024",
-      "titulo": "“2024 – Año De La Defensa De La Vida, La Libertad Y La Propiedad”",
-      "autores": [
-        "Carlos Alberto Fernández"
-      ],
-      "autor_principal": "Carlos Alberto Fernández",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "Innovación y Desarrollo Productivo",
-      "subtematica": "Ecosistema Startup",
-      "resumen": "— Declárase a la Provincia de Misiones “Capital Nacional Start Up”. -",
-      "tipo": "PROMOCIÓN",
-      "paginas": 9,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/1635-D-2024.pdf"
-    },
-    {
-      "id": "1636-D-2024",
-      "titulo": "“2024 – Año De La Defensa De La Vida, La Libertad Y La Propiedad”",
-      "autores": [
-        "Carlos Alberto Fernández"
-      ],
-      "autor_principal": "Carlos Alberto Fernández",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Educación y Formación CyT",
-      "eje_score": 14,
-      "tematica": "Estrategia Tecnologica Nacional",
-      "subtematica": "Educación",
-      "resumen": "Objeto. La presente ley tiene por objeto dar marco normativo a las Escuelas de Robótica, en el ámbito de la Nación, favoreciendo su creación, funcionamiento y desarrollo.",
-      "tipo": "MARCO REGULATORIO",
-      "paginas": 14,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/1636-D-2024.pdf"
-    },
-    {
-      "id": "1656-D-2024",
-      "titulo": "Ley Para La Promoción De Publicaciones Científicas Argentinas En Salud",
-      "autores": [
-        "Ana Carolina Gaillard"
-      ],
-      "autor_principal": "Ana Carolina Gaillard",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Salud y Tecnología Médica",
-      "eje_score": 10,
-      "tematica": "Estrategia Tecnologica Nacional",
-      "subtematica": "Estrategía Nacional de Ciencia y Tecnologia",
-      "resumen": "Créase un Fondo Nacional de Publicaciones Científicas Periódicas (FNPCP), dentro de la órbita del Ministerio de Salud de la Nación, para incentivar la calidad, el desarrollo y la sustentabilidad de las ediciones argentinas especializadas en medicina y la salud.",
-      "tipo": "CREA ÓRGANOS",
-      "paginas": 9,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/1656-D-2024.pdf"
-    },
-    {
-      "id": "2435-D-2024",
-      "titulo": "Ley De Declaración De Emergencia Del Sistema Nacional De Ciencia, Tecnología E Innovación",
-      "autores": [
-        "Daniel G. Gollan"
-      ],
-      "autor_principal": "Daniel G. Gollan",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "I+D y Financiamiento",
-      "eje_score": 9,
-      "tematica": "Estrategia Tecnologica Nacional",
-      "subtematica": "Sistema Nacional de Ciencía, Tecnología e Innovación (Sostenimiento y Financiación)",
-      "resumen": "Objeto. La presente Ley tiene por objeto declarar la emergencia del Sistema Nacional de Ciencia, Tecnología e Innovación durante el vigente ejercicio fiscal, asegurando el cumplimiento de las responsabilidades indelegables que ha asumido el Estado Nacional de conformidad con lo establecido por la no...",
-      "tipo": "MARCO REGULATORIO",
-      "paginas": 14,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/2435-D-2024.pdf"
-    },
-    {
-      "id": "3003-D-2024",
-      "titulo": "“Régimen Juridico Aplicable Para El Uso Responsable De La Inteligencia Artificial En La República Argentina”",
-      "autores": [],
-      "autor_principal": "Juan Fernando Brügge",
-      "bloque": "Provincias Unidas",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 10,
-      "tematica": "IA",
-      "subtematica": "Marco Regulatorio",
-      "resumen": "Del Régimen Jurídico ESTABLECESE, por la presente el régimen legal aplicable para el uso responsable de la Inteligencia Artificial (I.A.) que fuera introducida, distribuida, utilizada, aplicada y comercializada en el territorio de la República Argentina.",
-      "tipo": "MARCO REGULATORIO",
-      "paginas": 17,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3003-D-2024.pdf"
-    },
-    {
-      "id": "3422-D-2024",
-      "titulo": "SandBox IA Argentina",
-      "autores": [],
-      "autor_principal": "Martin Yeza",
-      "bloque": "PRO",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 10,
-      "tematica": "Innovación y Desarrollo Productivo",
-      "subtematica": "Sandbox",
-      "resumen": "Creación. Créase el sistema de entornos regulatorios experimentales, denominados “sandbox regulatorios”, con el fin de impulsar el desarrollo de modelos de negocio y economía de alto valor agregado en distintos ámbitos, a partir del uso intensivo de la tecnología y la innovación por vía de sistemas ...",
-      "tipo": "CREA ÓRGANOS",
-      "paginas": 7,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3422-D-2024.pdf"
-    },
-    {
-      "id": "3441-D-2024",
-      "titulo": "Objeto: La presente ley tiene por objeto, establecer reglas adecuadas para promover el desarrollo de la economía de plataformas tecnológicas en el paí",
-      "autores": [
-        "Cristian Adrián Ritondo"
-      ],
-      "autor_principal": "Cristian Adrián Ritondo",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Datos y Digitalización",
-      "eje_score": 10,
-      "tematica": "Innovación y Desarrollo Productivo",
-      "subtematica": "Plataformas de mensajeria",
-      "resumen": "Objeto: La presente ley tiene por objeto, establecer reglas adecuadas para promover el desarrollo de la economía de plataformas tecnológicas en el país, asegurando la independencia de los repartidores.",
-      "tipo": "PROYECTO DE LEY",
-      "paginas": 12,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3441-D-2024.pdf"
-    },
-    {
-      "id": "3602-D-2024",
-      "titulo": "Régimen De Fomento Para La Reconversión Industrial E Innovación Tecnológica De La Provincia De Tierra Del Fuego, Antártida E Islas Del Atlántico Sur (Regitec-Tdf)",
-      "autores": [
-        "Jorge Neri Araujo Hdez."
-      ],
-      "autor_principal": "Jorge Neri Araujo Hdez.",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Espacio y Antártida",
-      "eje_score": 10,
-      "tematica": "Estrategia Tecnologica Nacional",
-      "subtematica": "Estrategía Nacional de Ciencia y Tecnologia",
-      "resumen": "CREACION.- Créase el Régimen de Fomento para la Reconversión Industrial e Innovación Tecnológica de la Provincia de Tierra Del Fuego, Antártida e Islas del Atlántico Sur (REGITEC-TDF). El presente régimen constituirá una política estratégica de desarrollo y a tal efecto tendrá vigencia durante el pl...",
-      "tipo": "CREA ÓRGANOS",
-      "paginas": 14,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3602-D-2024.pdf"
-    },
-    {
-      "id": "3709-D-2024",
-      "titulo": "LEY YOZMA - ARGENTINA - ALL INCLUSIVE",
-      "autores": [
-        "Martín Yeza"
-      ],
-      "autor_principal": "Martín Yeza",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 20,
-      "tematica": "Innovación y Desarrollo Productivo",
-      "subtematica": "Desarrollo Productivo",
-      "resumen": "Créase el Programa Iniciativa Argentina para el Fomento del desarrollo productivo industrial de uso intensivo de la ciencia y tecnología (en adelante, “el Programa”).",
-      "tipo": "CREA ÓRGANOS",
-      "paginas": 20,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3709-D-2024.pdf"
-    },
-    {
-      "id": "3728-D-2024",
-      "titulo": "Instituto de Evaluación de Tecnologías Sanitarias",
-      "autores": [
-        "Diputado Esteban Paulón",
-        "Natalia Sarapura\nDiputada Margarita Stolbizer"
-      ],
-      "autor_principal": "Diputado Esteban Paulón",
-      "bloque": "Provincias Unidas",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Salud y Tecnología Médica",
-      "eje_score": 10,
-      "tematica": "Tecnologías Estratégicas",
-      "subtematica": "Salud",
-      "resumen": "CREACIÓN - Créase el Instituto Nacional de Evaluación de Tecnologías Sanitarias (INETS) como organismo descentralizado de la Administración Pública Nacional con personería jurídica propia, y con un régimen de autarquía funcional, administrativa, económica y financiera, en jurisdicción del Ministerio...",
-      "tipo": "CREA ÓRGANOS",
-      "paginas": 15,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3728-D-2024.pdf"
-    },
-    {
-      "id": "3900-D-2024",
-      "titulo": "Observatorio Federal Sobre Inteligencia Artificial",
-      "autores": [
-        "Silvana Micaela Ginocchio"
-      ],
-      "autor_principal": "Silvana Micaela Ginocchio",
-      "bloque": "Unión por la Patria",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 11,
-      "tematica": "IA",
-      "subtematica": "Creación de Organismos especializados",
-      "resumen": "CREACIÓN. Créase el Observatorio Federal sobre Inteligencia Artificial (O.F.I.A.), en el ámbito del Poder Ejecutivo de la Nación Argentina.",
-      "tipo": "CREA ÓRGANOS",
-      "paginas": 8,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3900-D-2024.pdf"
-    },
-    {
-      "id": "3955-D-2024",
-      "titulo": "INCORPORASE el artículo 139 ter al Código Penal de la Nación, cuyo texto es el siguiente: “Artículo 139° ter: Será reprimido con prisión de cuatro (4)",
-      "autores": [],
-      "autor_principal": "Juan Fernando Brügge",
-      "bloque": "Provincias Unidas",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Inteligencia Artificial",
-      "eje_score": 4,
-      "tematica": "IA",
-      "subtematica": "Deepfake y generación de contenido",
-      "resumen": "INCORPORASE el artículo 139 ter al Código Penal de la Nación, cuyo texto es el siguiente: “Artículo 139° ter: Será reprimido con prisión de cuatro (4) a ocho (8) años, quien utilizando tecnología de inteligencia artificial, sin el consentimiento informado y expreso de la persona implicada o de sus h...",
-      "tipo": "PENAL",
-      "paginas": 6,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/3955-D-2024.pdf"
-    },
-    {
-      "id": "4079-D-2024",
-      "titulo": "“2024 – Año de la Defensa de la Vida, la Libertad y la Prosperidad”",
-      "autores": [
-        "Sergio Eduardo",
-        "Karina Ethel",
-        "Silvana Giudici \nDiputada Nacional"
-      ],
-      "autor_principal": "Sergio Eduardo",
-      "bloque": "La Libertad Avanza",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Inteligencia Artificial",
-      "eje_score": 9,
-      "tematica": "IA",
-      "subtematica": "Marco Regulatorio",
-      "resumen": "Objeto. La presente ley tiene por objeto promover el fomento, el desarrollo, la innovación e implementación de Sistemas de Inteligencia Artificial en la República Argentina en un marco de respeto de los derechos consagrados en la Constitución Nacional y los Tratados Internacionales sobre Derechos Hu...",
-      "tipo": "FINANCIAMIENTO",
-      "paginas": 16,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/4079-D-2024.pdf"
-    },
-    {
-      "id": "4898-D-2024",
-      "titulo": "Incorpórese como artículo 1bis de la ley 24.240, el siguiente: Articulo 1bis: Se considera usuario directo de la IA a aquellos que interactúan directa",
-      "autores": [],
-      "autor_principal": "Vega Yolanda",
-      "bloque": "Innovación Federal",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "IA",
-      "subtematica": "Defensa del Consumidor",
-      "resumen": "Incorpórese como artículo 1bis de la ley 24.240, el siguiente: Articulo 1bis: Se considera usuario directo de la IA a aquellos que interactúan directamente con los sistemas o aplicaciones que la utilizan, reciben resultados o beneficios directos de la misma, como así también a quienes utilizan produ...",
-      "tipo": "PROYECTO DE LEY",
-      "paginas": 7,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/4898-D-2024.pdf"
-    },
-    {
-      "id": "6156-D-2024",
-      "titulo": "Marco Regulatoria De La Inteligencia Artificial",
-      "autores": [
-        "Jorge Neri"
-      ],
-      "autor_principal": "Jorge Neri",
-      "bloque": "Unión por la Patria",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Inteligencia Artificial",
-      "eje_score": 7,
-      "tematica": "IA",
-      "subtematica": "Marco Regulatorio",
-      "resumen": "Objetivo. La presente Ley tiene por objeto definir el marco legal para el desarrollo, investigación y uso de Inteligencia Artificial dentro del territorio nacional con la finalidad de preservar la protección de los derechos humanos, la privacidad y la seguridad de los ciudadanos y asegurar la democr...",
-      "tipo": "MARCO REGULATORIO",
-      "paginas": 15,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/6156-D-2024.pdf"
-    },
-    {
-      "id": "6382-D-2024",
-      "titulo": "Exímese de los derechos de importación y de las tasas por servicios portuarios, aeroportuarios, de estadística y de comprobación, que gravan la import",
-      "autores": [
-        "Domingo Agustín",
-        "Capozzi Sergio Eduardo",
-        "Soria Martín",
-        "Tortoriello Anibal",
-        "Villaverde Lorena"
-      ],
-      "autor_principal": "Domingo Agustín",
-      "bloque": "Sin datos",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "Innovación y Desarrollo Productivo",
-      "subtematica": "Desarrollo Productivo",
-      "resumen": "Exímese de los derechos de importación y de las tasas por servicios portuarios, aeroportuarios, de estadística y de comprobación, que gravan la importación para consumo de bienes de capital, partes, componentes, insumos, repuestos y/o bienes intermedios en la cadena de valor, destinados a la producc...",
-      "tipo": "FINANCIAMIENTO",
-      "paginas": 3,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/6382-D-2024.pdf"
-    },
-    {
-      "id": "6976-D-2024",
-      "titulo": "H. Cámara de Diputados de la Nación",
-      "autores": [
-        "Dante López Rodríguez"
-      ],
-      "autor_principal": "Dante López Rodríguez",
-      "bloque": "Unión por la Patria",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Inteligencia Artificial",
-      "eje_score": 9,
-      "tematica": "IA",
-      "subtematica": "Utilización de la IA en el Sistema Educativo",
-      "resumen": "Objeto. - Créase el Programa Nacional de Laboratorios de Informática e Inteligencia Artificial (IA) en los establecimientos educativos de nivel medio, públicos y privados, de todo el territorio de la República Argentina, con el objetivo de promover el desarrollo de habilidades digitales y el uso res...",
-      "tipo": "CREA ÓRGANOS",
-      "paginas": 9,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/6976-D-2024.pdf"
-    },
-    {
-      "id": "7045-D-2024",
-      "titulo": "Información y Responsabilidad de Proveedores en el Uso de la Inteligencia Artificial",
-      "autores": [
-        "Pamela Calletti"
-      ],
-      "autor_principal": "Pamela Calletti",
-      "bloque": "Innovación Federal",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Inteligencia Artificial",
-      "eje_score": 7,
-      "tematica": "IA",
-      "subtematica": "Marco Regulatorio",
-      "resumen": "modifíquese el Artículo 4 de la Ley 24.240, el que quedará redactado de la siguiente manera: “ Artículo 4° Información. El Proveedor está obligado a suministrar al consumidor en forma cierta, clara y detallada todo lo relacionado con las características esenciales de los bienes y servicios que prove...",
-      "tipo": "MODIFICA LEY",
-      "paginas": 5,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/7045-D-2024.pdf"
-    },
-    {
-      "id": "7058-D-2024",
-      "titulo": "Programa Nacional De Recuperación Y Reciclado De Grasas De Frituras Y Aceites Vegetales Usados. De La Nación Sancionan Con Fuerza De Ley: Capítulo I Disposiciones Generales",
-      "autores": [
-        "Cecilia Solange Wissocq"
-      ],
-      "autor_principal": "Cecilia Solange Wissocq",
-      "bloque": "La Libertad Avanza",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Gobernanza e Institucionalidad CyT",
-      "eje_score": 0,
-      "tematica": "Innovación y Desarrollo Productivo",
-      "subtematica": "Desarrollo Productivo",
-      "resumen": "Objeto. La presente Ley tiene por objeto promover la correcta recuperación y reciclado de aceites vegetales y grasas de fritura usados, provenientes del uso comercial y/o doméstico.",
-      "tipo": "PROMOCIÓN",
-      "paginas": 9,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/7058-D-2024.pdf"
-    },
-    {
-      "id": "7085-D-2024",
-      "titulo": "Proy. Ley Innovaciones Médicas",
-      "autores": [
-        "Cecilia Solange Wissocq"
-      ],
-      "autor_principal": "Cecilia Solange Wissocq",
-      "bloque": "La Libertad Avanza",
-      "camara": "Diputados",
-      "año": 2024,
-      "eje": "Salud y Tecnología Médica",
-      "eje_score": 10,
-      "tematica": "Tecnologías Estratégicas",
-      "subtematica": "Salud",
-      "resumen": "OBJETIVOS. Son objetivos y principios rectores de esta ley: a. Establecer un marco normativo nacional que promueva la producción introducción de nuevas tecnologías de tratamientos, aparatología y/o fármacos, en materia de medicina, odontología y actividades de colaboración de la medicina y odontolog...",
-      "tipo": "MARCO REGULATORIO",
-      "paginas": 8,
-      "pdf_path": "PDFs_Proyectos_Ley/2024/7085-D-2024.pdf"
     }
   ]
 }
