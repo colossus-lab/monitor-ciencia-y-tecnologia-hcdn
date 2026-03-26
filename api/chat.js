@@ -18,6 +18,41 @@ const AUTHOR_TOKEN_STOPWORDS = new Set([
   "frente",
   "libertad",
 ]);
+const QUERY_STOPWORDS = new Set([
+  "resumen",
+  "resumir",
+  "resumime",
+  "resumirias",
+  "proyecto",
+  "proyectos",
+  "ley",
+  "leyes",
+  "expediente",
+  "dame",
+  "dar",
+  "sobre",
+  "tema",
+  "subgrupo",
+  "mismo",
+  "misma",
+  "tipo",
+  "autor",
+  "bloque",
+  "que",
+  "de",
+  "del",
+  "la",
+  "el",
+  "los",
+  "las",
+  "un",
+  "una",
+  "y",
+  "por",
+  "para",
+]);
+
+let FULL_TEXT_INDEX_CACHE = null;
 
 function normalizeText(text) {
   return (text || "")
@@ -72,6 +107,11 @@ function fallbackFromContext(consulta, contexto) {
   const q = (consulta || "").toLowerCase();
   const items = Array.isArray(contexto) ? contexto : [];
   if (!items.length) return "Esa información no figura en los proyectos actuales";
+
+  if (isProjectSummaryQuestion(consulta)) {
+    const summaryResponse = buildProjectSummaryResponse(consulta, items);
+    if (summaryResponse) return summaryResponse;
+  }
 
   if (isAuthorProjectsCountQuestion(consulta)) {
     const authorCountResponse = buildAuthorProjectsCountResponse(consulta, items);
@@ -270,6 +310,41 @@ function getProjectSubgroup(item) {
   return (item?.subtematica || item?.tipo || "").toString();
 }
 
+function isProjectSummaryQuestion(consulta) {
+  const q = normalizeText(consulta || "");
+  if (!q) return false;
+  const asksSummary = /(resumen|resumime|resumir|sintesis|de que trata|que propone|explicame|explicame|contame)/.test(q);
+  const hasProjectCue = /(proyecto|ley|expediente|\b\d{4}-d-\d{4}\b|sandbox|subgrupo|autor)/.test(q);
+  return asksSummary && hasProjectCue;
+}
+
+function loadFullTextIndex() {
+  if (FULL_TEXT_INDEX_CACHE) return FULL_TEXT_INDEX_CACHE;
+  const file = path.join(process.cwd(), "api", "leyes.json");
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+    const arr = Array.isArray(parsed?.proyectos)
+      ? parsed.proyectos
+      : Array.isArray(parsed?.bills)
+      ? parsed.bills
+      : [];
+    const map = new Map();
+    arr.forEach((item) => {
+      const id = ((item?.id || item?.expediente || "").toString() || "").toUpperCase();
+      if (!id) return;
+      map.set(id, {
+        titulo: (item?.titulo || "").toString(),
+        resumen: (item?.resumen || "").toString(),
+        texto_completo: (item?.texto_completo || "").toString(),
+      });
+    });
+    FULL_TEXT_INDEX_CACHE = map;
+  } catch (_) {
+    FULL_TEXT_INDEX_CACHE = new Map();
+  }
+  return FULL_TEXT_INDEX_CACHE;
+}
+
 function isRelationQuestion(consulta) {
   const q = normalizeText(consulta || "");
   if (!q) return false;
@@ -350,6 +425,240 @@ function buildAuthorProjectsCountResponse(consulta, contexto) {
   const ids = authoredProjects.slice(0, 6).map((x) => getProjectId(x)).filter(Boolean);
   const idSuffix = ids.length ? ` Expedientes: ${ids.join(", ")}${total > ids.length ? ", ..." : ""}.` : "";
   return `${targetDisplayName} figura con ${total} proyecto${total === 1 ? "" : "s"} en este dashboard.${idSuffix}`;
+}
+
+function scoreProjectMentionInQuery(item, queryNorm) {
+  const id = getProjectId(item);
+  if (id && queryNorm.includes(normalizeText(id))) return 100;
+
+  let score = 0;
+  score += scoreAuthorMentionInQuery(getProjectAuthor(item), queryNorm) * 4;
+
+  const searchable = normalizeText(
+    `${item?.titulo || ""} ${item?.resumen || ""} ${item?.desc || ""} ${item?.subtematica || ""} ${item?.tipo || ""} ${item?.grupo || ""} ${item?.tema || ""}`,
+  );
+  const qTokens = tokenize(queryNorm).filter((t) => t.length >= 4 && !QUERY_STOPWORDS.has(t));
+  qTokens.forEach((t) => {
+    if (searchable.includes(t)) score += 2;
+  });
+  return score;
+}
+
+function pickProjectForSummary(consulta, contexto) {
+  const items = Array.isArray(contexto) ? contexto : [];
+  if (!items.length) return { project: null, ambiguous: false, candidates: [] };
+  const qRaw = (consulta || "").toString();
+  const q = normalizeText(qRaw);
+
+  const idMatch = qRaw.match(/\b\d{4}-d-\d{4}\b/i);
+  if (idMatch) {
+    const targetId = idMatch[0].toUpperCase();
+    const exact = items.find((x) => getProjectId(x) === targetId) || null;
+    return { project: exact, ambiguous: false, candidates: exact ? [exact] : [] };
+  }
+
+  const ranked = items
+    .map((x) => ({ x, score: scoreProjectMentionInQuery(x, q) }))
+    .filter((r) => r.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  if (!ranked.length) return { project: null, ambiguous: false, candidates: [] };
+  if (ranked.length === 1) return { project: ranked[0].x, ambiguous: false, candidates: [ranked[0].x] };
+
+  const top = ranked[0];
+  const second = ranked[1];
+  if (top.score > second.score) return { project: top.x, ambiguous: false, candidates: ranked.slice(0, 3).map((r) => r.x) };
+
+  return { project: null, ambiguous: true, candidates: ranked.slice(0, 3).map((r) => r.x) };
+}
+
+function cleanLongText(text) {
+  return (text || "")
+    .replace(/\r/g, "\n")
+    .replace(/([a-záéíóúñ])([A-ZÁÉÍÓÚÑ])/g, "$1 $2")
+    .replace(/([a-záéíóúñ])([0-9])/g, "$1 $2")
+    .replace(/([0-9])([A-ZÁÉÍÓÚÑa-záéíóúñ])/g, "$1 $2")
+    .replace(/,\s*/g, ", ")
+    .replace(/;\s*/g, "; ")
+    .replace(/:\s*/g, ": ")
+    .replace(/\.\s*/g, ". ")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{2,}/g, "\n")
+    .trim();
+}
+
+function cleanDisplayTitle(text) {
+  return (text || "")
+    .toString()
+    .replace(/^\[\-?\s*/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function splitSentences(text) {
+  const cleaned = cleanLongText(text).replace(/\n/g, " ");
+  return cleaned
+    .split(/(?<=[\.\!\?])\s+(?=[A-ZÁÉÍÓÚÑ“"'])/g)
+    .map((s) => s.trim())
+    .filter((s) => s.length >= 45);
+}
+
+function pickInformativeSentences(text, max = 4) {
+  const sentences = splitSentences(text);
+  if (!sentences.length) return [];
+
+  const ranked = sentences
+    .map((s, idx) => {
+      const n = normalizeText(s);
+      let score = 0;
+      if (/objeto|crea|crease|establece|regimen|marco|finalidad/.test(n)) score += 3;
+      if (/derecho|garantia|proteccion|prohibe|riesgo|auditoria|autoridad/.test(n)) score += 2;
+      if (/fundamentos|senor presidente|pagina \d+ de \d+/.test(n)) score -= 3;
+      if (s.length > 260) score -= 1;
+      return { s, idx, score };
+    })
+    .sort((a, b) => b.score - a.score || a.idx - b.idx)
+    .slice(0, Math.min(max * 3, sentences.length));
+
+  const selected = ranked
+    .sort((a, b) => a.idx - b.idx)
+    .slice(0, max)
+    .map((x) => x.s);
+
+  return selected.length ? selected : sentences.slice(0, max);
+}
+
+function buildProjectSummaryResponse(consulta, contexto) {
+  const result = buildProjectSummaryContext(consulta, contexto);
+  if (result.errorText) return result.errorText;
+  return renderLocalProjectSummary(result.project);
+}
+
+function buildProjectSummaryContext(consulta, contexto) {
+  const items = Array.isArray(contexto) ? contexto : [];
+  if (!items.length) return { project: null, errorText: null };
+
+  const picked = pickProjectForSummary(consulta, items);
+  if (picked.ambiguous) {
+    const opts = picked.candidates
+      .map((x) => `• ${getProjectId(x)} — ${x.titulo || x.desc || "Sin título"}`)
+      .join("\n");
+    return {
+      project: null,
+      errorText: `Tu consulta puede referirse a más de un proyecto. ¿Cuál querés que resuma?\n${opts}`,
+    };
+  }
+  if (!picked.project) {
+    return {
+      project: null,
+      errorText: "Para resumirlo bien, indicame el expediente (ejemplo: 3422-D-2024) o el autor y temática.",
+    };
+  }
+
+  const p = picked.project;
+  const id = getProjectId(p);
+  const title = cleanDisplayTitle(p?.titulo || p?.desc || "Sin título");
+  const author = getProjectAuthor(p) || "Sin autor";
+  const block = p?.bloque || "Sin bloque";
+  const subgroup = getProjectSubgroup(p) || "Sin subgrupo";
+
+  const fullIndex = loadFullTextIndex();
+  const fullEntry = fullIndex.get(id) || {};
+  const longText = (fullEntry.texto_completo || "").trim();
+  const shortText = (p?.resumen || p?.desc || fullEntry.resumen || "").toString().trim();
+  const source = longText || shortText;
+  if (!source) return { project: null, errorText: "Esa información no figura en los proyectos actuales" };
+
+  return {
+    project: {
+      id,
+      title,
+      author,
+      block,
+      subgroup,
+      sourceText: source,
+      sourceType: longText ? "full_text_repo" : "dashboard_summary",
+      shortText,
+    },
+    errorText: null,
+  };
+}
+
+function renderLocalProjectSummary(project) {
+  const sentences = pickInformativeSentences(project.sourceText, 4);
+  const bullets = sentences
+    .map((s) => {
+      const trimmed = s.length > 260 ? `${s.slice(0, 257).trim()}...` : s;
+      return `- ${trimmed}`;
+    })
+    .join("\n");
+  const base = [
+    `Resumen del expediente **${project.id}**:`,
+    `Título: ${project.title}`,
+    `Autor principal: ${project.author} · Bloque: ${project.block} · Subgrupo: ${project.subgroup}`,
+    "",
+    bullets || `- ${project.shortText}`,
+  ].join("\n");
+  if (project.sourceType === "full_text_repo") {
+    return `${base}\n\nFuente usada: texto del proyecto cargado en el repositorio.`;
+  }
+  return `${base}\n\nFuente usada: resumen y metadatos del dashboard.`;
+}
+
+async function generateGeminiProjectSummary(consulta, alcance, project) {
+  if (!process.env.GEMINI_API_KEY) return null;
+  let GoogleGenerativeAI;
+  try {
+    ({ GoogleGenerativeAI } = await import("@google/generative-ai"));
+  } catch (_) {
+    return null;
+  }
+
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({
+      model: MODEL_CANDIDATES[0],
+      generationConfig: {
+        temperature: 0.2,
+        topP: 0.9,
+        topK: 40,
+        maxOutputTokens: 1200,
+      },
+    });
+    const sourceLabel = project.sourceType === "full_text_repo"
+      ? "texto completo del proyecto"
+      : "resumen y metadatos del dashboard";
+    const prompt = `
+Sos LeyesBot, asistente legal argentino del dashboard de ${alcance}.
+Tu tarea es resumir un único proyecto de ley con precisión jurídica, sin opiniones personales.
+
+Proyecto:
+- Expediente: ${project.id}
+- Título: ${project.title}
+- Autor principal: ${project.author}
+- Bloque: ${project.block}
+- Subgrupo: ${project.subgroup}
+- Fuente disponible: ${sourceLabel}
+
+Texto fuente del proyecto:
+${project.sourceText}
+
+Consulta del usuario:
+${consulta}
+
+Formato de respuesta:
+1) Un párrafo breve de qué propone.
+2) Luego 4 a 6 bullets con puntos centrales (alcance, instrumentos, autoridad/aplicación, controles, impacto).
+3) Cerrar con una línea "Fuente usada: ...".
+Si faltaran datos en la fuente, indicarlo de forma explícita y breve.
+`;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    const text = extractGeminiText(response);
+    return text || null;
+  } catch (_) {
+    return null;
+  }
 }
 
 function pickSubgroupFromQuery(consulta, items) {
@@ -516,6 +825,32 @@ export default async function handler(req, res) {
       : "General";
 
     const totalProyectos = Array.isArray(contextoArray) ? contextoArray.length : 0;
+    if (totalProyectos > 0 && isProjectSummaryQuestion(consulta)) {
+      const summary = buildProjectSummaryContext(consulta, contextoArray);
+      if (summary.errorText) {
+        return res.status(200).json({
+          texto: summary.errorText,
+          model: "summary-local",
+          context_items: totalProyectos,
+        });
+      }
+      if (summary.project) {
+        const geminiSummary = await generateGeminiProjectSummary(consulta, alcance, summary.project);
+        if (geminiSummary) {
+          return res.status(200).json({
+            texto: geminiSummary,
+            model: `${MODEL_CANDIDATES[0]}:summary`,
+            context_items: totalProyectos,
+          });
+        }
+        return res.status(200).json({
+          texto: renderLocalProjectSummary(summary.project),
+          model: "summary-local",
+          context_items: totalProyectos,
+        });
+      }
+    }
+
     if (totalProyectos > 0 && isAuthorProjectsCountQuestion(consulta)) {
       const authorCountResponse = buildAuthorProjectsCountResponse(consulta, contextoArray);
       if (authorCountResponse) {
