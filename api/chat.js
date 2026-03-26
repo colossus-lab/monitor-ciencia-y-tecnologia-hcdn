@@ -103,14 +103,19 @@ function pickRelevantContext(consulta, contexto, limit = MAX_CONTEXT_ITEMS) {
   return [...new Map([...head, ...tail].map((it) => [it.id || it.expediente || Math.random(), it])).values()].slice(0, limit);
 }
 
-function fallbackFromContext(consulta, contexto) {
+function fallbackFromContext(consulta, contexto, historial = []) {
   const q = (consulta || "").toLowerCase();
   const items = Array.isArray(contexto) ? contexto : [];
   if (!items.length) return "Esa información no figura en los proyectos actuales";
 
   if (isProjectSummaryQuestion(consulta)) {
-    const summaryResponse = buildProjectSummaryResponse(consulta, items);
+    const summaryResponse = buildProjectSummaryResponse(consulta, items, historial);
     if (summaryResponse) return summaryResponse;
+  }
+
+  if (isAuthorExpedienteQuestion(consulta)) {
+    const expResponse = buildAuthorExpedienteResponse(consulta, items);
+    if (expResponse) return expResponse;
   }
 
   if (isAuthorProjectsCountQuestion(consulta)) {
@@ -119,7 +124,7 @@ function fallbackFromContext(consulta, contexto) {
   }
 
   if (isRelationQuestion(consulta)) {
-    const relationResponse = buildSubgroupRelationResponse(consulta, items);
+    const relationResponse = buildSubgroupRelationResponse(consulta, items, historial);
     if (relationResponse) return relationResponse;
   }
 
@@ -310,12 +315,74 @@ function getProjectSubgroup(item) {
   return (item?.subtematica || item?.tipo || "").toString();
 }
 
+function extractHistoryMessages(historial) {
+  if (!Array.isArray(historial)) return [];
+  return historial
+    .map((m) => {
+      if (typeof m === "string") return m;
+      if (m && typeof m === "object") {
+        return (m.texto || m.text || m.content || m.message || "").toString();
+      }
+      return "";
+    })
+    .filter((x) => x.trim().length > 0)
+    .slice(-12);
+}
+
+function buildHistoryForPrompt(historial) {
+  const msgs = extractHistoryMessages(historial).slice(-8);
+  if (!msgs.length) return "";
+  return msgs.map((t, i) => `${i + 1}. ${t}`).join("\n");
+}
+
+function getKnownProjectIds(items) {
+  return (Array.isArray(items) ? items : [])
+    .map((x) => getProjectId(x))
+    .filter(Boolean);
+}
+
+function resolveProjectIdByNumberYear(numRaw, yearRaw, items) {
+  const num = String(Number(numRaw)).padStart(4, "0");
+  const year = String(yearRaw);
+  const ids = getKnownProjectIds(items).filter((id) => id.startsWith(`${num}-`) && id.endsWith(`-${year}`));
+  if (ids.length === 1) return ids[0];
+  return null;
+}
+
+function parseProjectIdFromText(text, items = []) {
+  const raw = (text || "").toString();
+  if (!raw.trim()) return null;
+
+  let m = raw.match(/\b(\d{3,4})\s*-\s*([dDsS])\s*-\s*(20\d{2})\b/);
+  if (m) return `${String(Number(m[1])).padStart(4, "0")}-${m[2].toUpperCase()}-${m[3]}`;
+
+  m = raw.match(/\b(\d{3,4})\s*\/\s*(20\d{2})\b/);
+  if (m) return resolveProjectIdByNumberYear(m[1], m[2], items);
+
+  m = raw.match(/\b(\d{3,4})\s*(?:de|del|-)\s*(20\d{2})\b/i);
+  if (m) return resolveProjectIdByNumberYear(m[1], m[2], items);
+
+  return null;
+}
+
+function findProjectById(items, id) {
+  const target = (id || "").toUpperCase();
+  if (!target) return null;
+  return (Array.isArray(items) ? items : []).find((x) => getProjectId(x) === target) || null;
+}
+
 function isProjectSummaryQuestion(consulta) {
   const q = normalizeText(consulta || "");
   if (!q) return false;
   const asksSummary = /(resumen|resumime|resumir|sintesis|de que trata|que propone|explicame|explicame|contame)/.test(q);
   const hasProjectCue = /(proyecto|ley|expediente|\b\d{4}-d-\d{4}\b|sandbox|subgrupo|autor)/.test(q);
   return asksSummary && hasProjectCue;
+}
+
+function historyHasSummaryIntent(historial) {
+  const merged = normalizeText(extractHistoryMessages(historial).join(" "));
+  if (!merged) return false;
+  return /(resumen|resumime|resumir|de que trata|que propone|explicame)/.test(merged);
 }
 
 function loadFullTextIndex() {
@@ -359,6 +426,14 @@ function isAuthorProjectsCountQuestion(consulta) {
     /(tiene|presento|presento|de|autor)/.test(q);
 }
 
+function isAuthorExpedienteQuestion(consulta) {
+  const q = normalizeText(consulta || "");
+  if (!q) return false;
+  const asksExp = /(expediente|id|numero de expediente|nro de expediente|codigo)/.test(q);
+  const asksAuthor = /(autor|proyecto de|de [a-z]|diputad|legislador|yeza|pagano|calletti|ferraro|giudici)/.test(q);
+  return asksExp && asksAuthor;
+}
+
 function scoreAuthorMentionInQuery(author, q) {
   const tokens = tokenize(author).filter((t) => t.length >= 4 && !AUTHOR_TOKEN_STOPWORDS.has(t));
   if (!tokens.length) return 0;
@@ -369,15 +444,15 @@ function scoreAuthorMentionInQuery(author, q) {
   return score;
 }
 
-function pickReferenceProjectFromQuery(consulta, items) {
+function pickReferenceProjectFromQuery(consulta, items, historial = []) {
   const qRaw = (consulta || "").toString();
   const q = normalizeText(qRaw);
   if (!q) return null;
 
-  const idMatch = qRaw.match(/\b\d{4}-d-\d{4}\b/i);
-  if (idMatch) {
-    const targetId = idMatch[0].toUpperCase();
-    return items.find((x) => getProjectId(x) === targetId) || null;
+  const directId = parseProjectIdFromText(qRaw, items);
+  if (directId) {
+    const found = findProjectById(items, directId);
+    if (found) return found;
   }
 
   const scored = items
@@ -389,9 +464,17 @@ function pickReferenceProjectFromQuery(consulta, items) {
     .filter((s) => s.score > 0)
     .sort((a, b) => b.score - a.score);
 
-  if (!scored.length) return null;
   if (scored.length === 1) return scored[0].x;
-  if (scored[0].score > scored[1].score) return scored[0].x;
+  if (scored.length > 1 && scored[0].score > scored[1].score) return scored[0].x;
+
+  const historyMessages = extractHistoryMessages(historial).slice().reverse();
+  for (const msg of historyMessages) {
+    const idFromHistory = parseProjectIdFromText(msg, items);
+    if (!idFromHistory) continue;
+    const found = findProjectById(items, idFromHistory);
+    if (found) return found;
+  }
+
   return null;
 }
 
@@ -427,6 +510,39 @@ function buildAuthorProjectsCountResponse(consulta, contexto) {
   return `${targetDisplayName} figura con ${total} proyecto${total === 1 ? "" : "s"} en este dashboard.${idSuffix}`;
 }
 
+function buildAuthorExpedienteResponse(consulta, contexto) {
+  const items = Array.isArray(contexto) ? contexto : [];
+  if (!items.length) return null;
+  const q = normalizeText(consulta || "");
+
+  const authorScores = new Map();
+  const displayNameByNorm = new Map();
+  items.forEach((x) => {
+    const author = getProjectAuthor(x);
+    const normAuthor = normalizeText(author);
+    if (!normAuthor) return;
+    const score = scoreAuthorMentionInQuery(author, q);
+    if (score <= 0) return;
+    authorScores.set(normAuthor, (authorScores.get(normAuthor) || 0) + score);
+    if (!displayNameByNorm.has(normAuthor)) displayNameByNorm.set(normAuthor, author);
+  });
+  if (!authorScores.size) return null;
+
+  const ranked = [...authorScores.entries()].sort((a, b) => b[1] - a[1]);
+  if (ranked.length > 1 && ranked[0][1] === ranked[1][1]) return null;
+
+  const targetNormAuthor = ranked[0][0];
+  const targetDisplayName = displayNameByNorm.get(targetNormAuthor) || "Autor";
+  const authoredProjects = items.filter((x) => normalizeText(getProjectAuthor(x)) === targetNormAuthor);
+  if (!authoredProjects.length) return null;
+
+  const ids = authoredProjects.map((x) => getProjectId(x)).filter(Boolean);
+  if (ids.length === 1) {
+    return `El expediente del proyecto de ${targetDisplayName} es **${ids[0]}**.`;
+  }
+  return `Los expedientes de ${targetDisplayName} en este dashboard son: ${ids.map((id) => `**${id}**`).join(", ")}.`;
+}
+
 function scoreProjectMentionInQuery(item, queryNorm) {
   const id = getProjectId(item);
   if (id && queryNorm.includes(normalizeText(id))) return 100;
@@ -444,16 +560,15 @@ function scoreProjectMentionInQuery(item, queryNorm) {
   return score;
 }
 
-function pickProjectForSummary(consulta, contexto) {
+function pickProjectForSummary(consulta, contexto, historial = []) {
   const items = Array.isArray(contexto) ? contexto : [];
   if (!items.length) return { project: null, ambiguous: false, candidates: [] };
   const qRaw = (consulta || "").toString();
   const q = normalizeText(qRaw);
 
-  const idMatch = qRaw.match(/\b\d{4}-d-\d{4}\b/i);
-  if (idMatch) {
-    const targetId = idMatch[0].toUpperCase();
-    const exact = items.find((x) => getProjectId(x) === targetId) || null;
+  const directId = parseProjectIdFromText(qRaw, items);
+  if (directId) {
+    const exact = findProjectById(items, directId);
     return { project: exact, ambiguous: false, candidates: exact ? [exact] : [] };
   }
 
@@ -461,6 +576,15 @@ function pickProjectForSummary(consulta, contexto) {
     .map((x) => ({ x, score: scoreProjectMentionInQuery(x, q) }))
     .filter((r) => r.score > 0)
     .sort((a, b) => b.score - a.score);
+
+  const historyMessages = extractHistoryMessages(historial).slice().reverse();
+  for (const msg of historyMessages) {
+    const idFromHistory = parseProjectIdFromText(msg, items);
+    if (idFromHistory) {
+      const fromHistory = findProjectById(items, idFromHistory);
+      if (fromHistory) return { project: fromHistory, ambiguous: false, candidates: [fromHistory] };
+    }
+  }
 
   if (!ranked.length) return { project: null, ambiguous: false, candidates: [] };
   if (ranked.length === 1) return { project: ranked[0].x, ambiguous: false, candidates: [ranked[0].x] };
@@ -528,17 +652,17 @@ function pickInformativeSentences(text, max = 4) {
   return selected.length ? selected : sentences.slice(0, max);
 }
 
-function buildProjectSummaryResponse(consulta, contexto) {
-  const result = buildProjectSummaryContext(consulta, contexto);
+function buildProjectSummaryResponse(consulta, contexto, historial = []) {
+  const result = buildProjectSummaryContext(consulta, contexto, historial);
   if (result.errorText) return result.errorText;
   return renderLocalProjectSummary(result.project);
 }
 
-function buildProjectSummaryContext(consulta, contexto) {
+function buildProjectSummaryContext(consulta, contexto, historial = []) {
   const items = Array.isArray(contexto) ? contexto : [];
   if (!items.length) return { project: null, errorText: null };
 
-  const picked = pickProjectForSummary(consulta, items);
+  const picked = pickProjectForSummary(consulta, items, historial);
   if (picked.ambiguous) {
     const opts = picked.candidates
       .map((x) => `• ${getProjectId(x)} — ${x.titulo || x.desc || "Sin título"}`)
@@ -696,12 +820,12 @@ function formatProjectLine(item) {
   return `• ${id}: ${titulo} (Autor: ${autor})`;
 }
 
-function buildSubgroupRelationResponse(consulta, contexto) {
+function buildSubgroupRelationResponse(consulta, contexto, historial = []) {
   const items = Array.isArray(contexto) ? contexto : [];
   if (!items.length) return null;
 
   const q = normalizeText(consulta || "");
-  const reference = pickReferenceProjectFromQuery(consulta, items);
+  const reference = pickReferenceProjectFromQuery(consulta, items, historial);
 
   if (reference) {
     const refId = getProjectId(reference);
@@ -769,11 +893,30 @@ function isOpinionQuestion(consulta) {
   return /(que preferis|que prefieres|preferis|prefieres|tu opinion|que opinas|que pensas|te gusta|cual te gusta|quien te cae mejor|a favor o en contra)/.test(q);
 }
 
-function isOutOfScopeQuestion(consulta) {
+function queryMatchesKnownAuthor(consulta, contexto) {
+  const q = normalizeText(consulta || "");
+  const items = Array.isArray(contexto) ? contexto : [];
+  if (!q || !items.length) return false;
+  const trimmedWords = q.split(/\s+/).filter(Boolean);
+  if (trimmedWords.length > 5) return false;
+
+  let best = 0;
+  for (const item of items) {
+    const author = getProjectAuthor(item);
+    if (!author) continue;
+    const score = scoreAuthorMentionInQuery(author, q);
+    if (score > best) best = score;
+    if (score >= 2) return true;
+  }
+  return best >= 1 && trimmedWords.length <= 2;
+}
+
+function isOutOfScopeQuestion(consulta, contexto = []) {
   if (isLatestProjectsQuestion(consulta)) return false;
   const q = normalizeText(consulta || "");
   if (!q) return false;
-  if (/\b\d{4}-d-\d{4}\b/i.test(consulta || "")) return false;
+  if (parseProjectIdFromText(consulta || "", contexto)) return false;
+  if (queryMatchesKnownAuthor(consulta, contexto)) return false;
   const legalCue = /(proyecto|ley|expediente|bloque|autor|comision|cyt|ciencia|tecnologia|ia|inteligencia artificial|subtematica|tematica|pdf|dashboard)/.test(q);
   if (legalCue) return false;
   // frases cortas de charla/no-legales
@@ -797,8 +940,9 @@ export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).send("Solo POST");
 
   try {
-    const { pregunta, mensajeUsuario, contexto, scope } = req.body || {};
+    const { pregunta, mensajeUsuario, contexto, scope, historial, history } = req.body || {};
     const consulta = (pregunta || mensajeUsuario || "").toString().trim();
+    const historyItems = Array.isArray(historial) ? historial : Array.isArray(history) ? history : [];
 
     if (!consulta) {
       return res.status(400).json({ error: "Falta la pregunta del usuario." });
@@ -826,8 +970,11 @@ export default async function handler(req, res) {
     const hasGemini = Boolean(process.env.GEMINI_API_KEY);
 
     const totalProyectos = Array.isArray(contextoArray) ? contextoArray.length : 0;
-    if (totalProyectos > 0 && isProjectSummaryQuestion(consulta)) {
-      const summary = buildProjectSummaryContext(consulta, contextoArray);
+    const summaryIntentByHistory =
+      queryMatchesKnownAuthor(consulta, contextoArray) &&
+      historyHasSummaryIntent(historyItems);
+    if (totalProyectos > 0 && (isProjectSummaryQuestion(consulta) || summaryIntentByHistory)) {
+      const summary = buildProjectSummaryContext(consulta, contextoArray, historyItems);
       if (summary.errorText) {
         return res.status(200).json({
           texto: summary.errorText,
@@ -852,6 +999,17 @@ export default async function handler(req, res) {
       }
     }
 
+    if (totalProyectos > 0 && isAuthorExpedienteQuestion(consulta)) {
+      const expedienteResponse = buildAuthorExpedienteResponse(consulta, contextoArray);
+      if (expedienteResponse) {
+        return res.status(200).json({
+          texto: expedienteResponse,
+          model: "expediente-local",
+          context_items: totalProyectos,
+        });
+      }
+    }
+
     if (!hasGemini && totalProyectos > 0 && isAuthorProjectsCountQuestion(consulta)) {
       const authorCountResponse = buildAuthorProjectsCountResponse(consulta, contextoArray);
       if (authorCountResponse) {
@@ -864,7 +1022,7 @@ export default async function handler(req, res) {
     }
 
     if (!hasGemini && totalProyectos > 0 && isRelationQuestion(consulta)) {
-      const relationResponse = buildSubgroupRelationResponse(consulta, contextoArray);
+      const relationResponse = buildSubgroupRelationResponse(consulta, contextoArray, historyItems);
       if (relationResponse) {
         return res.status(200).json({
           texto: relationResponse,
@@ -874,7 +1032,7 @@ export default async function handler(req, res) {
       }
     }
 
-    if (!hasGemini && isAmbiguousQuery(consulta)) {
+    if (!hasGemini && isAmbiguousQuery(consulta) && !queryMatchesKnownAuthor(consulta, contextoArray)) {
       return res.status(200).json({
         texto: buildClarificationQuestion(scope),
         model: "clarify-local",
@@ -898,7 +1056,7 @@ export default async function handler(req, res) {
       });
     }
 
-    if (isOutOfScopeQuestion(consulta)) {
+    if (isOutOfScopeQuestion(consulta, contextoArray)) {
       return res.status(200).json({
         texto: `Solo puedo responder sobre proyectos legislativos del dashboard de ${alcance}. Si querés, indicame un expediente (por ejemplo: 0664-D-2026) o una temática.`,
         model: "guardrail-local",
@@ -935,11 +1093,14 @@ export default async function handler(req, res) {
     if (contextoRelevante.length) {
       datosLeyes = JSON.stringify(contextoRelevante);
     }
+    const historialPrompt = buildHistoryForPrompt(historyItems);
 
     const instruccionSistema = `
 Sos "LeyesBot", un experto legal argentino.
 Estás atendiendo el dashboard: ${alcance}.
 Tu única fuente de verdad son estos proyectos de ley: ${datosLeyes}.
+Historial reciente de la conversación (si existe):
+${historialPrompt || "Sin historial relevante."}
 
 Reglas:
 1. Solo respondé basándote en la info que te pasé.
@@ -957,7 +1118,7 @@ Reglas:
 
     if (!hasGemini) {
       return res.status(200).json({
-        texto: fallbackFromContext(consulta, contextoRelevante.length ? contextoRelevante : contextoArray),
+        texto: fallbackFromContext(consulta, contextoRelevante.length ? contextoRelevante : contextoArray, historyItems),
         model: "fallback-local",
         context_items: (contextoRelevante.length ? contextoRelevante : contextoArray || []).length,
       });
@@ -968,7 +1129,7 @@ Reglas:
       ({ GoogleGenerativeAI } = await import("@google/generative-ai"));
     } catch (err) {
       return res.status(200).json({
-        texto: fallbackFromContext(consulta, contextoArray),
+        texto: fallbackFromContext(consulta, contextoArray, historyItems),
         model: "fallback-local",
       });
     }
@@ -1006,7 +1167,7 @@ Reglas:
     }
 
     return res.status(200).json({
-      texto: fallbackFromContext(consulta, contextoRelevante.length ? contextoRelevante : contextoArray),
+      texto: fallbackFromContext(consulta, contextoRelevante.length ? contextoRelevante : contextoArray, historyItems),
       model: "fallback-local",
       note: lastError?.message || "Sin modelo Gemini disponible",
       context_items: (contextoRelevante.length ? contextoRelevante : contextoArray || []).length,

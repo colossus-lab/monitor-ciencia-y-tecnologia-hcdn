@@ -993,6 +993,7 @@ document.addEventListener('keydown', e => {
 let chatbotInitialized = false;
 let chatbotLoading = false;
 let cytChatContextCache = null;
+let chatbotHistory = [];
 
 function toggleChatbot(forceState = null) {
   const panel = document.getElementById('chatbotPanel');
@@ -1019,6 +1020,8 @@ function appendChatMessage(role, text) {
   el.textContent = text;
   box.appendChild(el);
   box.scrollTop = box.scrollHeight;
+  chatbotHistory.push({ role, text });
+  if(chatbotHistory.length > 24) chatbotHistory = chatbotHistory.slice(-24);
 }
 
 function setChatStatus(text='') {
@@ -1108,6 +1111,7 @@ async function sendChatMessage() {
         pregunta: question,
         scope: 'cyt',
         contexto,
+        historial: chatbotHistory.slice(-12),
       }),
     });
 
