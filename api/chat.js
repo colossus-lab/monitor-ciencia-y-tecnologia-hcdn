@@ -51,6 +51,37 @@ const QUERY_STOPWORDS = new Set([
   "por",
   "para",
 ]);
+const TOPIC_QUERY_STOPWORDS = new Set([
+  ...QUERY_STOPWORDS,
+  "cuales",
+  "cuantos",
+  "cuantas",
+  "cuanto",
+  "cantidad",
+  "numero",
+  "nro",
+  "hablan",
+  "habla",
+  "tratan",
+  "trata",
+  "presentado",
+  "presentados",
+  "presentada",
+  "presentadas",
+  "hay",
+  "iguales",
+  "similares",
+  "parecidos",
+  "mismo",
+  "misma",
+  "otros",
+  "otras",
+  "sobre",
+  "como",
+  "con",
+  "del",
+  "al",
+]);
 
 let FULL_TEXT_INDEX_CACHE = null;
 
@@ -72,10 +103,134 @@ function getQueryTerms(text) {
   const out = new Set();
   tokenize(text).forEach((w) => {
     if (w.length >= 4) out.add(w);
-    if (w.endsWith("es") && w.length >= 6) out.add(w.slice(0, -2));
     if (w.endsWith("s") && w.length >= 5) out.add(w.slice(0, -1));
   });
   return [...out];
+}
+
+function levenshteinDistanceWithin(a, b, maxDistance = 2) {
+  if (a === b) return 0;
+  if (!a || !b) return Math.max(a.length, b.length);
+  if (Math.abs(a.length - b.length) > maxDistance) return maxDistance + 1;
+
+  const prev = new Array(b.length + 1);
+  const curr = new Array(b.length + 1);
+  for (let j = 0; j <= b.length; j += 1) prev[j] = j;
+
+  for (let i = 1; i <= a.length; i += 1) {
+    curr[0] = i;
+    let minRow = curr[0];
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      curr[j] = Math.min(
+        prev[j] + 1,
+        curr[j - 1] + 1,
+        prev[j - 1] + cost,
+      );
+      if (curr[j] < minRow) minRow = curr[j];
+    }
+    if (minRow > maxDistance) return maxDistance + 1;
+    for (let j = 0; j <= b.length; j += 1) prev[j] = curr[j];
+  }
+  return prev[b.length];
+}
+
+function similarityBetweenTerms(a, b) {
+  if (!a || !b) return 0;
+  if (a === b) return 4;
+  if ((a.startsWith(b) || b.startsWith(a)) && Math.min(a.length, b.length) >= 5) return 3;
+  const max = Math.max(a.length, b.length);
+  const allowed = max >= 8 ? 2 : 1;
+  const dist = levenshteinDistanceWithin(a, b, allowed);
+  if (dist <= allowed) return allowed === 2 ? 2 : 1;
+  return 0;
+}
+
+function extractTopicTerms(consulta) {
+  return getQueryTerms(consulta)
+    .map((t) => (t === "dereogar" ? "derogar" : t))
+    .filter((t) => t && t.length >= 4 && !TOPIC_QUERY_STOPWORDS.has(t) && !/^\d+$/.test(t));
+}
+
+function isTopicProjectsQuestion(consulta) {
+  const q = normalizeText(consulta || "");
+  if (!q) return false;
+  const terms = extractTopicTerms(consulta);
+  if (!terms.length) return false;
+  const asksProjects = /(proyecto|proyectos|ley|leyes)/.test(q);
+  const asksByTheme = /(sobre|habla|hablan|trata|tratan|tema|tematica|subgrupo|subtematica|similares|iguales|parecidos|que hay|cuales|presentad)/.test(q);
+  return asksProjects || asksByTheme;
+}
+
+function projectSearchText(item) {
+  return normalizeText(
+    `${item?.titulo || ""} ${item?.resumen || ""} ${item?.desc || ""} ${item?.grupo || ""} ${item?.tematica || ""} ${item?.tema || ""} ${item?.subtematica || ""} ${item?.tipo || ""}`,
+  );
+}
+
+function scoreProjectByTopicTerms(item, terms) {
+  const text = projectSearchText(item);
+  const tokens = tokenize(text);
+  let score = 0;
+  let matchedTerms = 0;
+
+  terms.forEach((term) => {
+    if (text.includes(term)) {
+      score += 4;
+      matchedTerms += 1;
+      return;
+    }
+    let bestTermScore = 0;
+    for (const tok of tokens) {
+      const s = similarityBetweenTerms(term, tok);
+      if (s > bestTermScore) bestTermScore = s;
+      if (bestTermScore >= 3) break;
+    }
+    if (bestTermScore > 0) {
+      score += bestTermScore + 1;
+      matchedTerms += 1;
+    }
+  });
+
+  const subgroup = normalizeText(getProjectSubgroup(item));
+  const group = normalizeText(getProjectGroup(item));
+  terms.forEach((term) => {
+    if (subgroup && subgroup.includes(term)) score += 2;
+    if (group && group.includes(term)) score += 1;
+  });
+
+  return { score, matchedTerms };
+}
+
+function buildTopicProjectsResponse(consulta, contexto) {
+  const items = Array.isArray(contexto) ? contexto : [];
+  if (!items.length) return null;
+  const terms = extractTopicTerms(consulta);
+  if (!terms.length) return null;
+  const termSet = new Set(terms);
+  const displayTerms = terms.filter((t) => !(t.endsWith("s") && termSet.has(t.slice(0, -1))));
+
+  const ranked = items
+    .map((x) => ({ x, ...scoreProjectByTopicTerms(x, terms) }))
+    .filter((r) => r.score >= 3 && r.matchedTerms >= 1)
+    .sort((a, b) => b.score - a.score);
+
+  if (!ranked.length) {
+    return `No encontré coincidencias claras para **${displayTerms.join(", ") || terms.join(", ")}**. ¿Querés que lo busque por:\n1) Subgrupo exacto (ej. Deepfake y generación de imágenes)\n2) Grupo temático (ej. Privacidad Digital / Derechos Digitales)\n3) Expediente puntual?`;
+  }
+
+  const unique = [];
+  const seen = new Set();
+  for (const r of ranked) {
+    const id = getProjectId(r.x);
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    unique.push(r.x);
+  }
+
+  const lines = unique.slice(0, 10).map(formatProjectLine).join("\n");
+  const shownTerms = (displayTerms.length ? displayTerms : terms).map((t) => `“${t}”`).join(", ");
+  return `Encontré **${unique.length} proyecto${unique.length === 1 ? "" : "s"}** relacionados con ${shownTerms}:\n${lines}`;
 }
 
 function pickRelevantContext(consulta, contexto, limit = MAX_CONTEXT_ITEMS) {
@@ -136,6 +291,11 @@ function fallbackFromContext(consulta, contexto, historial = []) {
   if (isRelationQuestion(consulta)) {
     const relationResponse = buildSubgroupRelationResponse(consulta, items, historial);
     if (relationResponse) return relationResponse;
+  }
+
+  if (isTopicProjectsQuestion(consulta)) {
+    const topicResponse = buildTopicProjectsResponse(consulta, items);
+    if (topicResponse) return topicResponse;
   }
 
   if (isLatestProjectsQuestion(consulta)) {
@@ -1072,6 +1232,17 @@ export default async function handler(req, res) {
         return res.status(200).json({
           texto: relationResponse,
           model: "relation-local",
+          context_items: totalProyectos,
+        });
+      }
+    }
+
+    if (totalProyectos > 0 && isTopicProjectsQuestion(consulta)) {
+      const topicResponse = buildTopicProjectsResponse(consulta, contextoArray);
+      if (topicResponse) {
+        return res.status(200).json({
+          texto: topicResponse,
+          model: "topic-local",
           context_items: totalProyectos,
         });
       }
