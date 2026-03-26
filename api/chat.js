@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const MODEL_CANDIDATES = ["gemini-2.5-flash"];
+const MODEL_CANDIDATES = ["gemini-2.5-pro"];
 const MAX_CONTEXT_ITEMS = 120;
 const MAX_GEMINI_ATTEMPTS = 2;
 const AUTHOR_TOKEN_STOPWORDS = new Set([
