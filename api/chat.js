@@ -4,6 +4,20 @@ import path from "path";
 const MODEL_CANDIDATES = ["gemini-2.5-pro"];
 const MAX_CONTEXT_ITEMS = 120;
 const MAX_GEMINI_ATTEMPTS = 2;
+const AUTHOR_TOKEN_STOPWORDS = new Set([
+  "otros",
+  "autor",
+  "autora",
+  "diputado",
+  "diputada",
+  "nacional",
+  "bloque",
+  "union",
+  "patria",
+  "coherencia",
+  "frente",
+  "libertad",
+]);
 
 function normalizeText(text) {
   return (text || "")
@@ -58,6 +72,16 @@ function fallbackFromContext(consulta, contexto) {
   const q = (consulta || "").toLowerCase();
   const items = Array.isArray(contexto) ? contexto : [];
   if (!items.length) return "Esa información no figura en los proyectos actuales";
+
+  if (isAuthorProjectsCountQuestion(consulta)) {
+    const authorCountResponse = buildAuthorProjectsCountResponse(consulta, items);
+    if (authorCountResponse) return authorCountResponse;
+  }
+
+  if (isRelationQuestion(consulta)) {
+    const relationResponse = buildSubgroupRelationResponse(consulta, items);
+    if (relationResponse) return relationResponse;
+  }
 
   if (isLatestProjectsQuestion(consulta)) {
     return buildLatestProjectsResponse(contexto, extractRequestedLimit(consulta, 3, 10));
@@ -225,6 +249,191 @@ function buildDashboardOverview(contexto, alcance) {
   return `El dashboard de ${alcance} contiene **${total} proyectos de ley**. Distribución principal por temática: ${topTemas}. Distribución por año: ${years}. Si querés, te detallo una temática o un expediente puntual.`;
 }
 
+function getProjectId(item) {
+  return ((item?.id || item?.expediente || "").toString() || "").toUpperCase();
+}
+
+function getProjectAuthor(item) {
+  return (
+    item?.autor_principal ||
+    item?.autor ||
+    (Array.isArray(item?.autores) ? item.autores[0] : "") ||
+    ""
+  ).toString();
+}
+
+function getProjectGroup(item) {
+  return (item?.grupo || item?.tematica || item?.tema || item?.eje || "").toString();
+}
+
+function getProjectSubgroup(item) {
+  return (item?.subtematica || item?.tipo || "").toString();
+}
+
+function isRelationQuestion(consulta) {
+  const q = normalizeText(consulta || "");
+  if (!q) return false;
+  return /(relacionad|similar|mismo tema|mismos temas|subgrupo|compar|es el unico|hay otros|otro proyecto|proyectos parecidos|misma tematica|mismo subgrupo)/.test(q);
+}
+
+function isAuthorProjectsCountQuestion(consulta) {
+  const q = normalizeText(consulta || "");
+  if (!q) return false;
+  return /(cuantos|cuantas|cantidad|total|numero|nro)/.test(q) &&
+    /(proyecto|proyectos)/.test(q) &&
+    /(tiene|presento|presento|de|autor)/.test(q);
+}
+
+function scoreAuthorMentionInQuery(author, q) {
+  const tokens = tokenize(author).filter((t) => t.length >= 4 && !AUTHOR_TOKEN_STOPWORDS.has(t));
+  if (!tokens.length) return 0;
+  let score = 0;
+  tokens.forEach((t) => {
+    if (q.includes(t)) score += 1;
+  });
+  return score;
+}
+
+function pickReferenceProjectFromQuery(consulta, items) {
+  const qRaw = (consulta || "").toString();
+  const q = normalizeText(qRaw);
+  if (!q) return null;
+
+  const idMatch = qRaw.match(/\b\d{4}-d-\d{4}\b/i);
+  if (idMatch) {
+    const targetId = idMatch[0].toUpperCase();
+    return items.find((x) => getProjectId(x) === targetId) || null;
+  }
+
+  const scored = items
+    .map((x) => {
+      const author = getProjectAuthor(x);
+      const score = scoreAuthorMentionInQuery(author, q);
+      return { x, score };
+    })
+    .filter((s) => s.score > 0)
+    .sort((a, b) => b.score - a.score);
+
+  if (!scored.length) return null;
+  if (scored.length === 1) return scored[0].x;
+  if (scored[0].score > scored[1].score) return scored[0].x;
+  return null;
+}
+
+function buildAuthorProjectsCountResponse(consulta, contexto) {
+  const items = Array.isArray(contexto) ? contexto : [];
+  if (!items.length) return null;
+  const q = normalizeText(consulta || "");
+
+  const authorScores = new Map();
+  const displayNameByNorm = new Map();
+
+  items.forEach((x) => {
+    const author = getProjectAuthor(x);
+    const normAuthor = normalizeText(author);
+    if (!normAuthor) return;
+    const score = scoreAuthorMentionInQuery(author, q);
+    if (score <= 0) return;
+    authorScores.set(normAuthor, (authorScores.get(normAuthor) || 0) + score);
+    if (!displayNameByNorm.has(normAuthor)) displayNameByNorm.set(normAuthor, author);
+  });
+
+  if (!authorScores.size) return null;
+
+  const ranked = [...authorScores.entries()].sort((a, b) => b[1] - a[1]);
+  if (ranked.length > 1 && ranked[0][1] === ranked[1][1]) return null;
+
+  const targetNormAuthor = ranked[0][0];
+  const targetDisplayName = displayNameByNorm.get(targetNormAuthor) || "Autor";
+  const authoredProjects = items.filter((x) => normalizeText(getProjectAuthor(x)) === targetNormAuthor);
+  const total = authoredProjects.length;
+  const ids = authoredProjects.slice(0, 6).map((x) => getProjectId(x)).filter(Boolean);
+  const idSuffix = ids.length ? ` Expedientes: ${ids.join(", ")}${total > ids.length ? ", ..." : ""}.` : "";
+  return `${targetDisplayName} figura con ${total} proyecto${total === 1 ? "" : "s"} en este dashboard.${idSuffix}`;
+}
+
+function pickSubgroupFromQuery(consulta, items) {
+  const q = normalizeText(consulta || "");
+  if (!q) return null;
+
+  const subgroupMap = new Map();
+  items.forEach((x) => {
+    const label = getProjectSubgroup(x);
+    if (!label) return;
+    const key = normalizeText(label);
+    if (!subgroupMap.has(key)) subgroupMap.set(key, label);
+  });
+
+  let best = null;
+  subgroupMap.forEach((label, key) => {
+    if (!key) return;
+    let score = 0;
+    if (q.includes(key) || key.includes(q)) score += 10;
+    tokenize(key).forEach((tok) => {
+      if (tok.length >= 4 && q.includes(tok)) score += 2;
+    });
+    if (score > 0 && (!best || score > best.score)) {
+      best = { label, key, score };
+    }
+  });
+
+  return best ? best.label : null;
+}
+
+function formatProjectLine(item) {
+  const id = getProjectId(item) || "SIN ID";
+  const titulo = item?.titulo || item?.resumen || item?.desc || "Sin título";
+  const autor = getProjectAuthor(item) || "Sin autor";
+  return `• ${id}: ${titulo} (Autor: ${autor})`;
+}
+
+function buildSubgroupRelationResponse(consulta, contexto) {
+  const items = Array.isArray(contexto) ? contexto : [];
+  if (!items.length) return null;
+
+  const q = normalizeText(consulta || "");
+  const reference = pickReferenceProjectFromQuery(consulta, items);
+
+  if (reference) {
+    const refId = getProjectId(reference);
+    const refSubgroup = getProjectSubgroup(reference) || "Sin subgrupo";
+    const refGroup = getProjectGroup(reference) || "Sin grupo";
+    const refSubNorm = normalizeText(refSubgroup);
+    const refGroupNorm = normalizeText(refGroup);
+
+    const sameSubgroup = items.filter((x) => normalizeText(getProjectSubgroup(x)) === refSubNorm);
+    const sameSubgroupOthers = sameSubgroup.filter((x) => getProjectId(x) !== refId);
+
+    const sameGroup = items.filter((x) => normalizeText(getProjectGroup(x)) === refGroupNorm);
+    const sameGroupOtherSubgroups = sameGroup.filter((x) => normalizeText(getProjectSubgroup(x)) !== refSubNorm);
+
+    if (!sameSubgroupOthers.length) {
+      const extras = sameGroupOtherSubgroups.slice(0, 4).map(formatProjectLine).join("\n");
+      const extraLine = extras
+        ? `\n\nEn el mismo grupo (${refGroup}) hay otros subgrupos. Ejemplos:\n${extras}`
+        : "";
+      return `${refId} es el único proyecto de su subgrupo (${refSubgroup}).${extraLine}`;
+    }
+
+    const lines = sameSubgroup.slice(0, 8).map(formatProjectLine).join("\n");
+    return `Subgrupo identificado: ${refSubgroup}. Hay ${sameSubgroup.length} proyectos en ese subgrupo:\n${lines}`;
+  }
+
+  const subgroupByQuery = pickSubgroupFromQuery(consulta, items);
+  if (subgroupByQuery) {
+    const subgroupNorm = normalizeText(subgroupByQuery);
+    const sameSubgroup = items.filter((x) => normalizeText(getProjectSubgroup(x)) === subgroupNorm);
+    const lines = sameSubgroup.slice(0, 8).map(formatProjectLine).join("\n");
+    return `Subgrupo identificado: ${subgroupByQuery}. Hay ${sameSubgroup.length} proyectos en ese subgrupo:\n${lines}`;
+  }
+
+  if (/(su subgrupo|ese subgrupo|mismo tema|mismos temas|es el unico|hay otros|parecido|similares|compar)/.test(q)) {
+    return "Para relacionarlo por subgrupo, indicame un expediente (ejemplo: 4420-D-2025) o el nombre del autor.";
+  }
+
+  return null;
+}
+
 function extractGeminiText(response) {
   try {
     const direct = (response?.text?.() || "").trim();
@@ -306,6 +515,29 @@ export default async function handler(req, res) {
       ? "Inteligencia Artificial"
       : "General";
 
+    const totalProyectos = Array.isArray(contextoArray) ? contextoArray.length : 0;
+    if (totalProyectos > 0 && isAuthorProjectsCountQuestion(consulta)) {
+      const authorCountResponse = buildAuthorProjectsCountResponse(consulta, contextoArray);
+      if (authorCountResponse) {
+        return res.status(200).json({
+          texto: authorCountResponse,
+          model: "author-count-local",
+          context_items: totalProyectos,
+        });
+      }
+    }
+
+    if (totalProyectos > 0 && isRelationQuestion(consulta)) {
+      const relationResponse = buildSubgroupRelationResponse(consulta, contextoArray);
+      if (relationResponse) {
+        return res.status(200).json({
+          texto: relationResponse,
+          model: "relation-local",
+          context_items: totalProyectos,
+        });
+      }
+    }
+
     if (isAmbiguousQuery(consulta)) {
       return res.status(200).json({
         texto: buildClarificationQuestion(scope),
@@ -338,7 +570,6 @@ export default async function handler(req, res) {
       });
     }
 
-    const totalProyectos = Array.isArray(contextoArray) ? contextoArray.length : 0;
     if (totalProyectos > 0 && isTotalProjectsQuestion(consulta)) {
       return res.status(200).json({
         texto: `Actualmente, en el dashboard de ${alcance}, se registran **${totalProyectos} proyectos de ley**.`,
