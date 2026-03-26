@@ -187,8 +187,27 @@ button,a,.legend-item,.bloque-legend-item,.proj-pdf { touch-action:manipulation 
   display:none;
 }
 .subdonut-wrap.open{display:block}
+.subdonut-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
 .subdonut-title{font-size:16px;font-weight:700}
 .subdonut-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.subdonut-back{
+  border:1px solid var(--border);
+  background:var(--surface);
+  color:var(--text);
+  border-radius:10px;
+  padding:8px 12px;
+  font-size:12px;
+  font-weight:600;
+  cursor:pointer;
+  min-height:40px;
+  white-space:nowrap;
+}
+.subdonut-back:hover{border-color:rgba(30,65,117,.4);color:var(--blue)}
 .subdonut-layout{display:flex;align-items:center;gap:34px;margin-top:12px}
 .subdonut-canvas-wrap{flex-shrink:0;position:relative;width:320px;height:320px}
 .subdonut-canvas-wrap canvas{cursor:pointer;width:100%;height:100%}
@@ -202,6 +221,8 @@ button,a,.legend-item,.bloque-legend-item,.proj-pdf { touch-action:manipulation 
 @media(max-width:900px){
   .subdonut-layout{flex-direction:column;align-items:stretch}
   .subdonut-canvas-wrap{width:100% !important;height:auto !important;aspect-ratio:1}
+  .subdonut-head{flex-direction:column;align-items:stretch}
+  .subdonut-back{width:100%;min-height:44px}
 }
 
 /* ── MODAL ─────────────────────────────── */
@@ -436,8 +457,13 @@ footer { border-top:1px solid var(--border); padding:24px; text-align:center }
       <div class="donut-legend" id="donutLegend"></div>
     </div>
     <div class="subdonut-wrap" id="subdonutWrap">
-      <div class="subdonut-title" id="subdonutTitle"></div>
-      <div class="subdonut-sub">Click en un subgrupo para ver sus proyectos</div>
+      <div class="subdonut-head">
+        <div>
+          <div class="subdonut-title" id="subdonutTitle"></div>
+          <div class="subdonut-sub">Click en un subgrupo para ver sus proyectos</div>
+        </div>
+        <button class="subdonut-back" onclick="closeSubdonutView()">← Volver a estadísticas</button>
+      </div>
       <div class="subdonut-layout">
         <div class="subdonut-canvas-wrap">
           <canvas id="subdonutCanvas"></canvas>
@@ -862,6 +888,19 @@ function selectGroup(idx) {
   document.getElementById('subdonutTitle').textContent = `${group.name}: subgrupos`;
   document.getElementById('subdonutWrap').classList.add('open');
   document.getElementById('subdonutWrap').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function closeSubdonutView() {
+  selectedGroupIdx = -1;
+  hoveredSlice = -1;
+  hoveredSubSlice = -1;
+  drawDonut();
+  syncLegendHover(-1);
+  drawSubDonut();
+  syncSubLegendHover(-1);
+  const wrap = document.getElementById('subdonutWrap');
+  wrap.classList.remove('open');
+  document.querySelector('.donut-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 subCanvas.addEventListener('mousemove', e => {
