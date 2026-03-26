@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "generado": "2026-03-26T02:46:35.855Z",
+    "generado": "2026-03-26T02:54:06.013Z",
     "total": 44,
     "fuente": "Comisión de Ciencia, Tecnología e Innovación Productiva — H. Cámara de Diputados",
     "periodo": "2025–2026",
@@ -81,19 +81,14 @@
   ],
   "bloque_stats": [
     {
-      "bloque": "Unión por la Patria",
-      "total": 13,
-      "color": "#00AEEF"
-    },
-    {
       "bloque": "COHERENCIA",
-      "total": 11,
+      "total": 13,
       "color": "#991b1b"
     },
     {
-      "bloque": "La Libertad Avanza",
-      "total": 4,
-      "color": "#7B2D8E"
+      "bloque": "Unión por la Patria",
+      "total": 13,
+      "color": "#00AEEF"
     },
     {
       "bloque": "Coalición Cívica",
@@ -114,6 +109,11 @@
       "bloque": "Innovación Federal",
       "total": 2,
       "color": "#1e3a8a"
+    },
+    {
+      "bloque": "La Libertad Avanza",
+      "total": 2,
+      "color": "#7B2D8E"
     },
     {
       "bloque": "UCR",
@@ -1312,7 +1312,7 @@
         "Marcela Marina Pagano"
       ],
       "autor_principal": "Marcela Marina Pagano",
-      "bloque": "La Libertad Avanza",
+      "bloque": "COHERENCIA",
       "camara": "Diputados",
       "año": 2025,
       "eje": "Tecnologías Cuánticas",
@@ -1331,7 +1331,7 @@
         "Marcela Marina Pagano"
       ],
       "autor_principal": "Marcela Marina Pagano",
-      "bloque": "La Libertad Avanza",
+      "bloque": "COHERENCIA",
       "camara": "Diputados",
       "año": 2025,
       "eje": "Biotecnología",
