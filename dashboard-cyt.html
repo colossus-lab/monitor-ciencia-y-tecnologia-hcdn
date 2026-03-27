@@ -333,19 +333,18 @@ button,a,.legend-item,.bloque-legend-item,.proj-pdf { touch-action:manipulation 
   display:flex; align-items:center; justify-content:center;
   font-size:11px; font-weight:700; color:var(--muted); flex-shrink:0;
 }
+.autor-bar-main { flex:1; display:flex; flex-direction:column; gap:5px; min-width:0 }
+.autor-bar-name {
+  font-size:12px; font-weight:600; color:var(--text);
+  line-height:1.15; white-space:normal; word-break:break-word;
+}
 .autor-bar-outer {
-  flex:1; height:28px; background:var(--surface2); border-radius:8px;
+  width:100%; height:16px; background:var(--surface2); border-radius:999px;
   overflow:hidden; position:relative;
 }
 .autor-bar-fill {
-  height:100%; border-radius:8px; display:flex; align-items:center;
-  padding:0 10px; transition:width .6s ease;
-  min-width:max-content; max-width:100%;
+  height:100%; border-radius:999px; transition:width .6s ease;
   background:linear-gradient(90deg, var(--lime), var(--blue));
-}
-.autor-bar-name {
-  font-size:12px; font-weight:600; color:#fff; white-space:nowrap;
-  overflow:visible; text-overflow:clip;
 }
 .autor-bar-count {
   font-size:12px; font-weight:700; color:var(--muted); flex-shrink:0; min-width:24px; text-align:right;
@@ -360,7 +359,8 @@ button,a,.legend-item,.bloque-legend-item,.proj-pdf { touch-action:manipulation 
   .bloque-count { font-size:11px }
   .autor-bar-row { gap:6px }
   .autor-rank { width:18px; height:18px; font-size:10px }
-  .autor-bar-outer { height:24px }
+  .autor-bar-main { gap:4px }
+  .autor-bar-outer { height:14px }
   .autor-bar-name { font-size:11px }
   .autor-bar-count { font-size:11px }
 }
@@ -1387,9 +1387,10 @@ async function sendChatMessage() {
     return `
       <div class="autor-bar-row">
         <div class="autor-rank">${i+1}</div>
-        <div class="autor-bar-outer">
-          <div class="autor-bar-fill" style="width:${pct}%">
-            <span class="autor-bar-name">${a.autor}</span>
+        <div class="autor-bar-main">
+          <span class="autor-bar-name">${a.autor}</span>
+          <div class="autor-bar-outer">
+            <div class="autor-bar-fill" style="width:${pct}%"></div>
           </div>
         </div>
         <div class="autor-bar-count">${a.total}</div>
