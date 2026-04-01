@@ -1,8 +1,10 @@
-# Leyes IA
+# Monitor de la Comisión de Ciencia y Tecnología (HCDN)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Una plataforma web interactiva compuesta por un landing page y un dashboard avanzado para explorar, visualizar y analizar proyectos de ley relacionados con la **Inteligencia Artificial** en Argentina.
+El **Monitor de la Comisión de Ciencia y Tecnología** es una plataforma web de código abierto diseñada para explorar, analizar y navegar las leyes, consensos y discusiones legislativas del Honorable Congreso de la Nación (HCDN) en Argentina. 
+
+Esta herramienta es utilizada activamente por la comisión y nace con la profunda vocación de **modernizar la forma en la que hacemos leyes**, aportando transparencia, agilidad y un riguroso análisis de datos (especialmente en áreas de Inteligencia Artificial, Ciencia y Tecnología) al proceso parlamentario.
 
 ## ✨ Características Principales
 
@@ -24,8 +26,8 @@ Para ejecutar la plataforma o manipular el pipeline de datos, necesitas:
 
 1. **Clona el repositorio:**
    ```bash
-   git clone https://github.com/TU_ORGANIZACION/Leyes-IA.git
-   cd Leyes-IA
+   git clone https://github.com/colossus-lab/monitor-ciencia-y-tecnologia-hcdn.git
+   cd monitor-ciencia-y-tecnologia-hcdn
    ```
 
 2. **Instala las dependencias web:**
