@@ -1,62 +1,71 @@
 # Leyes IA
 
-Web con landing + dashboard para visualizar proyectos de ley relacionados con IA en Argentina.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Que incluye
+Una plataforma web interactiva compuesta por un landing page y un dashboard avanzado para explorar, visualizar y analizar proyectos de ley relacionados con la **Inteligencia Artificial** en Argentina.
 
-- `index.html`: landing principal.
-- `dashboard.html`: dashboard de proyectos.
-- `bills_data.json`: datos principales consumidos por la web.
-- `bridge_analysis.json`: analisis de apoyo para el dashboard.
-- `api/chat.js`: endpoint serverless para chat (Gemini).
-- `api/leyes.json`: base de contexto usada por el chat.
+## ✨ Características Principales
 
-## Requisitos
+- **Dashboard Interactivo (`dashboard.html` / `dashboard-cyt.html`)**: Visualización de proyectos de ley con gráficos y filtros en tiempo real.
+- **Chat Asistente con IA (`api/chat.js`)**: Integra un endpoint serverless impulsado por Google Gemini para responder consultas sobre el cuerpo normativo.
+- **Data Pipeline Local**: Scripts en Python para la extracción, estructuración y validación automática de datos de las iniciativas legislativas (`extract_bills.py`, `validate_bills_data.py`).
+- **Arquitectura Serverless**: Preparado nativamente para Vercel.
 
-- Node.js 18+
-- (Opcional) Vercel CLI para simular API localmente
+## 🚀 Requisitos Previos
 
-## Variables de entorno
+Para ejecutar la plataforma o manipular el pipeline de datos, necesitas:
 
-Crear un archivo `.env.local` con:
+- **Node.js** 18+ (Para entorno web y funciones serverless).
+- **Python** 3.9+ (Opcional, sólo si quieres interactuar con el pipeline de extracción de datos en `/scripts`).
+- **Vercel CLI** (Opcional, recomendado para testing del directorio `/api` en local).
+- **Gemini API Key** (Para habilitar las funciones del chatbot en el frontend).
 
-```bash
-GEMINI_API_KEY=tu_api_key
-```
+## 🛠 Instalación y Configuración (Desarrollo Local)
 
-## Desarrollo local
+1. **Clona el repositorio:**
+   ```bash
+   git clone https://github.com/TU_ORGANIZACION/Leyes-IA.git
+   cd Leyes-IA
+   ```
 
-Modo completo (frontend + `/api`):
+2. **Instala las dependencias web:**
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-```
+3. **Configura tus variables de entorno:**
+   Copia el archivo base y agrega tu API Key de Gemini.
+   ```bash
+   cp .env.example .env.local
+   # Edita .env.local para añadir: GEMINI_API_KEY=tu_api_key_aqui
+   ```
 
-Solo frontend estatico:
+4. **Levanta el entorno de desarrollo:**
+   - **Modo Completo** (Frontend + Endpoints de `/api` usando Vercel CLI):
+     ```bash
+     npm run dev
+     ```
+   - **Solo Frontend Estático** (usando Python para servir los estáticos HTTP, el chat no funcionará):
+     ```bash
+     npm run dev:static
+     ```
 
-```bash
-npm run dev:static
-```
+## 📊 Pipeline de Datos (Python)
 
-## Deploy recomendado
+Si deseas actualizar los datos (`leyes.json`, `bills_data.json`):
+1. Asegúrate de tener Python activado.
+2. Revisa y ejecuta los scripts ubicados en la raíz para actualizar las métricas:
+   - `extract_bills.py` - Extracción desde fuentes PDF/XLSX.
+   - `validate_bills_data.py` - Validación estructural.
+   - `export_bills_excel.py` - Volcado y exportes de uso general.
 
-Este proyecto esta preparado para Vercel:
+*(Los PDFs base se encuentran mapeados en `/PDFs_Proyectos_Ley`)*
 
-1. Subir este repo a GitHub.
-2. Importar el repo en Vercel.
-3. Configurar `GEMINI_API_KEY` en variables de entorno del proyecto.
-4. Deploy.
+## 🤝 Cómo Contribuir
 
-## Preparar y subir a GitHub
+¡Agradecemos mucho todas las contribuciones de la comunidad! Ya sea solucionando errores, documentando o desarrollando nuevas funciones.
+Lee por favor nuestra guía [`CONTRIBUTING.md`](./CONTRIBUTING.md) para más detalles sobre cómo abrir Pull Requests, hacer un uso adecuado de los branches y las guías de código recomendadas.
 
-Desde esta carpeta:
+## 📄 Licencia
 
-```bash
-git init
-git add .
-git commit -m "chore: preparar proyecto para GitHub"
-git branch -M main
-git remote add origin <URL_DE_TU_REPO>
-git push -u origin main
-```
-
+Este proyecto se distribuye bajo la licencia **MIT**. Desarrollado por **Colossus Lab**. Consultar el archivo [`LICENSE`](./LICENSE) para más información.
