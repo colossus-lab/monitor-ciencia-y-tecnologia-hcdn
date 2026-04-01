@@ -6,68 +6,47 @@ El **Monitor de la Comisión de Ciencia y Tecnología** es una plataforma web de
 
 Esta herramienta es utilizada activamente por la comisión y nace con la profunda vocación de **modernizar la forma en la que hacemos leyes**, aportando transparencia, agilidad y un riguroso análisis de datos (especialmente en áreas de Inteligencia Artificial, Ciencia y Tecnología) al proceso parlamentario.
 
-## ✨ Características Principales
+---
 
-- **Dashboard Interactivo (`dashboard.html` / `dashboard-cyt.html`)**: Visualización de proyectos de ley con gráficos y filtros en tiempo real.
-- **Chat Asistente con IA (`api/chat.js`)**: Integra un endpoint serverless impulsado por Google Gemini para responder consultas sobre el cuerpo normativo.
-- **Data Pipeline Local**: Scripts en Python para la extracción, estructuración y validación automática de datos de las iniciativas legislativas (`extract_bills.py`, `validate_bills_data.py`).
-- **Arquitectura Serverless**: Preparado nativamente para Vercel.
+## 🎯 ¿Para qué sirve esta herramienta?
 
-## 🚀 Requisitos Previos
+El Monitor fue construido para asistir a legisladores, equipos de asesores, investigadores y ciudadanos a comprender un alto volumen de información parlamentaria en segundos. Sus principales funciones son:
+- **Visualizar de forma interactiva** el avance y estado de los proyectos legislativos de la comisión.
+- **Identificar consensos** a través del análisis de co-autorías y firmas transversales entre diferentes bloques políticos.
+- **Interactuar con el corpus normativo** usando un asistente avanzado de Inteligencia Artificial (LeyesBot) que responde preguntas técnicas con extrema precisión.
 
-Para ejecutar la plataforma o manipular el pipeline de datos, necesitas:
+---
 
-- **Node.js** 18+ (Para entorno web y funciones serverless).
-- **Python** 3.9+ (Opcional, sólo si quieres interactuar con el pipeline de extracción de datos en `/scripts`).
-- **Vercel CLI** (Opcional, recomendado para testing del directorio `/api` en local).
-- **Gemini API Key** (Para habilitar las funciones del chatbot en el frontend).
+## 🧭 Guía de Uso del Monitor
 
-## 🛠 Instalación y Configuración (Desarrollo Local)
+### 1. Dashboard Principal y Métricas
+Al ingresar a la plataforma, encontrarás indicadores clave actualizados, como:
+- Total de Proyectos Activos.
+- Proyectos con media sanción.
+- Distribución de temáticas (Inteligencia Artificial, Ciencia de Datos, Ciberseguridad, etc.).
+- Participación por bloque político.
 
-1. **Clona el repositorio:**
-   ```bash
-   git clone https://github.com/colossus-lab/monitor-ciencia-y-tecnologia-hcdn.git
-   cd monitor-ciencia-y-tecnologia-hcdn
-   ```
+Todos los gráficos son **interactivos**. Al hacer clic en una porción de un gráfico de red o de torta, la tabla de proyectos inferior se filtrará automáticamente para mostrar solo los datos relevantes.
 
-2. **Instala las dependencias web:**
-   ```bash
-   npm install
-   ```
+### 2. Tabla de Proyectos (Explorador)
+En la sección principal inferior se encuentra el motor de búsqueda y exploración:
+- **Buscador Inteligente:** Escribe palabras clave (ej. "privacidad", "presupuesto") para encontrar al instante todos los proyectos vinculados.
+- **Detalle de Leyes:** Al hacer clic en un proyecto de la lista, se desplegará una vista extensa mostrando el tipo de proyecto, expediente, fecha, extracto y un enlace directo a descargar u observar el PDF original del HCDN.
 
-3. **Configura tus variables de entorno:**
-   Copia el archivo base y agrega tu API Key de Gemini.
-   ```bash
-   cp .env.example .env.local
-   # Edita .env.local para añadir: GEMINI_API_KEY=tu_api_key_aqui
-   ```
+### 3. LeyesBot (Asistente de Inteligencia Artificial)
+Situada en un panel lateral interactivo, encontrarás a **LeyesBot**, tu asistente jurídico virtual.
+- Puedes hacerle consultas en lenguaje natural (ej. *"¿Qué proyectos hablan de regulación de algoritmos y quiénes los firman?"*).
+- El chatbot está restringido y calibrado **exclusivamente** con el contenido de los proyectos subidos al monitor, impidiendo que invente respuestas (alucinaciones) y asegurando rigor técnico institucional.
 
-4. **Levanta el entorno de desarrollo:**
-   - **Modo Completo** (Frontend + Endpoints de `/api` usando Vercel CLI):
-     ```bash
-     npm run dev
-     ```
-   - **Solo Frontend Estático** (usando Python para servir los estáticos HTTP, el chat no funcionará):
-     ```bash
-     npm run dev:static
-     ```
+### 4. Flujo de Co-Autorías (Mapa de Consensos)
+Una herramienta gráfica que mapea cómo los diferentes legisladores y bloques cruzan sus firmas en un mismo proyecto de ley, permitiendo observar claramente dónde radican los mayores consensos ideológicos para empujar una iniciativa.
 
-## 📊 Pipeline de Datos (Python)
+---
 
-Si deseas actualizar los datos (`leyes.json`, `bills_data.json`):
-1. Asegúrate de tener Python activado.
-2. Revisa y ejecuta los scripts ubicados en la raíz para actualizar las métricas:
-   - `extract_bills.py` - Extracción desde fuentes PDF/XLSX.
-   - `validate_bills_data.py` - Validación estructural.
-   - `export_bills_excel.py` - Volcado y exportes de uso general.
+## 🏛️ Origen de los Datos (Transparencia)
 
-*(Los PDFs base se encuentran mapeados en `/PDFs_Proyectos_Ley`)*
+Los datos presentados provienen directamente de la extracción técnica de los Documentos y PDF Oficiales de Trámite Parlamentario provistos por el HCDN. El pipeline de datos automatizado ordena, consolida y digitaliza toda esta información para su ágil interpretación gráfica.
 
-## 🤝 Cómo Contribuir
+## 🤝 Repositorio y Código Abierto
 
-¡Agradecemos mucho todas las contribuciones de la comunidad! Ya sea solucionando errores, documentando o desarrollando nuevas funciones.
-Lee por favor nuestra guía [`CONTRIBUTING.md`](./CONTRIBUTING.md) para más detalles sobre cómo abrir Pull Requests, hacer un uso adecuado de los branches y las guías de código recomendadas.
-
-## 📄 Licencia
-
-Este proyecto se distribuye bajo la licencia **MIT**. Desarrollado por **Colossus Lab**. Consultar el archivo [`LICENSE`](./LICENSE) para más información.
+Este Monitor es de código abierto (Licencia MIT) bajo la administración de **Colossus Lab**. Si bien su misión es asistir a la Comisión de Ciencia y Tecnología, cualquier equipo parlamentario, desarrollador u ONG puede sugerir mejoras a través de Pull Requests. Consulta [`CONTRIBUTING.md`](./CONTRIBUTING.md) para conocer las pautas de reporte de bugs y sugerencias de UI/UX.
